@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:setting_api/controller/connection.dart';
+import 'package:setting_api/controllers/connection.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized;
