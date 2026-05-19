@@ -1,7 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Connection {
-  static connectDB() async {
+  static Future<void> connectDB() async {
     try {
       await Supabase.initialize(
         url: "https://tjlerkwzrfqxoavvfstp.supabase.co",
