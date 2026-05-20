@@ -22,9 +22,10 @@ class MainApp extends StatelessWidget {
         body: Center(
           child: ElevatedButton(
             onPressed: () {
-              kurirController.ubahStatus(
+              kurirController.perbaruiLokasi(
                 "a0923d8e-fdbe-4a1d-8b04-013cbef08199",
-                StatusKurir.available,
+                -7.419011,
+                109.222540,
               );
             },
             child: Text("Testing update status"),

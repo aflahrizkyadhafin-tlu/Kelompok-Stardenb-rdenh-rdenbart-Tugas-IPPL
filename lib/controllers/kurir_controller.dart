@@ -8,7 +8,18 @@ final supabase = Supabase.instance.client;
 class KurirController extends GetxController {
   Future<void> terimaPesanan() async {}
   Future<void> batalkanPesanan() async {}
-  Future<void> perbaruiLokasi() async {}
+  Future<void> perbaruiLokasi(String idKurir, double long, lat) async {
+    try {
+      final response = await supabase
+          .from("kurir")
+          .update({"lokasi_long": long, "lokasi_lat": lat})
+          .eq("id_kurir", idKurir)
+          .select();
+      print(response);
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future<void> ubahStatus(String idKurir, StatusKurir status) async {
     String statusKode = status == StatusKurir.offline
