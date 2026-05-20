@@ -6,8 +6,29 @@ enum StatusKurir { offline, available, on_delivery }
 final supabase = Supabase.instance.client;
 
 class KurirController extends GetxController {
-  Future<void> terimaPesanan() async {}
+  Future<void> terimaPesanan(String idPengiriman, idKurir) async {
+    try {
+      final detailPengiriman = await supabase
+          .from("pengiriman")
+          .select()
+          .eq("id_pengiriman", idPengiriman);
+      print(detailPengiriman);
+      bool accept = true;
+
+      if (accept) {
+        await supabase
+            .from("pengiriman")
+            .update({"status_pengiriman": "on_delivery", "id_kurir": idKurir})
+            .eq("id_pengiriman", idPengiriman);
+        print("Pesanan akan segera diantar!!!");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> batalkanPesanan() async {}
+
   Future<void> perbaruiLokasi(String idKurir, double long, lat) async {
     try {
       final response = await supabase

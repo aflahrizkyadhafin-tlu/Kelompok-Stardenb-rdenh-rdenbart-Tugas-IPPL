@@ -22,10 +22,14 @@ class MainApp extends StatelessWidget {
         body: Center(
           child: ElevatedButton(
             onPressed: () {
-              kurirController.perbaruiLokasi(
+              // kurirController.perbaruiLokasi(
+              //   "a0923d8e-fdbe-4a1d-8b04-013cbef08199",
+              //   -7.419011,
+              //   109.222540,
+              // );
+              kurirController.terimaPesanan(
+                "deabffee-55d1-4d1f-816d-60e4321f3388",
                 "a0923d8e-fdbe-4a1d-8b04-013cbef08199",
-                -7.419011,
-                109.222540,
               );
             },
             child: Text("Testing update status"),
