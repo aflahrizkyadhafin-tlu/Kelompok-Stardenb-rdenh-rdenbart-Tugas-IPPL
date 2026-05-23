@@ -59,7 +59,28 @@ class KurirController extends GetxController {
     }
   }
 
-  Future<void> selesaikanPesanan(String idPengiriman) async {}
+  Future<void> selesaikanPesanan(String idPengiriman) async {
+    try {
+      final checkPesanan = await supabase
+          .from("pengiriman")
+          .select()
+          .eq("id_pengiriman", idPengiriman);
+
+      if (checkPesanan.isNotEmpty) {
+        final response = await supabase
+            .from("pengiriman")
+            .update({"status_pengiriman": StatusPengiriman.delivered.name})
+            .eq("id_pengiriman", idPengiriman)
+            .select();
+
+        print(response);
+      } else {
+        print("Pesanan dengan id $idPengiriman tidak ditemukan");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future<void> lihatRating(String idPengguna, idKurir) async {}
 }
