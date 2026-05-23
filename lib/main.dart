@@ -23,8 +23,8 @@ class MainApp extends StatelessWidget {
         body: Center(
           child: ElevatedButton(
             onPressed: () {
-              kurirController.selesaikanPesanan(
-                "deabffee-55d1-4d1f-816d-60e4321f3388",
+              kurirController.lihatRating(
+                "a0923d8e-fdbe-4a1d-8b04-013cbef08199",
               );
             },
             child: Text("Testing update status"),

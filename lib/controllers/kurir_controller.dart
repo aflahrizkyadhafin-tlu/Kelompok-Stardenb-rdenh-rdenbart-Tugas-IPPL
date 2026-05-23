@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:setting_api/models/kurir.dart';
 import 'package:setting_api/models/pengiriman.dart';
+import 'package:setting_api/models/rating.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -82,5 +83,28 @@ class KurirController extends GetxController {
     }
   }
 
-  Future<void> lihatRating(String idPengguna, idKurir) async {}
+  Future<void> lihatRating(String idKurir) async {
+    try {
+      final response = await supabase
+          .from("rating_kurir")
+          .select()
+          .eq("id_kurir", idKurir);
+
+      List<RatingKurir> responseList = [];
+      for (var data in response) {
+        responseList.add(RatingKurir.fromJson(data));
+      }
+
+      double rating = 0.0;
+
+      for (int i = 0; i < responseList.length; i++) {
+        rating += responseList[i].rating;
+      }
+      rating = rating / responseList.length;
+      print(responseList);
+      print(rating);
+    } catch (e) {
+      print(e);
+    }
+  }
 }
