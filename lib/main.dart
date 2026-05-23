@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:setting_api/controllers/connection.dart';
 import 'package:setting_api/controllers/kurir_controller.dart';
+import 'package:setting_api/models/kurir.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized;
@@ -27,10 +28,11 @@ class MainApp extends StatelessWidget {
               //   -7.419011,
               //   109.222540,
               // );
-              kurirController.terimaPesanan(
-                "deabffee-55d1-4d1f-816d-60e4321f3388",
-                "a0923d8e-fdbe-4a1d-8b04-013cbef08199",
-              );
+              // kurirController.terimaPesanan(
+              //   "deabffee-55d1-4d1f-816d-60e4321f3388",
+              //   "a0923d8e-fdbe-4a1d-8b04-013cbef08199",
+              // );
+              kurirController.ubahStatus("idKurir", StatusKurir.on_delivery);
             },
             child: Text("Testing update status"),
           ),

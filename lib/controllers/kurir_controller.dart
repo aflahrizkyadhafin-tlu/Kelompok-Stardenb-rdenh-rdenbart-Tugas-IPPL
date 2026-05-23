@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
+import 'package:setting_api/models/kurir.dart';
+import 'package:setting_api/models/pengiriman.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-enum StatusKurir { offline, available, on_delivery }
 
 final supabase = Supabase.instance.client;
 
@@ -18,7 +18,10 @@ class KurirController extends GetxController {
       if (accept) {
         await supabase
             .from("pengiriman")
-            .update({"status_pengiriman": "on_delivery", "id_kurir": idKurir})
+            .update({
+              "status_pengiriman": StatusPengiriman.on_delivery.name,
+              "id_kurir": idKurir,
+            })
             .eq("id_pengiriman", idPengiriman);
         print("Pesanan akan segera diantar!!!");
       }
@@ -43,18 +46,10 @@ class KurirController extends GetxController {
   }
 
   Future<void> ubahStatus(String idKurir, StatusKurir status) async {
-    String statusKode = status == StatusKurir.offline
-        ? "offline"
-        : status == StatusKurir.available
-        ? "available"
-        : "on_delivery";
-
-    print(statusKode);
-
     try {
       final response = await supabase
           .from("kurir")
-          .update({"status_kurir": statusKode})
+          .update({"status_kurir": status.name})
           .eq("id_kurir", idKurir);
 
       print(response);
@@ -64,6 +59,7 @@ class KurirController extends GetxController {
     }
   }
 
-  Future<void> selesaikanPesanan() async {}
+  Future<void> selesaikanPesanan(String idPengiriman) async {}
+
   Future<void> lihatRating(String idPengguna, idKurir) async {}
 }
