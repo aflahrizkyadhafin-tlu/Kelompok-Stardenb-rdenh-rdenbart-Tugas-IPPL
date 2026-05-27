@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:setting_api/controllers/pengiriman_controller.dart';
 import 'package:setting_api/models/kurir.dart';
 import 'package:setting_api/models/pengiriman.dart';
 import 'package:setting_api/models/rating.dart';
@@ -9,12 +10,10 @@ final supabase = Supabase.instance.client;
 class KurirController extends GetxController {
   Future<void> terimaPesanan(String idPengiriman, idKurir) async {
     try {
-      final detailPengiriman = await supabase
-          .from("pengiriman")
-          .select()
-          .eq("id_pengiriman", idPengiriman);
-      print(detailPengiriman);
-      bool accept = true; //Ini ubah sesuai status di aplikasi
+      Pengiriman? checkPengiriman =
+          await PengirimanController.getPengirimanById(idPengiriman);
+      bool accept =
+          checkPengiriman != null; //Ini ubah sesuai status di aplikasi
 
       if (accept) {
         await supabase
@@ -24,10 +23,12 @@ class KurirController extends GetxController {
               "id_kurir": idKurir,
             })
             .eq("id_pengiriman", idPengiriman);
-        print("Pesanan akan segera diantar!!!");
+        print("[Pengiriman - terimaPesanan] : Pesanan akan segera diantar!!!");
+      } else {
+        print("[Pengiriman - terimaPesanan] : Pesanan tidak ditemukan");
       }
     } catch (e) {
-      print(e);
+      print("[Pengiriman - terimaPesanan] : $e");
     }
   }
 
@@ -40,9 +41,9 @@ class KurirController extends GetxController {
           .update({"lokasi_long": long, "lokasi_lat": lat})
           .eq("id_kurir", idKurir)
           .select();
-      print(response);
+      print("[Pengiriman - perbaruiLokasi] : $response");
     } catch (e) {
-      print(e);
+      print("[Pengiriman - perbaruiLokasi] : $e");
     }
   }
 
@@ -53,10 +54,12 @@ class KurirController extends GetxController {
           .update({"status_kurir": status.name})
           .eq("id_kurir", idKurir);
 
-      print(response);
-      print("update data kurir id $idKurir berhasil");
+      print("[Pengiriman - ubahStatus] : $response");
+      print(
+        "[Pengiriman - ubahStatus] : update data kurir id $idKurir berhasil",
+      );
     } catch (e) {
-      print(e);
+      print("[Pengiriman - ubahStatus] : $e");
     }
   }
 
@@ -74,12 +77,14 @@ class KurirController extends GetxController {
             .eq("id_pengiriman", idPengiriman)
             .select();
 
-        print(response);
+        print("[Pengiriman - selesaikanPesanan] : $response");
       } else {
-        print("Pesanan dengan id $idPengiriman tidak ditemukan");
+        print(
+          "[Pengiriman - selesaikanPesanan] : Pesanan dengan id $idPengiriman tidak ditemukan",
+        );
       }
     } catch (e) {
-      print(e);
+      print("[Pengiriman - selesaikanPesanan] : $e");
     }
   }
 
@@ -101,10 +106,10 @@ class KurirController extends GetxController {
         rating += responseList[i].rating;
       }
       rating = rating / responseList.length;
-      print(responseList);
-      print(rating);
+      print("[Pengiriman - lihatRating] : $responseList");
+      print("[Pengiriman - lihatRating] : $rating");
     } catch (e) {
-      print(e);
+      print("[Pengiriman - lihatRating] : $e");
     }
   }
 }

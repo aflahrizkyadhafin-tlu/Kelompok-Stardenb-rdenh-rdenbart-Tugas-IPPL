@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
         body: Center(
           child: ElevatedButton(
             onPressed: () {
-              controller.catatLog('deabffee-55d1-4d1f-816d-60e4321f3388');  
+              controller.catatLog('deabffee-55d1-4d1f-816d-60e4321f3388');
             },
             child: Text("Testing update status"),
           ),
