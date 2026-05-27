@@ -14,7 +14,7 @@ class KurirController extends GetxController {
           .select()
           .eq("id_pengiriman", idPengiriman);
       print(detailPengiriman);
-      bool accept = true;
+      bool accept = true; //Ini ubah sesuai status di aplikasi
 
       if (accept) {
         await supabase

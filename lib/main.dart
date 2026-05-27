@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:setting_api/controllers/connection.dart';
 import 'package:setting_api/controllers/kurir_controller.dart';
+import 'package:setting_api/controllers/log_pengiriman_controller.dart';
 import 'package:setting_api/models/kurir.dart';
 
 void main() {
@@ -16,16 +17,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    KurirController kurirController = Get.put(KurirController());
+    LogPengirimanController controller = Get.put(LogPengirimanController());
 
     return MaterialApp(
       home: Scaffold(
         body: Center(
           child: ElevatedButton(
             onPressed: () {
-              kurirController.lihatRating(
-                "a0923d8e-fdbe-4a1d-8b04-013cbef08199",
-              );
+              controller.catatLog('deabffee-55d1-4d1f-816d-60e4321f3388');  
             },
             child: Text("Testing update status"),
           ),

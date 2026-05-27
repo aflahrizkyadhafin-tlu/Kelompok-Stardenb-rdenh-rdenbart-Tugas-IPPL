@@ -1,4 +1,5 @@
-enum StatusPengiriman { pickup, on_delivery, delivered, cancelled }
+
+import 'package:setting_api/models/pengiriman.dart';
 
 class LogPengiriman {
   final String idLog;
@@ -29,9 +30,7 @@ class LogPengiriman {
 
   Map<String, dynamic> toJson() {
     return {
-      'id_log': idLog,
       'status_pengiriman': statusPengiriman.name,
-      'created_at': waktuUpdate.toIso8601String(),
       'id_pengiriman': idPengiriman,
     };
   }
