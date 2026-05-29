@@ -17,7 +17,10 @@ class PengirimanController extends GetxController {
     }
   }
 
-  Future<void> konfirmasiPengiriman(String idPengiriman, String idKurir) async {
+  static Future<void> konfirmasiPengiriman(
+    String idPengiriman,
+    String idKurir,
+  ) async {
     try {
       await db
           .from("pengiriman")

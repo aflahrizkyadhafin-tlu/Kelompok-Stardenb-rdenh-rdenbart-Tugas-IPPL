@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:setting_api/controllers/connection.dart';
+import 'package:setting_api/controllers/penawaran_controller.dart';
 import 'package:setting_api/controllers/pengiriman_controller.dart';
 import 'package:setting_api/models/pengiriman.dart';
 
@@ -17,6 +18,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PengirimanController controller = Get.put(PengirimanController());
+    PenawaranController penawaranController = Get.put(PenawaranController());
 
     // Data dummy
     Pengiriman dataDummy = Pengiriman(
@@ -43,30 +45,17 @@ class MainApp extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  controller.buatDraftPengiriman(dataDummy);
-                },
-                child: Text("Data dummy"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  controller.konfirmasiPengiriman(
+                  penawaranController.pelangganBatal(
                     "9ab4f700-c523-4edc-97bb-cb9d9bba8bbb",
-                    "a0923d8e-fdbe-4a1d-8b04-013cbef08199",
                   );
                 },
-                child: Text("Testing Konfirmasi Pengiriman"),
+                child: Text("Pelanggan batal"),
               ),
               ElevatedButton(
                 onPressed: () {
-                  controller.riwayatPengiriman(
-                    "3b5080c8-619d-4f6b-82c2-e6ec902d4af4",
+                  controller.detailPengiriman(
+                    "9ab4f700-c523-4edc-97bb-cb9d9bba8bbb",
                   );
-                },
-                child: Text("Testing Riwayat Pengiriman"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  controller.detailPengiriman("");
                 },
                 child: Text("Testing Detail Pengiriman"),
               ),
