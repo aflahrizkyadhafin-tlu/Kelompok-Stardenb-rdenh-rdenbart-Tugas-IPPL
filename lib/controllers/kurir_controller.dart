@@ -5,9 +5,6 @@ import 'package:setting_api/controllers/pengiriman_controller.dart';
 import 'package:setting_api/models/kurir.dart';
 import 'package:setting_api/models/pengiriman.dart';
 import 'package:setting_api/models/rating.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
-final supabase = Supabase.instance.client;
 
 class KurirController extends GetxController {
   Future<void> terimaPesanan(String idPengiriman, idKurir) async {
@@ -20,7 +17,7 @@ class KurirController extends GetxController {
               StatusPengiriman.pending; //Ini ubah sesuai status di aplikasi
 
       if (accept) {
-        await supabase
+        await db
             .from("pengiriman")
             .update({
               "status_pengiriman": StatusPengiriman.on_delivery.name,
@@ -42,7 +39,7 @@ class KurirController extends GetxController {
           await PengirimanController.getPengirimanById(idPengiriman);
 
       if (checkPengiriman != null) {
-        await supabase
+        await db
             .from("pengiriman")
             .update({"status_pengiriman": StatusPengiriman.cancelled.name})
             .eq("id_pengiriman", idPengiriman)
@@ -58,7 +55,7 @@ class KurirController extends GetxController {
 
   Future<void> perbaruiLokasi(String idKurir, double long, lat) async {
     try {
-      final response = await supabase
+      final response = await db
           .from("kurir")
           .update({"lokasi_long": long, "lokasi_lat": lat})
           .eq("id_kurir", idKurir)
@@ -71,7 +68,7 @@ class KurirController extends GetxController {
 
   Future<void> ubahStatus(String idKurir, StatusKurir status) async {
     try {
-      final response = await supabase
+      final response = await db
           .from("kurir")
           .update({"status_kurir": status.name})
           .eq("id_kurir", idKurir);
@@ -92,7 +89,7 @@ class KurirController extends GetxController {
       );
 
       if (checkPesanan != null) {
-        await supabase
+        await db
             .from("pengiriman")
             .update({"status_pengiriman": StatusPengiriman.delivered.name})
             .eq("id_pengiriman", idPengiriman)
@@ -115,7 +112,7 @@ class KurirController extends GetxController {
 
   Future<void> lihatRating(String idKurir) async {
     try {
-      final response = await supabase
+      final response = await db
           .from("rating_kurir")
           .select()
           .eq("id_kurir", idKurir);
