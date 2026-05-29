@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:setting_api/controllers/connection.dart';
-import 'package:setting_api/controllers/kurir_controller.dart';
-import 'package:setting_api/controllers/log_pengiriman_controller.dart';
 import 'package:setting_api/controllers/pengiriman_controller.dart';
+import 'package:setting_api/models/pengiriman.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized;
@@ -17,18 +16,61 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    KurirController controller = Get.put(KurirController());
+    PengirimanController controller = Get.put(PengirimanController());
+
+    // Data dummy
+    Pengiriman dataDummy = Pengiriman(
+      nomorResi: 'JNT123456789',
+      deskripsiBarang: 'Laptop ASUS Vivobook 14 Inch',
+      berat: 2.5,
+      biaya: 45000,
+      statusPengiriman: StatusPengiriman.pending,
+      namaPenerima: "Budi Santoso",
+      nomorTeleponPenerima: "081234567890",
+      alamatPenerima: "Jl. Jenderal Sudirman No. 45, Purwokerto",
+      latPenerima: -7.4140,
+      longPenerima: 109.2370,
+      alamatPengirim: "Gudang Pusat, Jakarta Selatan",
+      latPengirim: -6.2297,
+      longPengirim: 106.8295,
+      idPelanggan: '3b5080c8-619d-4f6b-82c2-e6ec902d4af4',
+    );
 
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              controller.batalkanPesanan(
-                "deabffee-55d1-4d1f-816d-60e4321f3388",
-              );
-            },
-            child: Text("Testing update status"),
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  controller.buatDraftPengiriman(dataDummy);
+                },
+                child: Text("Data dummy"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  controller.konfirmasiPengiriman(
+                    "9ab4f700-c523-4edc-97bb-cb9d9bba8bbb",
+                    "a0923d8e-fdbe-4a1d-8b04-013cbef08199",
+                  );
+                },
+                child: Text("Testing Konfirmasi Pengiriman"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  controller.riwayatPengiriman(
+                    "3b5080c8-619d-4f6b-82c2-e6ec902d4af4",
+                  );
+                },
+                child: Text("Testing Riwayat Pengiriman"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  controller.detailPengiriman("");
+                },
+                child: Text("Testing Detail Pengiriman"),
+              ),
+            ],
           ),
         ),
       ),

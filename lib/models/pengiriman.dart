@@ -1,74 +1,96 @@
 enum StatusPengiriman { pending, pickup, on_delivery, delivered, cancelled }
 
 class Pengiriman {
-  final String idPengiriman;
+  final String? idPengiriman;
   final String nomorResi;
   final String deskripsiBarang;
-  final String alamatPengirim;
-  final String alamatPenerima;
-  final String namaPenerima;
-  final String nomorTeleponPenerima;
   final double berat;
   final int biaya;
-  final DateTime waktuOrder;
   final StatusPengiriman statusPengiriman;
-  final String idAkun;
-  final String idKurir;
+  final DateTime? createdAt;
+  final String namaPenerima;
+  final String nomorTeleponPenerima;
+  final String alamatPenerima;
+  final double latPenerima;
+  final double longPenerima;
+  final String alamatPengirim;
+  final double latPengirim;
+  final double longPengirim;
+  final String idPelanggan;
+  final String? idKurir;
 
   Pengiriman({
-    required this.idPengiriman,
+    this.idPengiriman,
     required this.nomorResi,
     required this.deskripsiBarang,
-    required this.alamatPengirim,
-    required this.alamatPenerima,
-    required this.namaPenerima,
-    required this.nomorTeleponPenerima,
     required this.berat,
     required this.biaya,
-    required this.waktuOrder,
     required this.statusPengiriman,
-    required this.idAkun,
-    required this.idKurir,
+    this.createdAt,
+    required this.namaPenerima,
+    required this.nomorTeleponPenerima,
+    required this.alamatPenerima,
+    required this.latPenerima,
+    required this.longPenerima,
+    required this.alamatPengirim,
+    required this.latPengirim,
+    required this.longPengirim,
+    required this.idPelanggan,
+    this.idKurir,
   });
 
   factory Pengiriman.fromJson(Map<String, dynamic> json) {
     return Pengiriman(
-      idPengiriman: json['id_pengiriman'] ?? '',
-      nomorResi: json['nomor_resi'] ?? '',
-      deskripsiBarang: json['deskripsi_barang'] ?? '',
-      alamatPengirim: json['alamat_pengirim'] ?? '',
-      alamatPenerima: json['alamat_penerima'] ?? '',
-      namaPenerima: json['nama_penerima'] ?? '',
-      nomorTeleponPenerima: json['nomor_telepon_penerima'] ?? '',
-      berat: (json['berat'] ?? 0.0).toDouble(),
-      biaya: json['biaya'] ?? 0,
-      waktuOrder: json['created_at'] != null
-          ? DateTime.parse(json['created_at'])
-          : DateTime.now(),
+      idPengiriman: json['id_pengiriman'] as String?,
+      nomorResi: json['nomor_resi'] as String,
+      deskripsiBarang: json['deskripsi_barang'] as String,
+      berat: (json['berat'] as num).toDouble(),
+      biaya: json['biaya'] as int,
       statusPengiriman: StatusPengiriman.values.firstWhere(
         (e) => e.name == json['status_pengiriman'],
-        orElse: () => StatusPengiriman.pickup,
+        orElse: () => StatusPengiriman.pending,
       ),
-      idAkun: json['id_akun'] ?? '',
-      idKurir: json['id_kurir'] ?? '',
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'] as String)
+          : null,
+      namaPenerima: json['nama_penerima'] as String,
+      nomorTeleponPenerima: json['nomor_telepon_penerima'] as String,
+      alamatPenerima: json['alamat_penerima'] as String,
+      latPenerima: (json['lat_penerima'] as num).toDouble(),
+      longPenerima: (json['long_penerima'] as num).toDouble(),
+      alamatPengirim: json['alamat_pengirim'] as String,
+      latPengirim: (json['lat_pengirim'] as num).toDouble(),
+      longPengirim: (json['long_pengirim'] as num).toDouble(),
+      idPelanggan: json['id_pelanggan'] as String,
+      idKurir: json['id_kurir'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
+    Map<String, dynamic> jsonData = {
       'id_pengiriman': idPengiriman,
       'nomor_resi': nomorResi,
       'deskripsi_barang': deskripsiBarang,
-      'alamat_pengirim': alamatPengirim,
-      'alamat_penerima': alamatPenerima,
-      'nama_penerima': namaPenerima,
-      'nomor_telepon_penerima': nomorTeleponPenerima,
       'berat': berat,
       'biaya': biaya,
-      'created_at': waktuOrder.toIso8601String(),
       'status_pengiriman': statusPengiriman.name,
-      'id_akun': idAkun,
+      'created_at': createdAt?.toIso8601String(),
+      'nama_penerima': namaPenerima,
+      'nomor_telepon_penerima': nomorTeleponPenerima,
+      'alamat_penerima': alamatPenerima,
+      'lat_penerima': latPenerima,
+      'long_penerima': longPenerima,
+      'alamat_pengirim': alamatPengirim,
+      'lat_pengirim': latPengirim,
+      'long_pengirim': longPengirim,
+      'id_pelanggan': idPelanggan,
       'id_kurir': idKurir,
     };
+
+    jsonData.removeWhere(
+      (key, value) => (value == null || value == "") && key != "id_kurir",
+    );
+
+    return jsonData;
   }
 }

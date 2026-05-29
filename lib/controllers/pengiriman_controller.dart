@@ -3,26 +3,58 @@ import 'package:setting_api/controllers/connection.dart';
 import 'package:setting_api/models/pengiriman.dart';
 
 class PengirimanController extends GetxController {
-  num hitungBiaya(int bobot, jarak, biaya) {
-    return bobot * jarak * biaya;
+  Future<void> buatDraftPengiriman(Pengiriman dataPengiriman) async {
+    Map jsonData = dataPengiriman.toJson();
+    print("PengirimanController: $jsonData");
+
+    try {
+      await db
+          .from("pengiriman")
+          .insert(jsonData); //Tambahkan penambahan ke log
+      print("PengirimanController : $jsonData berhasil dikirim ke database");
+    } catch (e) {
+      print("PengirimanController #Error: $e");
+    }
   }
 
-  Future<void> tunjukKurir() async {}
-  Future<void> perbaruiStatus() async {}
-  Future<void> buatResi() async {}
+  Future<void> konfirmasiPengiriman(String idPengiriman, String idKurir) async {
+    try {
+      await db
+          .from("pengiriman")
+          .update({
+            "id_kurir": idKurir,
+            "status_pengiriman": StatusPengiriman.pickup.name,
+          })
+          .eq("id_pengiriman", idPengiriman); //Tambahkan penambahan ke log
+      print("konfirmasiPengiriman : Barang akan segera di pickup");
+    } catch (e) {
+      print("konfirmasiPengiriman #Error : $e");
+    }
+  }
 
-  static Future<Pengiriman?> getPengirimanById(String idPengiriman) async {
+  Future<void> riwayatPengiriman(String idPelanggan) async {
     try {
       final response = await db
-          .from('pengiriman')
+          .from("pengiriman")
+          .select()
+          .eq("id_pelanggan", idPelanggan);
+      print("riwayatPengiriman : $response");
+    } catch (e) {
+      print("riwayatPengiriman #Error : $e");
+    }
+  }
+
+  Future<void> detailPengiriman(String idPengiriman) async {
+    try {
+      final response = await db
+          .from("log_pengiriman")
           .select()
           .eq("id_pengiriman", idPengiriman);
-      if (response.isNotEmpty) {
-        return Pengiriman.fromJson(response[0]);
-      }
+      print("detailPengiriman : $response");
     } catch (e) {
-      print(e);
+      print("detailPengiriman #Error : $e");
     }
-    return null;
   }
+
+  Future<void> trackingLive() async {} //Lihat kondisi untuk implementasinya
 }
