@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:setting_api/controllers/connection.dart';
+import 'package:setting_api/controllers/log_pengiriman_controller.dart';
 import 'package:setting_api/controllers/pengiriman_controller.dart';
 import 'package:setting_api/models/kurir.dart';
 import 'package:setting_api/models/pengiriman.dart';
@@ -13,7 +15,9 @@ class KurirController extends GetxController {
       Pengiriman? checkPengiriman =
           await PengirimanController.getPengirimanById(idPengiriman);
       bool accept =
-          checkPengiriman != null; //Ini ubah sesuai status di aplikasi
+          checkPengiriman != null &&
+          checkPengiriman.statusPengiriman ==
+              StatusPengiriman.pending; //Ini ubah sesuai status di aplikasi
 
       if (accept) {
         await supabase
@@ -32,7 +36,25 @@ class KurirController extends GetxController {
     }
   }
 
-  Future<void> batalkanPesanan() async {}
+  Future<void> batalkanPesanan(String idPengiriman) async {
+    try {
+      Pengiriman? checkPengiriman =
+          await PengirimanController.getPengirimanById(idPengiriman);
+
+      if (checkPengiriman != null) {
+        await supabase
+            .from("pengiriman")
+            .update({"status_pengiriman": StatusPengiriman.cancelled.name})
+            .eq("id_pengiriman", idPengiriman)
+            .then(
+              (e) async => await LogPengirimanController.catatLog(idPengiriman),
+            );
+      }
+      print("[Pengiriman - batalkanPesanan] : Pembatalan pesanan berhasil");
+    } catch (e) {
+      print("[Pengiriman - batalkanPesanan] : $e");
+    }
+  }
 
   Future<void> perbaruiLokasi(String idKurir, double long, lat) async {
     try {
@@ -65,19 +87,22 @@ class KurirController extends GetxController {
 
   Future<void> selesaikanPesanan(String idPengiriman) async {
     try {
-      final checkPesanan = await supabase
-          .from("pengiriman")
-          .select()
-          .eq("id_pengiriman", idPengiriman);
+      Pengiriman? checkPesanan = await PengirimanController.getPengirimanById(
+        idPengiriman,
+      );
 
-      if (checkPesanan.isNotEmpty) {
-        final response = await supabase
+      if (checkPesanan != null) {
+        await supabase
             .from("pengiriman")
             .update({"status_pengiriman": StatusPengiriman.delivered.name})
             .eq("id_pengiriman", idPengiriman)
-            .select();
-
-        print("[Pengiriman - selesaikanPesanan] : $response");
+            // .select()
+            .then(
+              (value) async => {
+                ubahStatus(checkPesanan.idKurir, StatusKurir.available),
+                print("[Pengiriman - selesaikanPesanan] : $value"),
+              },
+            );
       } else {
         print(
           "[Pengiriman - selesaikanPesanan] : Pesanan dengan id $idPengiriman tidak ditemukan",
@@ -102,10 +127,13 @@ class KurirController extends GetxController {
 
       double rating = 0.0;
 
-      for (int i = 0; i < responseList.length; i++) {
-        rating += responseList[i].rating;
+      if (responseList.isNotEmpty) {
+        for (int i = 0; i < responseList.length; i++) {
+          rating += responseList[i].rating;
+        }
+        rating = rating / responseList.length;
       }
-      rating = rating / responseList.length;
+
       print("[Pengiriman - lihatRating] : $responseList");
       print("[Pengiriman - lihatRating] : $rating");
     } catch (e) {

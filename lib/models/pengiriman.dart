@@ -1,4 +1,4 @@
-enum StatusPengiriman { pickup, on_delivery, delivered, cancelled }
+enum StatusPengiriman { pending, pickup, on_delivery, delivered, cancelled }
 
 class Pengiriman {
   final String idPengiriman;

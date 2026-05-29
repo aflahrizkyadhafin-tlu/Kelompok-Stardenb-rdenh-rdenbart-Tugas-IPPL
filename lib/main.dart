@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:setting_api/controllers/connection.dart';
 import 'package:setting_api/controllers/kurir_controller.dart';
 import 'package:setting_api/controllers/log_pengiriman_controller.dart';
-import 'package:setting_api/models/kurir.dart';
+import 'package:setting_api/controllers/pengiriman_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized;
@@ -17,14 +17,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LogPengirimanController controller = Get.put(LogPengirimanController());
+    KurirController controller = Get.put(KurirController());
 
     return MaterialApp(
       home: Scaffold(
         body: Center(
           child: ElevatedButton(
             onPressed: () {
-              controller.catatLog('deabffee-55d1-4d1f-816d-60e4321f3388');
+              controller.batalkanPesanan(
+                "deabffee-55d1-4d1f-816d-60e4321f3388",
+              );
             },
             child: Text("Testing update status"),
           ),
