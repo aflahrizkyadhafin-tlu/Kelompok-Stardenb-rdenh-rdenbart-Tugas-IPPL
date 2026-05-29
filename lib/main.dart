@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:setting_api/controllers/connection.dart';
 import 'package:setting_api/controllers/penawaran_controller.dart';
 import 'package:setting_api/controllers/pengiriman_controller.dart';
+import 'package:setting_api/controllers/rating_controller.dart';
 import 'package:setting_api/models/pengiriman.dart';
 
 void main() {
@@ -17,9 +18,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PengirimanController controller = Get.put(PengirimanController());
-    PenawaranController penawaranController = Get.put(PenawaranController());
-
+    RatingController ratingController = Get.put(RatingController());
     // Data dummy
     Pengiriman dataDummy = Pengiriman(
       nomorResi: 'JNT123456789',
@@ -45,19 +44,23 @@ class MainApp extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  penawaranController.pelangganBatal(
+                  ratingController.beriRating(
+                    8.5,
+                    "Pelayanan ramah",
+                    "3b5080c8-619d-4f6b-82c2-e6ec902d4af4",
+                    "a0923d8e-fdbe-4a1d-8b04-013cbef08199",
                     "9ab4f700-c523-4edc-97bb-cb9d9bba8bbb",
                   );
                 },
-                child: Text("Pelanggan batal"),
+                child: Text("Beri rating"),
               ),
               ElevatedButton(
                 onPressed: () {
-                  controller.detailPengiriman(
+                  ratingController.getRatingByPengiriman(
                     "9ab4f700-c523-4edc-97bb-cb9d9bba8bbb",
                   );
                 },
-                child: Text("Testing Detail Pengiriman"),
+                child: Text("getRatingByPengiriman"),
               ),
             ],
           ),
