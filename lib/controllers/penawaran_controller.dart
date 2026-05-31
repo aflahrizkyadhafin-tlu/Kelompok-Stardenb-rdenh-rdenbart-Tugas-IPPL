@@ -20,10 +20,12 @@ class PenawaranController extends GetxController {
   }
 
   Future<void> kurirTerima(String idPengiriman, String idKurir) async {
+    Map<String, dynamic> jsonData = Kurir(statusKurir: StatusKurir.handling_order).toJson();
+
     try {
       await db
           .from("kurir")
-          .update({"status_kurir": StatusKurir.handling_order.name})
+          .update(jsonData)
           .eq("id_kurir", idKurir)
           .then(
             (data) async => await PengirimanController.konfirmasiPengiriman(
@@ -38,10 +40,12 @@ class PenawaranController extends GetxController {
   }
 
   Future<void> pelangganBatal(String idPengiriman) async {
+    Map<String, dynamic> jsonData = Pengiriman(statusPengiriman: StatusPengiriman.cancelled).toJson();
+
     try {
       await db
           .from("pengiriman")
-          .update({"status_pengiriman": StatusPengiriman.cancelled.name})
+          .update(jsonData)
           .eq("id_pengiriman", idPengiriman);
 
       print("pelangganBatal : Pengiriman dibatalkan");

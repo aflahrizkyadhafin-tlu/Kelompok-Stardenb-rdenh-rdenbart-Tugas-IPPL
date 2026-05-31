@@ -21,13 +21,12 @@ class PengirimanController extends GetxController {
     String idPengiriman,
     String idKurir,
   ) async {
+    Map<String, dynamic> jsonData = Pengiriman(idKurir: idKurir, statusPengiriman: StatusPengiriman.pickup).toJson();
+
     try {
       await db
           .from("pengiriman")
-          .update({
-            "id_kurir": idKurir,
-            "status_pengiriman": StatusPengiriman.pickup.name,
-          })
+          .update(jsonData)
           .eq("id_pengiriman", idPengiriman); //Tambahkan penambahan ke log
       print("konfirmasiPengiriman : Barang akan segera di pickup");
     } catch (e) {

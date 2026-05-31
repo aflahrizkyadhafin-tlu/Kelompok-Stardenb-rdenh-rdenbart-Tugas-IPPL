@@ -1,20 +1,20 @@
 class RatingKurir {
   final String? idRating;
-  final double rating;
+  final double? rating;
   final String? pesan;
   final DateTime? createdAt;
-  final String idPelanggan;
-  final String idKurir;
-  final String idPengiriman;
+  final String? idPelanggan;
+  final String? idKurir;
+  final String? idPengiriman;
 
   RatingKurir({
     this.idRating,
-    required this.rating,
+    this.rating,
     this.pesan,
     this.createdAt,
-    required this.idPelanggan,
-    required this.idKurir,
-    required this.idPengiriman,
+    this.idPelanggan,
+    this.idKurir,
+    this.idPengiriman,
   });
 
   factory RatingKurir.fromJson(Map<String, dynamic> json) {

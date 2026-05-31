@@ -2,40 +2,40 @@ enum StatusPengiriman { pending, pickup, on_delivery, delivered, cancelled }
 
 class Pengiriman {
   final String? idPengiriman;
-  final String nomorResi;
-  final String deskripsiBarang;
-  final double berat;
-  final int biaya;
-  final StatusPengiriman statusPengiriman;
+  final String? nomorResi;
+  final String? deskripsiBarang;
+  final double? berat;
+  final int? biaya;
+  final StatusPengiriman? statusPengiriman;
   final DateTime? createdAt;
-  final String namaPenerima;
-  final String nomorTeleponPenerima;
-  final String alamatPenerima;
-  final double latPenerima;
-  final double longPenerima;
-  final String alamatPengirim;
-  final double latPengirim;
-  final double longPengirim;
-  final String idPelanggan;
+  final String? namaPenerima;
+  final String? nomorTeleponPenerima;
+  final String? alamatPenerima;
+  final double? latPenerima;
+  final double? longPenerima;
+  final String? alamatPengirim;
+  final double? latPengirim;
+  final double? longPengirim;
+  final String? idPelanggan;
   final String? idKurir;
 
   Pengiriman({
     this.idPengiriman,
-    required this.nomorResi,
-    required this.deskripsiBarang,
-    required this.berat,
-    required this.biaya,
-    required this.statusPengiriman,
+    this.nomorResi,
+    this.deskripsiBarang,
+    this.berat,
+    this.biaya,
+    this.statusPengiriman,
     this.createdAt,
-    required this.namaPenerima,
-    required this.nomorTeleponPenerima,
-    required this.alamatPenerima,
-    required this.latPenerima,
-    required this.longPenerima,
-    required this.alamatPengirim,
-    required this.latPengirim,
-    required this.longPengirim,
-    required this.idPelanggan,
+    this.namaPenerima,
+    this.nomorTeleponPenerima,
+    this.alamatPenerima,
+    this.latPenerima,
+    this.longPenerima,
+    this.alamatPengirim,
+    this.latPengirim,
+    this.longPengirim,
+    this.idPelanggan,
     this.idKurir,
   });
 
@@ -73,7 +73,7 @@ class Pengiriman {
       'deskripsi_barang': deskripsiBarang,
       'berat': berat,
       'biaya': biaya,
-      'status_pengiriman': statusPengiriman.name,
+      'status_pengiriman': statusPengiriman?.name,
       'created_at': createdAt?.toIso8601String(),
       'nama_penerima': namaPenerima,
       'nomor_telepon_penerima': nomorTeleponPenerima,
