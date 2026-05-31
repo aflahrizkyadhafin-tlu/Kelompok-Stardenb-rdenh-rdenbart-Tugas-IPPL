@@ -23,7 +23,7 @@ class PenawaranController extends GetxController {
     try {
       await db
           .from("kurir")
-          .update({"status_kurir": StatusKurir.on_delivery.name})
+          .update({"status_kurir": StatusKurir.handling_order.name})
           .eq("id_kurir", idKurir)
           .then(
             (data) async => await PengirimanController.konfirmasiPengiriman(
@@ -37,8 +37,6 @@ class PenawaranController extends GetxController {
     }
   }
 
-  Future<void> kurirTolak() async {}
-
   Future<void> pelangganBatal(String idPengiriman) async {
     try {
       await db
@@ -51,4 +49,6 @@ class PenawaranController extends GetxController {
       print("pelangganBatal #Error : $e");
     }
   }
+
+  Future<void> kurirTolak() async {}
 }
