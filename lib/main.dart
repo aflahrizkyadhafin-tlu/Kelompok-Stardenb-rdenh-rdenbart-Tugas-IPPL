@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:setting_api/controllers/auth_controller.dart';
 import 'package:setting_api/controllers/connection.dart';
-import 'package:setting_api/controllers/kurir_controller.dart';
-import 'package:setting_api/controllers/rating_controller.dart';
-import 'package:setting_api/models/pengiriman.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized;
@@ -17,7 +15,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    KurirController controller = Get.put(KurirController());
+    AuthController controller = Get.put(AuthController());
     // Data dummy
     // Pengiriman dataDummy = Pengiriman(
     //   nomorResi: 'JNT123456789',
@@ -36,6 +34,9 @@ class MainApp extends StatelessWidget {
     //   idPelanggan: '3b5080c8-619d-4f6b-82c2-e6ec902d4af4',
     // );
 
+    String email = "rinepac727@brixozu.com";
+    TextEditingController kodeOTP = TextEditingController();
+
     return MaterialApp(
       home: Scaffold(
         body: SafeArea(
@@ -43,8 +44,13 @@ class MainApp extends StatelessWidget {
             child: Column(
               children: [
                 ElevatedButton(onPressed: (){
-                  controller.updateLokasiKurir("ABC", 5.64332, 120.534);
-                }, child: Text("Cek controller"))
+                  controller.register(email);
+                }, child: Text("Cek Register")),
+                SizedBox(height: 25),
+                TextField(decoration: InputDecoration(hintText: "Kode OTP"),controller: kodeOTP,),
+                ElevatedButton(onPressed: (){
+                  controller.verifOTP(kodeOTP.text.trim(), email);
+                }, child: Text("Verifikasi Token")),
               ],
             ),
           ),
