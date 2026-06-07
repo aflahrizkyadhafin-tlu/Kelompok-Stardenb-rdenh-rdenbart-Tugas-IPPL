@@ -69,7 +69,6 @@ class Body extends StatelessWidget {
 
 class _RoleCard extends StatelessWidget {
   final String? assetIcon;
-  final IconData? icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
