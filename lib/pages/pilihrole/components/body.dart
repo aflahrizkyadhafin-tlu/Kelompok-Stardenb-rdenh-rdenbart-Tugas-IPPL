@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -40,8 +41,12 @@ class Body extends StatelessWidget {
               const SizedBox(height: 60),
               // Card Pengguna
               _RoleCard(
-                assetIcon: 'assets/icons/IconPengguna.png',
+                assetIcon: 'assets/icons/IconPengguna.svg',
                 title: 'Pengguna',
+                style: GoogleFonts.poppins(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
                 subtitle: 'Pesan barang dari rumah\ndengan mudah',
                 onTap: () {
                   // TODO: navigate to login/register as pengguna
@@ -50,8 +55,12 @@ class Body extends StatelessWidget {
               const SizedBox(height: 16),
               // Card Driver
               _RoleCard(
-                assetIcon: 'assets/icons/IconDriver.png',
+                assetIcon: 'assets/icons/IconDriver.svg',
                 title: 'Driver',
+                style: GoogleFonts.poppins(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
                 subtitle:
                     'Join menjadi kurir mitra\n"MyKurir" untuk\nmenghasilkan uang.',
                 onTap: () {
@@ -70,13 +79,14 @@ class Body extends StatelessWidget {
 class _RoleCard extends StatelessWidget {
   final String? assetIcon;
   final String title;
+  final TextStyle? style;
   final String subtitle;
   final VoidCallback onTap;
 
   const _RoleCard({
     this.assetIcon,
-    this.icon,
     required this.title,
+    this.style,
     required this.subtitle,
     required this.onTap,
   });
@@ -102,8 +112,10 @@ class _RoleCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: assetIcon != null
-                  ? Image.asset(assetIcon!, width: 56, height: 56)
-                  : Icon(icon, color: Colors.red[400], size: 28),
+                  ? (assetIcon!.endsWith('.svg')
+                        ? SvgPicture.asset(assetIcon!, width: 56, height: 56)
+                        : Image.asset(assetIcon!, width: 56, height: 56))
+                  : const Icon(Icons.person, color: Colors.red, size: 28),
             ),
             const SizedBox(width: 16),
             Column(
@@ -111,10 +123,12 @@ class _RoleCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style:
+                      style ??
+                      const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
                 const SizedBox(height: 4),
                 Text(
