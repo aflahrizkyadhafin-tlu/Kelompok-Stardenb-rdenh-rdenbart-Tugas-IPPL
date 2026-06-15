@@ -13,6 +13,7 @@ class AuthController extends GetxController {
     } catch (e) {
       print("[Register] #Error: $e");
     }
+    loadingController.hide();
   }
 
   Future<void> verifOTPEmail(String kodeOTP, String email) async {
@@ -26,6 +27,7 @@ class AuthController extends GetxController {
     } catch (e) {
       print("[verifOTP] #Error : $e");
     }
+    loadingController.hide();
   }
 
   Future<void> gantiNomorTelepon(String nomorTelepon) async {
@@ -35,6 +37,7 @@ class AuthController extends GetxController {
     } catch (e) {
       print("[gantiNomorTelepon] #Error : $e");
     }
+    loadingController.hide();
   }
 
   Future<bool> verifOTPTelepon(String nomorTelepon, String kodeOTP) async {
@@ -46,9 +49,11 @@ class AuthController extends GetxController {
         token: kodeOTP,
       );
       print("[verifOTPTelepon] : Kode OTP berhasil diverifikasi");
+      loadingController.hide();
       return true;
     } catch (e) {
       print("[verifOTPTelepon] #Error : $e");
+      loadingController.hide();
       return false;
     }
   }
@@ -65,10 +70,10 @@ class AuthController extends GetxController {
       } else {
         print("[Login] : Akun tidak ditemukan");
       }
-      loadingController.hide();
     } catch (e) {
       print("[Login] #error: $e");
     }
+    loadingController.hide();
   }
 
   Future<void> logout() async {
@@ -79,6 +84,7 @@ class AuthController extends GetxController {
     } catch (e) {
       print("[logout] #Error : $e");
     }
+    loadingController.hide();
   }
 
   Future<void> cekUser() async {
@@ -88,6 +94,7 @@ class AuthController extends GetxController {
     } catch (e) {
       print("[CekUser] #Error : $e");
     }
+    loadingController.hide();
   }
 
   Future<void> sendOTPPassword(String email) async {
@@ -97,6 +104,7 @@ class AuthController extends GetxController {
     } catch (e) {
       print("[sendOTPPassword] #Error : $e");
     }
+    loadingController.hide();
   }
 
   Future<void> changePassword(
@@ -112,5 +120,6 @@ class AuthController extends GetxController {
     } catch (e) {
       print("[changePassword] #Error : $e");
     }
+    loadingController.hide();
   }
 }

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Controller Reference — Aplikasi Pengantaran Paket</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:        #0D0F0E;
+    --bg2:       #131614;
+    --bg3:       #1A1D1B;
+    --border:    #252926;
+    --border2:   #2F332E;
+    --text:      #E8EDE9;
+    --text2:     #8A9689;
+    --text3:     #5C6659;
+    --accent:    #A8D5A2;
+    --accent2:   #6FB868;
+    --orange:    #E8A87C;
+    --blue:      #7EB8D4;
+    --red:       #D47E7E;
+    --yellow:    #D4C47E;
+    --purple:    #B07ED4;
+
+    --r-sm: 6px;
+    --r-md: 10px;
+    --r-lg: 16px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ─────────────────────────────────── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 40px 48px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(168,213,162,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .header-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 20px; height: 1px;
+    background: var(--accent2);
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 14px;
+    letter-spacing: -.02em;
+  }
+  h1 span { color: var(--accent2); }
+  .header-meta {
+    color: var(--text2);
+    font-size: 13px;
+    display: flex; flex-wrap: wrap; gap: 20px;
+  }
+  .header-meta span {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent2); display: inline-block; }
+
+  /* ── LAYOUT ─────────────────────────────────── */
+  .container { display: flex; min-height: calc(100vh - 141px); }
+
+  /* ── SIDEBAR ─────────────────────────────────── */
+  aside {
+    width: 240px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    padding: 28px 0;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 141px);
+    overflow-y: auto;
+  }
+  .nav-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 0 20px;
+    margin-bottom: 6px;
+    margin-top: 20px;
+  }
+  .nav-section-label:first-child { margin-top: 0; }
+  aside a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 20px;
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color .15s, background .15s;
+    border-left: 2px solid transparent;
+  }
+  aside a:hover { color: var(--text); background: rgba(255,255,255,.03); }
+  aside a.active { color: var(--accent); border-left-color: var(--accent2); background: rgba(168,213,162,.05); }
+  .nav-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .nb-new  { background: rgba(168,213,162,.15); color: var(--accent); }
+  .nb-mod  { background: rgba(232,168,124,.15); color: var(--orange); }
+  .nb-same { background: rgba(90,100,90,.2);    color: var(--text3); }
+
+  /* ── MAIN ─────────────────────────────────────── */
+  main { flex: 1; padding: 40px 48px; max-width: 900px; }
+
+  /* ── SECTION ─────────────────────────────────── */
+  .section { margin-bottom: 60px; scroll-margin-top: 24px; }
+  .section-header {
+    display: flex; align-items: flex-start; gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-icon {
+    width: 40px; height: 40px;
+    border-radius: var(--r-md);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .section-title-wrap { flex: 1; }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -.01em;
+    margin-bottom: 4px;
+  }
+  .section-sub {
+    font-size: 12px;
+    color: var(--text2);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  }
+  .chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+  .chip-new    { border-color: rgba(168,213,162,.3); color: var(--accent); background: rgba(168,213,162,.08); }
+  .chip-mod    { border-color: rgba(232,168,124,.3); color: var(--orange); background: rgba(232,168,124,.08); }
+  .chip-stable { border-color: rgba(90,100,90,.4);   color: var(--text3);  background: rgba(90,100,90,.12); }
+
+  /* ── TABLE ─────────────────────────────────────── */
+  .tbl-wrap {
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: var(--bg3); }
+  th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 10px 16px;
+    text-align: left;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background .12s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,.02); }
+  td { padding: 11px 16px; font-size: 13px; vertical-align: top; }
+  td.mono { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); }
+  td.desc { color: var(--text2); line-height: 1.5; }
+
+  /* HTTP verbs */
+  .verb {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 4px;
+    min-width: 42px;
+    text-align: center;
+  }
+  .v-get  { background: rgba(111,184,104,.15); color: #6FB868; border: 1px solid rgba(111,184,104,.25); }
+  .v-post { background: rgba(126,184,212,.15); color: #7EB8D4; border: 1px solid rgba(126,184,212,.25); }
+  .v-put  { background: rgba(232,168,124,.15); color: #E8A87C; border: 1px solid rgba(232,168,124,.25); }
+  .v-del  { background: rgba(212,126,126,.15); color: #D47E7E; border: 1px solid rgba(212,126,126,.25); }
+
+  /* ── ROLE TAGS ──────────────────────────────── */
+  .role {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .r-pelanggan { background: rgba(111,184,104,.12); color: #6FB868; }
+  .r-kurir     { background: rgba(232,168,124,.12); color: #E8A87C; }
+  .r-admin     { background: rgba(212,126,126,.12); color: #D47E7E; }
+  .r-all       { background: rgba(176,126,212,.12); color: #B07ED4; }
+
+  /* ── CALLOUT ─────────────────────────────────── */
+  .callout {
+    border-left: 3px solid;
+    border-radius: var(--r-sm);
+    padding: 12px 16px;
+    font-size: 12.5px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-top: 16px;
+  }
+  .callout strong { color: var(--text); font-weight: 500; }
+  .callout.info   { border-color: var(--blue);   background: rgba(126,184,212,.06); }
+  .callout.warn   { border-color: var(--orange);  background: rgba(232,168,124,.06); }
+  .callout.tip    { border-color: var(--accent2); background: rgba(111,184,104,.06); }
+
+  /* ── SUMMARY TABLE (top) ─────────────────────── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .summary-card {
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 16px;
+    background: var(--bg2);
+    transition: border-color .15s;
+  }
+  .summary-card:hover { border-color: var(--border2); }
+  .summary-card-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .summary-card-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .summary-card-label { font-size: 11px; color: var(--text3); }
+
+  /* ── FLOW DIAGRAM ────────────────────────────── */
+  .flow-box {
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 24px;
+    background: var(--bg2);
+    margin-top: 16px;
+  }
+  .flow-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text3);
+    margin-bottom: 16px;
+  }
+  .flow-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    align-items: stretch;
+  }
+  .flow-step {
+    flex: 1;
+    min-width: 100px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.4;
+    background: var(--bg3);
+    position: relative;
+  }
+  .flow-step-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    margin-bottom: 4px;
+  }
+  .flow-step-name { color: var(--text); font-size: 12px; font-weight: 500; margin-bottom: 2px; }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    color: var(--text3);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* ── DB NOTE ─────────────────────────────────── */
+  .db-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1px solid rgba(212,196,126,.25);
+    border-radius: var(--r-md);
+    padding: 14px 16px;
+    background: rgba(212,196,126,.05);
+    margin-top: 16px;
+  }
+  .db-note-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .db-note-text { font-size: 12.5px; color: var(--text2); line-height: 1.6; }
+  .db-note-text strong { color: var(--yellow); font-weight: 500; }
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: rgba(255,255,255,.07);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+
+  /* ── SCROLLBAR ───────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  @media (max-width: 768px) {
+    header { padding: 28px 24px; }
+    main { padding: 28px 24px; }
+    aside { display: none; }
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    .flow-steps { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">Dokumentasi Teknis</div>
+  <h1>Controller <span>Reference</span><br>Aplikasi Pengantaran Paket</h1>
+  <div class="header-meta">
+    <span><span class="dot"></span> 10 Controllers</span>
+    <span><span class="dot"></span> 3 Role Pengguna</span>
+    <span><span class="dot"></span> Kurir dipilih manual oleh pelanggan</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <aside>
+    <div class="nav-section-label">Auth &amp; Akun</div>
+    <a href="#auth">🔐 AuthController</a>
+    <a href="#akun">👤 AkunController</a>
+
+    <div class="nav-section-label">Pelanggan</div>
+    <a href="#kurir-public">🗺 KurirPublicController <span class="nav-badge nb-new">BARU</span></a>
+    <a href="#penawaran">📨 PenawaranController <span class="nav-badge nb-new">BARU</span></a>
+    <a href="#pengiriman">📦 PengirimanController <span class="nav-badge nb-mod">MOD</span></a>
+    <a href="#rating">⭐ RatingController</a>
+
+    <div class="nav-section-label">Kurir</div>
+    <a href="#kurir">🛵 KurirController <span class="nav-badge nb-mod">MOD</span></a>
+    <a href="#log">📋 LogPengirimanController</a>
+
+    <div class="nav-section-label">Admin</div>
+    <a href="#admin">🛠 AdminController</a>
+    <a href="#support">💬 SupportController</a>
+  </aside>
+
+  <main>
+
+    <!-- RINGKASAN -->
+    <section class="section" id="ringkasan">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(168,213,162,.1)">📊</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Ringkasan Keseluruhan</div>
+          <div class="section-sub">Total controller yang dibutuhkan dalam aplikasi ini</div>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-card-name">Total Controller</div>
+          <div class="summary-card-count" style="color:var(--accent)">10</div>
+          <div class="summary-card-label">controller</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-name">Controller Baru</div>
+          <div class="summary-card-count" style="color:#6FB868">2</div>
+          <div class="summary-card-label">dari alur pilih kurir</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-name">Dimodifikasi</div>
+          <div class="summary-card-count" style="color:var(--orange)">2</div>
+          <div class="summary-card-label">controller lama</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-name">Tidak Berubah</div>
+          <div class="summary-card-count" style="color:var(--text3)">6</div>
+          <div class="summary-card-label">controller stabil</div>
+        </div>
+      </div>
+
+      <!-- Alur ringkas -->
+      <div class="flow-box">
+        <div class="flow-title">Alur Utama Pengiriman</div>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-step-num">01</div>
+            <div class="flow-step-name">Register / Login</div>
+            AuthController
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">02</div>
+            <div class="flow-step-name">Isi Detail Paket</div>
+            PengirimanController
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">03</div>
+            <div class="flow-step-name">Pilih Kurir</div>
+            KurirPublicController
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">04</div>
+            <div class="flow-step-name">Kirim Penawaran</div>
+            PenawaranController
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">05</div>
+            <div class="flow-step-name">Tracking Paket</div>
+            KurirController
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-num">06</div>
+            <div class="flow-step-name">Beri Rating</div>
+            RatingController
+          </div>
+        </div>
+      </div>
+
+      <div class="db-note" style="margin-top:16px;">
+        <div class="db-note-icon">⚠️</div>
+        <div class="db-note-text">
+          <strong>Tabel database tambahan yang dibutuhkan:</strong> Dengan alur pilih kurir manual, Anda perlu menambahkan tabel <code>penawaran</code> di Supabase untuk menyimpan state sementara antara pelanggan memilih kurir dan kurir menyetujui. Field yang disarankan: <code>id_penawaran</code>, <code>id_pengiriman_draft</code>, <code>id_kurir</code>, <code>id_pelanggan</code>, <code>status</code> (pending/diterima/ditolak/kadaluarsa), <code>expired_at</code>, <code>created_at</code>.
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 1. AUTH ─────────────────────────────── -->
+    <section class="section" id="auth">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(176,126,212,.1)">🔐</div>
+        <div class="section-title-wrap">
+          <div class="section-title">AuthController</div>
+          <div class="section-sub">
+            <span class="chip chip-stable">STABLE</span>
+            <span>Tabel: <code>akun</code></span>
+            <span class="role r-all">Semua Role</span>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint / Fungsi</th><th>Deskripsi</th></tr></thead>
+          <tbody>
+            <tr><td><span class="verb v-post">POST</span></td><td class="mono">register()</td><td class="desc">Daftar akun baru. Field <code>role</code> di tabel <code>akun</code> menentukan apakah pengguna adalah pelanggan atau kurir</td></tr>
+            <tr><td><span class="verb v-post">POST</span></td><td class="mono">login()</td><td class="desc">Masuk dengan username/email &amp; password, mengembalikan token sesi</td></tr>
+            <tr><td><span class="verb v-post">POST</span></td><td class="mono">logout()</td><td class="desc">Hapus token sesi, kurir otomatis di-set offline</td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">changePassword()</td><td class="desc">Ganti password dengan validasi password lama</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">
+        <strong>Catatan:</strong> Satu endpoint register untuk semua role. Bedakan pelanggan dan kurir melalui field <code>role</code> di tabel <code>akun</code>. Setelah register sebagai kurir, record di tabel <code>kurir</code> dibuat otomatis (bisa via database trigger di Supabase atau dipanggil manual).
+      </div>
+    </section>
+
+    <!-- ─── 2. AKUN ─────────────────────────────── -->
+    <section class="section" id="akun">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(126,184,212,.1)">👤</div>
+        <div class="section-title-wrap">
+          <div class="section-title">AkunController</div>
+          <div class="section-sub">
+            <span class="chip chip-stable">STABLE</span>
+            <span>Tabel: <code>akun</code></span>
+            <span class="role r-all">Semua Role</span>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint / Fungsi</th><th>Deskripsi</th></tr></thead>
+          <tbody>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getProfile()</td><td class="desc">Ambil data profil milik sendiri berdasarkan token sesi</td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">updateProfile()</td><td class="desc">Edit nama lengkap, alamat, nomor telepon</td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">uploadFotoProfile()</td><td class="desc">Upload/ganti foto profil, simpan URL ke field <code>foto_profile</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ─── 3. KURIR PUBLIC ─────────────────────── -->
+    <section class="section" id="kurir-public">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(111,184,104,.15)">🗺</div>
+        <div class="section-title-wrap">
+          <div class="section-title">KurirPublicController</div>
+          <div class="section-sub">
+            <span class="chip chip-new">BARU</span>
+            <span>Tabel: <code>kurir</code>, <code>akun</code></span>
+            <span class="role r-pelanggan">Pelanggan</span>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint / Fungsi</th><th>Deskripsi</th></tr></thead>
+          <tbody>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getKurirTersedia()</td><td class="desc">Daftar semua kurir yang sedang online dan siap menerima order. Filter berdasarkan <code>status_kurir = 'online'</code>. Tampilkan nama, kendaraan, plat nomor, dan rating</td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getDetailKurir(id_kurir)</td><td class="desc">Detail lengkap satu kurir: foto profil, rating, riwayat pengiriman, kendaraan — ditampilkan sebelum pelanggan memutuskan untuk memilih</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip">
+        <strong>Mengapa dipisah dari KurirController?</strong> KurirPublicController bersifat read-only dan dapat diakses pelanggan tanpa perlu mengetahui data internal kurir. KurirController adalah controller operasional yang hanya bisa diakses oleh kurir itu sendiri.
+      </div>
+    </section>
+
+    <!-- ─── 4. PENAWARAN ───────────────────────── -->
+    <section class="section" id="penawaran">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(111,184,104,.15)">📨</div>
+        <div class="section-title-wrap">
+          <div class="section-title">PenawaranController</div>
+          <div class="section-sub">
+            <span class="chip chip-new">BARU</span>
+            <span>Tabel: <code>penawaran</code> (baru)</span>
+            <span class="role r-pelanggan">Pelanggan</span>
+            <span class="role r-kurir">Kurir</span>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint / Fungsi</th><th>Deskripsi</th></tr></thead>
+          <tbody>
+            <tr><td><span class="verb v-post">POST</span></td><td class="mono">kirimPermintaan(id_kurir)</td><td class="desc">Pelanggan mengirim permintaan pengiriman ke kurir yang dipilih. Membuat record baru di tabel <code>penawaran</code> dengan status <em>pending</em></td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getStatusPenawaran(id)</td><td class="desc">Polling status penawaran: <em>pending / diterima / ditolak / kadaluarsa</em>. Digunakan pelanggan untuk menunggu konfirmasi kurir</td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">kurirTerima(id_penawaran)</td><td class="desc">Kurir menerima permintaan. Status menjadi <em>diterima</em>, lalu PengirimanController.konfirmasiPengiriman() otomatis dipanggil</td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">kurirTolak(id_penawaran)</td><td class="desc">Kurir menolak. Status menjadi <em>ditolak</em>, pelanggan mendapat notifikasi dan bisa memilih kurir lain</td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">pelangganBatal(id_penawaran)</td><td class="desc">Pelanggan membatalkan permintaan sebelum kurir merespons</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="db-note">
+        <div class="db-note-icon">🗄️</div>
+        <div class="db-note-text">
+          <strong>Tabel <code>penawaran</code> yang perlu ditambahkan:</strong> <code>id_penawaran</code> (uuid, PK) · <code>id_pelanggan</code> (uuid, FK) · <code>id_kurir</code> (uuid, FK) · <code>id_pengiriman_draft</code> (uuid, FK) · <code>status</code> (varchar: pending/diterima/ditolak/kadaluarsa) · <code>expired_at</code> (timestamptz) · <code>created_at</code> (timestamptz)
+        </div>
+      </div>
+      <div class="callout warn">
+        <strong>Batas waktu respons:</strong> Set <code>expired_at = created_at + 2 menit</code>. Jika kurir tidak merespons sebelum waktu ini, status otomatis menjadi <em>kadaluarsa</em> dan pelanggan bisa memilih kurir lain. Bisa diimplementasikan via Supabase Edge Function atau cron job.
+      </div>
+    </section>
+
+    <!-- ─── 5. PENGIRIMAN ─────────────────────── -->
+    <section class="section" id="pengiriman">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(232,168,124,.1)">📦</div>
+        <div class="section-title-wrap">
+          <div class="section-title">PengirimanController</div>
+          <div class="section-sub">
+            <span class="chip chip-mod">DIMODIFIKASI</span>
+            <span>Tabel: <code>pengiriman</code>, <code>log_pengiriman</code></span>
+            <span class="role r-pelanggan">Pelanggan</span>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint / Fungsi</th><th>Deskripsi</th></tr></thead>
+          <tbody>
+            <tr><td><span class="verb v-post">POST</span></td><td class="mono">buatDraftPengiriman()</td><td class="desc">Pelanggan mengisi detail paket: alamat pengirim, alamat penerima, nama penerima, nomor telepon penerima, berat, estimasi biaya. <code>id_kurir</code> masih kosong di tahap ini</td></tr>
+            <tr><td><span class="verb v-post">POST</span></td><td class="mono">konfirmasiPengiriman(id_penawaran)</td><td class="desc">Dipanggil otomatis setelah kurir menerima penawaran. Mengisi <code>id_kurir</code> dan mengubah status menjadi <em>aktif</em></td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">riwayatPengiriman()</td><td class="desc">Daftar semua pengiriman milik pelanggan, termasuk yang sudah selesai dan yang sedang berjalan</td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">detailPengiriman(id)</td><td class="desc">Detail satu pengiriman beserta seluruh log status dari <code>log_pengiriman</code></td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">trackingLive(id)</td><td class="desc">Ambil koordinat terkini kurir (<code>lokasi_lat</code>, <code>lokasi_long</code>) untuk ditampilkan di peta secara real-time</td></tr>
+            <tr><td><span class="verb v-del">DEL</span></td><td class="mono">batalkanDraft(id)</td><td class="desc">Hapus draft pengiriman sebelum penawaran dikirim ke kurir</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">
+        <strong>Perubahan utama dari versi sebelumnya:</strong> <code>buatPengiriman()</code> dipecah menjadi dua tahap — <em>buatDraftPengiriman()</em> dan <em>konfirmasiPengiriman()</em>. Field <code>id_kurir</code> di tabel <code>pengiriman</code> tidak lagi diisi saat order dibuat, melainkan setelah kurir menyetujui penawaran.
+      </div>
+    </section>
+
+    <!-- ─── 6. RATING ─────────────────────────── -->
+    <section class="section" id="rating">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(212,196,126,.1)">⭐</div>
+        <div class="section-title-wrap">
+          <div class="section-title">RatingController</div>
+          <div class="section-sub">
+            <span class="chip chip-stable">STABLE</span>
+            <span>Tabel: <code>rating_kurir</code>, <code>kurir</code></span>
+            <span class="role r-pelanggan">Pelanggan</span>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint / Fungsi</th><th>Deskripsi</th></tr></thead>
+          <tbody>
+            <tr><td><span class="verb v-post">POST</span></td><td class="mono">beriRating(id_pengiriman)</td><td class="desc">Pelanggan memberi nilai (1–5) dan pesan ulasan ke kurir setelah paket diterima. Hanya bisa dilakukan satu kali per pengiriman</td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getRatingByPengiriman(id)</td><td class="desc">Cek apakah pelanggan sudah memberi rating untuk pengiriman tertentu</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip">
+        <strong>Rekomendasi:</strong> Setelah rating disimpan, hitung ulang rata-rata rating kurir dan update field <code>rating</code> di tabel <code>kurir</code>. Ini bisa dilakukan via Supabase database trigger: <code>UPDATE kurir SET rating = AVG(SELECT rating FROM rating_kurir WHERE id_kurir = ...)</code>.
+      </div>
+    </section>
+
+    <!-- ─── 7. KURIR ───────────────────────────── -->
+    <section class="section" id="kurir">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(232,168,124,.1)">🛵</div>
+        <div class="section-title-wrap">
+          <div class="section-title">KurirController</div>
+          <div class="section-sub">
+            <span class="chip chip-mod">DIMODIFIKASI</span>
+            <span>Tabel: <code>kurir</code>, <code>pengiriman</code></span>
+            <span class="role r-kurir">Kurir</span>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint / Fungsi</th><th>Deskripsi</th></tr></thead>
+          <tbody>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">setStatusOnline()</td><td class="desc"><strong>Baru.</strong> Kurir mengaktifkan diri agar muncul di daftar pilihan pelanggan. Update <code>status_kurir = 'online'</code> di tabel <code>kurir</code></td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">setStatusOffline()</td><td class="desc"><strong>Baru.</strong> Kurir menonaktifkan diri. Kurir tidak akan muncul di daftar dan tidak akan menerima permintaan baru</td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getPermintaanMasuk()</td><td class="desc"><strong>Baru.</strong> Daftar penawaran dengan status <em>pending</em> yang ditujukan ke kurir ini. Kurir memilih untuk menerima atau menolak dari sini</td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getTugasSaya()</td><td class="desc">Daftar pengiriman aktif yang sedang ditangani kurir (status: <em>diambil</em> atau <em>dalam_pengiriman</em>)</td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">updateLokasiKurir(lat, long)</td><td class="desc">Kurir mengirim koordinat GPS terkini. Update field <code>lokasi_lat</code> dan <code>lokasi_long</code> di tabel <code>kurir</code>. Dipanggil secara berkala (polling) dari aplikasi kurir</td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">updateStatusPengiriman(status)</td><td class="desc">Update status pengiriman: <em>diambil → dalam_pengiriman → terkirim</em>. Setiap update otomatis memanggil LogPengirimanController.tambahLog()</td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getRiwayatKurir()</td><td class="desc">Riwayat semua pengiriman yang pernah diselesaikan oleh kurir ini</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">
+        <strong>Field <code>status_kurir</code>:</strong> Field ini sudah ada di schema Anda. Gunakan nilai: <code>online</code> (siap menerima order), <code>sibuk</code> (sedang mengantar, tidak terima order baru), <code>offline</code> (tidak aktif). Status berubah otomatis ke <em>sibuk</em> saat kurir menerima penawaran, dan kembali ke <em>online</em> setelah pengiriman selesai.
+      </div>
+    </section>
+
+    <!-- ─── 8. LOG ─────────────────────────────── -->
+    <section class="section" id="log">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(126,184,212,.1)">📋</div>
+        <div class="section-title-wrap">
+          <div class="section-title">LogPengirimanController</div>
+          <div class="section-sub">
+            <span class="chip chip-stable">STABLE</span>
+            <span>Tabel: <code>log_pengiriman</code></span>
+            <span class="role r-pelanggan">Pelanggan</span>
+            <span class="role r-kurir">Kurir</span>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint / Fungsi</th><th>Deskripsi</th></tr></thead>
+          <tbody>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getLogByPengiriman(id)</td><td class="desc">Ambil seluruh riwayat perubahan status untuk satu pengiriman, diurutkan berdasarkan waktu. Menampilkan timeline perjalanan paket kepada pelanggan</td></tr>
+            <tr><td><span class="verb v-post">POST</span></td><td class="mono">tambahLog(id, status)</td><td class="desc">Tambah entri log baru. Bersifat <em>internal</em> — dipanggil otomatis dari KurirController setiap kali status pengiriman diupdate, bukan langsung dari request pengguna</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip">
+        <strong>Tips arsitektur:</strong> Pertimbangkan untuk menempatkan <code>tambahLog()</code> di <em>service layer</em> (bukan controller langsung), sehingga bisa dipanggil dari mana saja (KurirController, PenawaranController) tanpa duplikasi kode.
+      </div>
+    </section>
+
+    <!-- ─── 9. ADMIN ─────────────────────────── -->
+    <section class="section" id="admin">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(212,126,126,.1)">🛠</div>
+        <div class="section-title-wrap">
+          <div class="section-title">AdminController</div>
+          <div class="section-sub">
+            <span class="chip chip-stable">STABLE</span>
+            <span>Tabel: semua tabel</span>
+            <span class="role r-admin">Admin</span>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint / Fungsi</th><th>Deskripsi</th></tr></thead>
+          <tbody>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getAllPengiriman()</td><td class="desc">Pantau semua pengiriman aktif dan riwayat, dengan filter status dan tanggal</td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getAllAkun()</td><td class="desc">Daftar semua akun (pelanggan, kurir) dengan detail profil dan status</td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getAllKurir()</td><td class="desc">Daftar semua kurir beserta rating, status, dan riwayat pengiriman untuk keperluan evaluasi performa</td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">updateStatusAkun(id)</td><td class="desc">Aktifkan atau nonaktifkan akun pengguna (suspend akun bermasalah)</td></tr>
+            <tr><td><span class="verb v-del">DEL</span></td><td class="mono">deleteAkun(id)</td><td class="desc">Hapus akun pengguna beserta seluruh data terkait</td></tr>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getDashboardStats()</td><td class="desc">Rekap statistik: total pengiriman hari ini, total pendapatan, jumlah kurir aktif, rata-rata rating kurir</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">
+        <strong>Perubahan dari desain sebelumnya:</strong> Fungsi <code>assignKurir()</code> dihapus dari AdminController karena pemilihan kurir kini sepenuhnya dilakukan oleh pelanggan secara mandiri. Admin berperan sebagai monitor, bukan dispatcher.
+      </div>
+    </section>
+
+    <!-- ─── 10. SUPPORT ───────────────────────── -->
+    <section class="section" id="support">
+      <div class="section-header">
+        <div class="section-icon" style="background:rgba(176,126,212,.1)">💬</div>
+        <div class="section-title-wrap">
+          <div class="section-title">SupportController</div>
+          <div class="section-sub">
+            <span class="chip chip-stable">STABLE</span>
+            <span>Tabel: <code>support_center</code></span>
+            <span class="role r-admin">Admin</span>
+            <span class="role r-pelanggan">Pelanggan</span>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint / Fungsi</th><th>Deskripsi</th></tr></thead>
+          <tbody>
+            <tr><td><span class="verb v-get">GET</span></td><td class="mono">getAllFAQ()</td><td class="desc">Ambil semua FAQ yang dipublikasikan. Dapat diakses oleh pelanggan dan kurir tanpa login</td></tr>
+            <tr><td><span class="verb v-post">POST</span></td><td class="mono">tambahFAQ()</td><td class="desc">Admin menambahkan pertanyaan dan jawaban baru ke halaman support</td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">updateFAQ(id)</td><td class="desc">Admin mengedit pertanyaan atau jawaban yang sudah ada</td></tr>
+            <tr><td><span class="verb v-del">DEL</span></td><td class="mono">deleteFAQ(id)</td><td class="desc">Admin menghapus FAQ yang sudah tidak relevan</td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">voteHelpful(id)</td><td class="desc">Pelanggan memberi vote "membantu" — increment <code>good_scorse</code> di tabel <code>support_center</code></td></tr>
+            <tr><td><span class="verb v-put">PUT</span></td><td class="mono">voteNotHelpful(id)</td><td class="desc">Pelanggan memberi vote "tidak membantu" — increment <code>bad_score</code> di tabel <code>support_center</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout tip">
+        <strong>Memanfaatkan field yang sudah ada:</strong> Field <code>good_scorse</code> dan <code>bad_score</code> di tabel <code>support_center</code> sudah dirancang untuk sistem voting FAQ. Gunakan dua endpoint vote ini agar admin bisa mengetahui FAQ mana yang perlu diperbaiki (bad_score tinggi).
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Highlight nav link on scroll
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('aside a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`aside a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '-20% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  // Smooth scroll
+  navLinks.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+</body>
+</html>
