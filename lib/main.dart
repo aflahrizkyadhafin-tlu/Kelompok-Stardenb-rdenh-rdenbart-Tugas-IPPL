@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:setting_api/controllers/auth_controller.dart';
 import 'package:setting_api/controllers/connection.dart';
+import 'package:setting_api/controllers/loading_controller.dart';
 
 void main() {
+  Connection connection = Get.put(Connection());
   WidgetsFlutterBinding.ensureInitialized;
-  Connection.connectDB();
+  connection.connectDB();
 
   runApp(const MainApp());
 }
@@ -39,222 +41,236 @@ class MainApp extends StatelessWidget {
     String password = "098123";
     String newPassword = "098123";
     TextEditingController kodeOTP = TextEditingController();
+    LoadingController loading = Get.put(LoadingController());
 
     return GetMaterialApp(
       home: Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // ================================
-                // REGISTRASI
-                // ================================
-                Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+          child: Obx(
+            () => loading.getLoadingStatus().value
+                ? Center(child: CircularProgressIndicator(color: Colors.red))
+                : SingleChildScrollView(
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          "Registrasi",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        // ================================
+                        // REGISTRASI
+                        // ================================
+                        Card(
+                          elevation: 2,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Registrasi",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                ElevatedButton(
+                                  onPressed: () =>
+                                      controller.register(email, password),
+                                  child: const Text("Cek Register"),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () => controller.register(email, password),
-                          child: const Text("Cek Register"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
-                // ================================
-                // Login
-                // ================================
-                Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Login",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        // ================================
+                        // Login
+                        // ================================
+                        Card(
+                          elevation: 2,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Login",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                ElevatedButton(
+                                  onPressed: () => {
+                                    loading.show(),
+                                    controller.login(email, password),
+                                  },
+                                  child: const Text("Login"),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () => controller.login(email, password),
-                          child: const Text("Login"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
-                // ================================
-                // OTP EMAIL
-                // ================================
-                Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          "OTP Email",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        // ================================
+                        // OTP EMAIL
+                        // ================================
+                        Card(
+                          elevation: 2,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "OTP Email",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                TextField(
+                                  decoration: const InputDecoration(
+                                    hintText: "Kode OTP",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  controller: kodeOTP,
+                                ),
+                                const SizedBox(height: 8),
+                                ElevatedButton(
+                                  onPressed: () => controller.verifOTPEmail(
+                                    kodeOTP.text.trim(),
+                                    email,
+                                  ),
+                                  child: const Text("Verifikasi Token"),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        TextField(
-                          decoration: const InputDecoration(
-                            hintText: "Kode OTP",
-                            border: OutlineInputBorder(),
-                          ),
-                          controller: kodeOTP,
-                        ),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () => controller.verifOTPEmail(
-                            kodeOTP.text.trim(),
-                            email,
-                          ),
-                          child: const Text("Verifikasi Token"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
-                // ================================
-                // GANTI NOMOR TELEPON & OTP
-                // ================================
-                Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Ganti Nomor Telepon",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        // ================================
+                        // GANTI NOMOR TELEPON & OTP
+                        // ================================
+                        Card(
+                          elevation: 2,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Ganti Nomor Telepon",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                ElevatedButton(
+                                  onPressed: () => controller.gantiNomorTelepon(
+                                    nomorTelepon,
+                                  ),
+                                  child: const Text("Ganti Nomor"),
+                                ),
+                                const SizedBox(height: 12),
+                                TextField(
+                                  decoration: const InputDecoration(
+                                    hintText: "Kode OTP Nomor",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  controller: kodeOTP,
+                                ),
+                                const SizedBox(height: 8),
+                                ElevatedButton(
+                                  onPressed: () => controller.verifOTPTelepon(
+                                    nomorTelepon,
+                                    kodeOTP.text.trim(),
+                                  ),
+                                  child: const Text("Verifikasi Token"),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () =>
-                              controller.gantiNomorTelepon(nomorTelepon),
-                          child: const Text("Ganti Nomor"),
-                        ),
-                        const SizedBox(height: 12),
-                        TextField(
-                          decoration: const InputDecoration(
-                            hintText: "Kode OTP Nomor",
-                            border: OutlineInputBorder(),
-                          ),
-                          controller: kodeOTP,
-                        ),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () => controller.verifOTPTelepon(
-                            nomorTelepon,
-                            kodeOTP.text.trim(),
-                          ),
-                          child: const Text("Verifikasi Token"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
-                // ================================
-                // MANAJEMEN USER
-                // ================================
-                Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Manajemen User",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        // ================================
+                        // MANAJEMEN USER
+                        // ================================
+                        Card(
+                          elevation: 2,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Manajemen User",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                ElevatedButton(
+                                  onPressed: () => controller.cekUser(),
+                                  child: const Text("Cek User"),
+                                ),
+                                const SizedBox(height: 8),
+                                ElevatedButton(
+                                  onPressed: () => {
+                                    loading.show(),
+                                    controller.logout(),
+                                  },
+                                  child: const Text("Logout"),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () => controller.cekUser(),
-                          child: const Text("Cek User"),
-                        ),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () => controller.logout(),
-                          child: const Text("Logout"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
-                // ================================
-                // PASSWORD (LUPA / GANTI)
-                // ================================
-                Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Lupa / Ganti Password",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        // ================================
+                        // PASSWORD (LUPA / GANTI)
+                        // ================================
+                        Card(
+                          elevation: 2,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Lupa / Ganti Password",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                ElevatedButton(
+                                  onPressed: () =>
+                                      controller.sendOTPPassword(email),
+                                  child: const Text(
+                                    "Send OTP Password",
+                                  ), // Nama tombol diperbaiki
+                                ),
+                                const SizedBox(height: 8),
+                                ElevatedButton(
+                                  onPressed: () => controller.changePassword(
+                                    kodeOTP.text.trim(),
+                                    newPassword,
+                                    email,
+                                  ),
+                                  child: const Text("Change Password"),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () => controller.sendOTPPassword(email),
-                          child: const Text(
-                            "Send OTP Password",
-                          ), // Nama tombol diperbaiki
-                        ),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () => controller.changePassword(
-                            kodeOTP.text.trim(),
-                            newPassword,
-                            email,
-                          ),
-                          child: const Text("Change Password"),
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
           ),
         ),
       ),

@@ -1,8 +1,11 @@
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 import 'package:setting_api/controllers/connection.dart';
+import 'package:setting_api/controllers/loading_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthController extends GetxController {
+  LoadingController loadingController = Get.put(LoadingController());
+
   Future<void> register(String email, String password) async {
     try {
       await db.auth.signUp(password: password, email: email);
@@ -62,6 +65,7 @@ class AuthController extends GetxController {
       } else {
         print("[Login] : Akun tidak ditemukan");
       }
+      loadingController.hide();
     } catch (e) {
       print("[Login] #error: $e");
     }
@@ -71,6 +75,7 @@ class AuthController extends GetxController {
     try {
       await db.auth.signOut();
       print("[logout] : User telah logout");
+      loadingController.hide();
     } catch (e) {
       print("[logout] #Error : $e");
     }
