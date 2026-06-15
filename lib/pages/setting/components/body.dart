@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'statususerpage.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -8,7 +9,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  bool isDriverRole = false; // Status untuk switch 'Role : Pengguna'
+  bool isDriverRole = false;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class _BodyState extends State<Body> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- HEADER SECTION WITH GRADIENT ---
+            // Header
             Stack(
               clipBehavior: Clip.none,
               children: [
@@ -30,8 +31,9 @@ class _BodyState extends State<Body> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Color(0xFFB71C1C), // Merah tua atas
-                        Color(0xFFEF5350), // Merah terang bawah
+                        //Gradient
+                        Color(0xFFB71C1C),
+                        Color(0xFFEF5350),
                       ],
                     ),
                     borderRadius: BorderRadius.only(
@@ -65,7 +67,7 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
-                // --- PROFILE CARD (FLOATING) ---
+                // Profile Card
                 Positioned(
                   top: 140,
                   left: 20,
@@ -116,7 +118,7 @@ class _BodyState extends State<Body> {
                             ),
                             SizedBox(height: 2),
                             Text(
-                              '+60 812345678900',
+                              '+62 812345678900',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey,
@@ -131,10 +133,8 @@ class _BodyState extends State<Body> {
               ],
             ),
 
-            const SizedBox(
-              height: 80,
-            ), // Jarak aman setelah profile card yang floating
-            // --- MENU GROUPS ---
+            const SizedBox(height: 80),
+            // Menu List
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -164,6 +164,29 @@ class _BodyState extends State<Body> {
                       setState(() {
                         isDriverRole = value;
                       });
+
+                      String statusTeks = value ? 'Driver' : 'Umum';
+
+                      // Animasi & Nav
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  StatusUserPage(statusRole: statusTeks),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                          transitionDuration: const Duration(milliseconds: 400),
+                          reverseTransitionDuration: const Duration(
+                            milliseconds: 400,
+                          ),
+                        ),
+                      );
                     },
                   ),
 
@@ -212,14 +235,13 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // Widget Helper untuk Judul Kategori (Preferensi, Aktivitas, Lainnya)
   Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
       child: Text(
         title,
         style: const TextStyle(
-        fontSize: 12,
+          fontSize: 12,
           fontWeight: FontWeight.w600,
           color: Colors.grey,
         ),
@@ -227,7 +249,6 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // Widget Helper untuk Baris Menu Standar (Dengan Panah Kanan)
   Widget _buildMenuItem(
     IconData icon,
     String title, {
@@ -254,7 +275,6 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // Widget Helper khusus untuk Menu yang memiliki Switch (seperti Role Pengguna)
   Widget _buildMenuSwitchItem(
     IconData icon,
     String title,
