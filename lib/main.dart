@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:setting_api/controllers/auth_controller.dart';
 import 'package:setting_api/controllers/connection.dart';
-import 'package:setting_api/controllers/loading_controller.dart';
 import 'package:setting_api/router.dart';
 
 void main() {

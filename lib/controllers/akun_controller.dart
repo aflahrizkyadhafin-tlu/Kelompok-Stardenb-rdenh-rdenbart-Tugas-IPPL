@@ -10,8 +10,28 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AkunController extends GetxController {
   LoadingController loadingController = Get.put(LoadingController());
+  RxList profileAkun = [].obs;
 
-  Future<void> getProfile() async {}
+  Future<void> getProfile() async {
+    try {
+      final user = db.auth.currentUser;
+
+      if (user != null) {
+        final profile = await db
+            .from("akun")
+            .select(
+              'id_akun, username, nama_lengkap, alamat, nomor_telepon, role, foto_profile',
+            )
+            .eq("id_user", user.id);
+        profileAkun.value = profile;
+
+        print("[getProfile] : $profile");
+      }
+    } catch (e) {
+      print("[getProfile] #Error : $e");
+    }
+    loadingController.hide();
+  }
 
   Future<void> updateProfile() async {}
 

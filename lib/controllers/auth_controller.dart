@@ -89,7 +89,7 @@ class AuthController extends GetxController {
 
   Future<void> cekUser() async {
     try {
-      final user = await db.auth.currentUser;
+      final user = db.auth.currentUser;
       print("[cekUser] : $user");
     } catch (e) {
       print("[CekUser] #Error : $e");

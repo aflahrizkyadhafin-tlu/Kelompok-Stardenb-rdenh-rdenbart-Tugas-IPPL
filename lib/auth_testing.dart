@@ -259,31 +259,6 @@ class AuthTesting extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Card(
-                        elevation: 2,
-                        margin: const EdgeInsets.only(bottom: 16),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                "Ganti Page",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              ElevatedButton(
-                                onPressed: () => Get.toNamed("/testingphoto"),
-                                child: const Text(
-                                  "Testing Photo",
-                                ), // Nama tombol diperbaiki
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),

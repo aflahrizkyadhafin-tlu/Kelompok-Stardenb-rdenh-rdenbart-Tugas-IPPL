@@ -8,7 +8,7 @@ class PhotoTesting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthController authController = Get.find();
+    AuthController authController = Get.put(AuthController());
     AkunController akunController = Get.put(AkunController());
 
     return Scaffold(
