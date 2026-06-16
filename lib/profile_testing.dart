@@ -27,17 +27,20 @@ class ProfileTesting extends StatelessWidget {
                         },
                         child: Text("getProfile"),
                       ),
-                      akunController.profileAkun.isNotEmpty
+                      akunController.profileAkun.value != null
                           ? Column(
                               children: [
                                 Text(
-                                  "id akun : ${akunController.profileAkun[0]["id_akun"]}",
+                                  "id akun : ${akunController.profileAkun.value!.idAkun}",
                                 ),
                                 Text(
-                                  "username : ${akunController.profileAkun[0]["username"]}",
+                                  "username : ${akunController.profileAkun.value!.username}",
                                 ),
                                 Image.network(
-                                  akunController.profileAkun[0]["foto_profile"],
+                                  akunController
+                                      .profileAkun
+                                      .value!
+                                      .fotoProfile!,
                                 ),
                               ],
                             )

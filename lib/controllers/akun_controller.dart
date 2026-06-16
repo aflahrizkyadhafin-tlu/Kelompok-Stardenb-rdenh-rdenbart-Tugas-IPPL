@@ -6,11 +6,12 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:setting_api/controllers/connection.dart';
 import 'package:setting_api/controllers/loading_controller.dart';
+import 'package:setting_api/models/akun.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AkunController extends GetxController {
   LoadingController loadingController = Get.put(LoadingController());
-  RxList profileAkun = [].obs;
+  Rxn<Akun> profileAkun = Rxn<Akun>();
 
   Future<void> getProfile() async {
     try {
@@ -20,10 +21,12 @@ class AkunController extends GetxController {
         final profile = await db
             .from("akun")
             .select(
-              'id_akun, username, nama_lengkap, alamat, nomor_telepon, role, foto_profile',
+              'id_akun, username, nama_lengkap, alamat, role, foto_profile',
             )
-            .eq("id_user", user.id);
-        profileAkun.value = profile;
+            .eq("id_user", user.id)
+            .maybeSingle();
+
+        profileAkun.value = Akun.fromJson(profile!);
 
         print("[getProfile] : $profile");
       }
