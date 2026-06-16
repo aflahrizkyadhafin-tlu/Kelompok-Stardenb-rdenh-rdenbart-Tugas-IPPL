@@ -23,13 +23,7 @@ class Akun {
     );
   }
 
-  Map<String, dynamic> toMap(
-    String idAkun,
-    String username,
-    String namaLengkap,
-    String alamat,
-    String fotoProfile,
-  ) {
+  Map<String, dynamic> toMap() {
     Map<String, dynamic> jsonData = {
       "id_akun": idAkun,
       "username": username,

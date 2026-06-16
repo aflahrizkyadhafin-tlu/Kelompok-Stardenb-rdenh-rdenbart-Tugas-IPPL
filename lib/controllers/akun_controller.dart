@@ -36,7 +36,23 @@ class AkunController extends GetxController {
     loadingController.hide();
   }
 
-  Future<void> updateProfile() async {}
+  Future<void> updateProfile(Akun updateData) async {
+    Map<String, dynamic> jsonData = updateData.toMap();
+    final user = db.auth.currentUser;
+
+    if (jsonData.isNotEmpty) {
+      try {
+        await db
+            .from("akun")
+            .update(jsonData)
+            .eq("id_user", user!.id)
+            .then((v) => getProfile());
+        print("[updateProfile] : Data dengan id ${user.id}berhasil di update");
+      } catch (e) {
+        print("[updateProfile] #Error : $e");
+      }
+    }
+  }
 
   final selectedImage = Rxn<File>();
   RxString imageURL = "".obs;

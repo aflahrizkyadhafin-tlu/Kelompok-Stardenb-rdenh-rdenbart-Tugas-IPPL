@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:setting_api/controllers/akun_controller.dart';
 import 'package:setting_api/controllers/loading_controller.dart';
+import 'package:setting_api/models/akun.dart';
 
 class ProfileTesting extends StatelessWidget {
   const ProfileTesting({super.key});
@@ -12,6 +13,8 @@ class ProfileTesting extends StatelessWidget {
     AkunController akunController = Get.put(AkunController());
     LoadingController loadingController = Get.find();
 
+    Akun updateData = Akun(alamat: "Pangandaran");
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -20,12 +23,64 @@ class ProfileTesting extends StatelessWidget {
                 ? CircularProgressIndicator()
                 : Column(
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          loadingController.show();
-                          akunController.getProfile();
-                        },
-                        child: Text("getProfile"),
+                      // ================================
+                      // Get Profile
+                      // ================================
+                      Card(
+                        elevation: 2,
+                        margin: const EdgeInsets.only(bottom: 16),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Get Profile",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              ElevatedButton(
+                                onPressed: () {
+                                  loadingController.show();
+                                  akunController.getProfile();
+                                },
+                                child: Text("getProfile"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      // ================================
+                      // Update Profile
+                      // ================================
+                      Card(
+                        elevation: 2,
+                        margin: const EdgeInsets.only(bottom: 16),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Update Profile",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              ElevatedButton(
+                                onPressed: () {
+                                  loadingController.show();
+                                  akunController.updateProfile(updateData);
+                                },
+                                child: Text("Update Profile"),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       akunController.profileAkun.value != null
                           ? Column(
@@ -36,11 +91,15 @@ class ProfileTesting extends StatelessWidget {
                                 Text(
                                   "username : ${akunController.profileAkun.value!.username}",
                                 ),
+                                Text(
+                                  "alamat : ${akunController.profileAkun.value!.alamat}",
+                                ),
                                 Image.network(
                                   akunController
                                       .profileAkun
                                       .value!
                                       .fotoProfile!,
+                                  width: 200,
                                 ),
                               ],
                             )
