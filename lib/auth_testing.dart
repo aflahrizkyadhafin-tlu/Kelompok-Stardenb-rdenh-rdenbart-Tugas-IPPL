@@ -64,8 +64,8 @@ class AuthTesting extends StatelessWidget {
                               const SizedBox(height: 8),
                               ElevatedButton(
                                 onPressed: () => {
-                                  loading.show(),
-                                  controller.register(email, password),
+                                  // loading.show(),
+                                  // controller.register(email, password),
                                 },
                                 child: const Text("Cek Register"),
                               ),

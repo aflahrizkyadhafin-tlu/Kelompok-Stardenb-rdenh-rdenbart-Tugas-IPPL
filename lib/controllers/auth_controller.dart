@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:setting_api/controllers/connection.dart';
 import 'package:setting_api/controllers/loading_controller.dart';
@@ -91,6 +92,7 @@ class AuthController extends GetxController {
     try {
       final user = db.auth.currentUser;
       print("[cekUser] : $user");
+      Get.defaultDialog(content: Text(user.toString()), title: "getProfile");
     } catch (e) {
       print("[CekUser] #Error : $e");
     }

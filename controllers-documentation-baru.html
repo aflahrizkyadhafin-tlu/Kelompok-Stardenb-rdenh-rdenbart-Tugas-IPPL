@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dokumentasi Controller Baru — Ekstensi Sistem MyKurir</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:        #0D0F0E;
+    --bg2:       #131614;
+    --bg3:       #1A1D1B;
+    --border:    #252926;
+    --border2:   #2F332E;
+    --text:      #E8EDE9;
+    --text2:     #8A9689;
+    --text3:     #5C6659;
+    --accent:    #A8D5A2;
+    --accent2:   #6FB868;
+    --orange:    #E8A87C;
+    --blue:      #7EB8D4;
+    --red:       #D47E7E;
+    --yellow:    #D4C47E;
+    --purple:    #B07ED4;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* Sidebar Styling */
+  aside {
+    width: 300px;
+    background-color: var(--bg2);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 40px 24px;
+    overflow-y: auto;
+    z-index: 10;
+  }
+
+  .brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    color: var(--accent);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .brand span {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    background: var(--border);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--text2);
+    font-weight: 400;
+  }
+
+  nav ul {
+    list-style: none;
+  }
+
+  nav .nav-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text3);
+    margin: 24px 0 12px 0;
+    font-weight: 700;
+  }
+
+  nav a {
+    display: block;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  nav a:hover {
+    background-color: var(--bg3);
+    color: var(--text);
+  }
+
+  nav a.active {
+    background-color: var(--border);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Main Content Styling */
+  main {
+    margin-left: 300px;
+    flex: 1;
+    padding: 60px 80px;
+    max-width: 1200px;
+  }
+
+  header {
+    margin-bottom: 60px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 40px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 38px;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    color: var(--text2);
+    font-size: 18px;
+    font-weight: 300;
+  }
+
+  .section {
+    margin-bottom: 80px;
+    scroll-margin-top: 40px;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  h2::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 24px;
+    background-color: var(--accent);
+    border-radius: 2px;
+  }
+
+  p {
+    color: var(--text2);
+    margin-bottom: 24px;
+    max-width: 800px;
+  }
+
+  /* Table Design */
+  .table-container {
+    background-color: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  th {
+    background-color: var(--bg3);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  td {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    font-size: 14px;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Badges */
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .badge.post { background-color: rgba(110, 184, 104, 0.15); color: var(--accent2); }
+  .badge.get { background-color: rgba(126, 184, 212, 0.15); color: var(--blue); }
+  .badge.put { background-color: rgba(232, 168, 124, 0.15); color: var(--orange); }
+  .badge.delete { background-color: rgba(212, 126, 126, 0.15); color: var(--red); }
+  
+  .badge.role {
+    background-color: var(--bg3);
+    color: var(--text2);
+    border: 1px solid var(--border2);
+    font-size: 11px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+  
+  .badge.role.admin { border-color: rgba(176, 126, 212, 0.4); color: var(--purple); }
+
+  .endpoint-path {
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    color: var(--text);
+    display: block;
+    margin-top: 4px;
+  }
+
+  .desc {
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  /* Callouts */
+  .callout {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--bg2);
+    border-left: 4px solid var(--border);
+    margin-bottom: 32px;
+  }
+
+  .callout.tip {
+    border-left-color: var(--accent);
+    background-color: rgba(168, 213, 162, 0.03);
+  }
+
+  .callout.security {
+    border-left-color: var(--orange);
+    background-color: rgba(232, 168, 124, 0.03);
+  }
+
+  .callout strong {
+    display: block;
+    margin-bottom: 6px;
+    font-family: 'Syne', sans-serif;
+    color: var(--text);
+  }
+
+  /* JSON and Code blocks */
+  pre {
+    background-color: #080A09;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: #C5CFC4;
+    margin-top: 10px;
+  }
+
+  .json-key { color: var(--accent); }
+  .json-string { color: var(--orange); }
+  .json-number { color: var(--blue); }
+  .json-boolean { color: var(--purple); }
+
+  /* Details tag for payloads */
+  details {
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  details summary {
+    font-size: 12px;
+    font-family: 'Syne', sans-serif;
+    color: var(--text3);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    outline: none;
+    user-select: none;
+  }
+
+  details summary:hover {
+    color: var(--text2);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    aside { width: 240px; }
+    main { margin-left: 240px; padding: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <aside>
+    <div class="brand">
+      MyKurir Docs <span>v2.0-ext</span>
+    </div>
+    <nav>
+      <div class="nav-label">Ekstensi Baru</div>
+      <ul>
+        <li><a href="#laporan-ctrl" class="active">LaporanController</a></li>
+        <li><a href="#dokumen-ctrl">DokumenDriverController</a></li>
+        <li><a href="#rating-ctrl">RatingAplikasiController</a></li>
+      </ul>
+      <div class="nav-label">Informasi Skema</div>
+      <ul>
+        <li><a href="#skema-db" style="font-size: 13px; color: var(--text3);">Lihat Relasi Database</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main>
+    <header>
+      <h1>Dokumentasi Controller Tambahan</h1>
+      <div class="subtitle">Spesifikasi API Endpoint Baru untuk Melengkapi Skema Database MyKurir</div>
+    </header>
+
+    <!-- SECTION 1: LAPORAN CONTROLLER -->
+    <section id="laporan-ctrl" class="section">
+      <h2>LaporanController</h2>
+      <p>
+        Menangani semua fungsi pelaporan atau komplain antar pengguna sistem (misalnya Pelanggan melaporkan Kurir, atau sebaliknya). Controller ini memetakan data langsung ke tabel <code>public.laporan</code> dan mengelola relasi ganda terhadap tabel <code>public.akun</code>.
+      </p>
+
+      <div class="callout security">
+        <strong>Aturan Validasi Keamanan & Sesi:</strong>
+        Field <code>reporter_id</code> TIDAK BOLEH dikirim melalui body request oleh client. Backend wajib mengambil UUID dari payload token JWT atau sesi autentikasi pengguna aktif untuk menghindari manipulasi identitas pelapor.
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Endpoint & Method</th>
+              <th style="width: 45%;">Fungsi & Payload</th>
+              <th style="width: 30%;">Otorisasi Akses</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="badge post">POST</span>
+                <span class="endpoint-path">/api/laporan</span>
+              </td>
+              <td class="desc">
+                <strong>buatLaporan()</strong><br>
+                Membuat entri komplain baru di database.
+                <details>
+                  <summary>Lihat JSON Payload</summary>
+                  <pre>{
+  "<span class="json-key">reported_id</span>": "<span class="json-string">d3b07384-d113-4c4e-9c8e-cf1234567890</span>",
+  "<span class="json-key">pesan</span>": "<span class="json-string">Kurir tidak ramah dan paket dilempar ke pagar halaman.</span>"
+}</pre>
+                </details>
+              </td>
+              <td>
+                <span class="badge role">Pelanggan</span>
+                <span class="badge role">Kurir</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge get">GET</span>
+                <span class="endpoint-path">/api/laporan/me</span>
+              </td>
+              <td class="desc">
+                <strong>getLaporanSaya()</strong><br>
+                Mengambil semua riwayat laporan yang pernah dikirim oleh pengguna saat ini (Filter: <code>reporter_id = auth.uid()</code>).
+              </td>
+              <td>
+                <span class="badge role">Pelanggan</span>
+                <span class="badge role">Kurir</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge get">GET</span>
+                <span class="endpoint-path">/api/admin/laporan</span>
+              </td>
+              <td class="desc">
+                <strong>getAllLaporan()</strong><br>
+                Menampilkan seluruh laporan masuk untuk tim Admin. Query harus melakukan <code>JOIN</code> sebanyak dua kali ke tabel <code>akun</code> untuk mengambil data <code>nama_lengkap</code> pelapor dan terlapor.
+              </td>
+              <td>
+                <span class="badge role admin">Admin</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge get">GET</span>
+                <span class="endpoint-path">/api/admin/laporan/:id</span>
+              </td>
+              <td class="desc">
+                <strong>getDetailLaporan(id)</strong><br>
+                Mengambil satu record laporan secara mendalam beserta detail kontak dari kedua belah pihak untuk keperluan investigasi.
+              </td>
+              <td>
+                <span class="badge role admin">Admin</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge delete">DELETE</span>
+                <span class="endpoint-path">/api/admin/laporan/:id</span>
+              </td>
+              <td class="desc">
+                <strong>hapusLaporan(id)</strong><br>
+                Menghapus pengajuan laporan dari database apabila masalah dinyatakan selesai (resolved) atau terbukti sebagai laporan palsu (spam).
+              </td>
+              <td>
+                <span class="badge role admin">Admin</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 2: DOKUMEN DRIVER CONTROLLER -->
+    <section id="dokumen-ctrl" class="section">
+      <h2>DokumenDriverController</h2>
+      <p>
+        Bertanggung jawab atas manajemen berkas administrasi dan verifikasi dokumen legalitas kurir. Controller ini memproses data pada tabel <code>public.dokumen_driver</code> yang menyimpan status validasi (<code>pending</code>, <code>approved</code>, <code>rejected</code>) serta tautan penyimpanan awan untuk KTP dan SIM.
+      </p>
+
+      <div class="callout tip">
+        <strong>Alur Kerja Cloud Storage:</strong>
+        Backend tidak menerima file raw biner pada endpoint ini. Aplikasi mobile/frontend mengunggah file gambar ke objek storage (misal Supabase Bucket) terlebih dahulu, kemudian mengirimkan string URL publiknya ke API ini.
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Endpoint & Method</th>
+              <th style="width: 45%;">Fungsi & Payload</th>
+              <th style="width: 30%;">Otorisasi Akses</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="badge post">POST</span>
+                <span class="endpoint-path">/api/driver/dokumen</span>
+              </td>
+              <td class="desc">
+                <strong>uploadDokumen()</strong><br>
+                Mengajukan berkas baru untuk diverifikasi. Field <code>status</code> di tingkat database otomatis di-set ke <code>pending</code> lewat default constraint.
+                <details>
+                  <summary>Lihat JSON Payload</summary>
+                  <pre>{
+  "<span class="json-key">kartu_identitas</span>": "<span class="json-string">https://storage.mykurir.com/ktp/user-771.jpg</span>",
+  "<span class="json-key">surat_izin_mengemudi</span>": "<span class="json-string">https://storage.mykurir.com/sim/user-771.jpg</span>"
+}</pre>
+                </details>
+              </td>
+              <td>
+                <span class="badge role">Kurir (Calon)</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge get">GET</span>
+                <span class="endpoint-path">/api/driver/dokumen/status</span>
+              </td>
+              <td class="desc">
+                <strong>cekStatusDokumen()</strong><br>
+                Mengecek status terkini verifikasi dokumen milik driver yang sedang login (apakah disetujui, ditolak, atau masih diproses).
+              </td>
+              <td>
+                <span class="badge role">Kurir</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge put">PUT</span>
+                <span class="endpoint-path">/api/driver/dokumen</span>
+              </td>
+              <td class="desc">
+                <strong>perbaruiDokumen()</strong><br>
+                Mengunggah ulang berkas perbaikan apabila pendaftaran sebelumnya ditolak oleh admin. Aksi ini otomatis mengembalikan status menjadi <code>pending</code>.
+              </td>
+              <td>
+                <span class="badge role">Kurir</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge get">GET</span>
+                <span class="endpoint-path">/api/admin/dokumen/pending</span>
+              </td>
+              <td class="desc">
+                <strong>getDokumenPending()</strong><br>
+                Menampilkan antrean seluruh dokumen calon kurir yang berstatus <code>pending</code> untuk segera diperiksa oleh tim Admin.
+              </td>
+              <td>
+                <span class="badge role admin">Admin</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge put">PUT</span>
+                <span class="endpoint-path">/api/admin/dokumen/:id/verifikasi</span>
+              </td>
+              <td class="desc">
+                <strong>verifikasiDokumen(id)</strong><br>
+                Mengubah status dokumen kurir. Jika status dirubah menjadi 'approved', sistem disarankan memicu perubahan status kurir menjadi aktif secara otomatis.
+                <details>
+                  <summary>Lihat JSON Payload</summary>
+                  <pre>{
+  "<span class="json-key">status</span>": "<span class="json-string">approved</span>" <span class="json-text">// atau 'rejected'</span>
+}</pre>
+                </details>
+              </td>
+              <td>
+                <span class="badge role admin">Admin</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 3: RATING APLIKASI CONTROLLER -->
+    <section id="rating-ctrl" class="section">
+      <h2>RatingAplikasiController</h2>
+      <p>
+        Mengelola umpan balik global pengguna terhadap kualitas platform aplikasi MyKurir secara keseluruhan. Terpisah dari ulasan performa kurir jalanan, data ini mendarat di tabel <code>public.rating_aplikasi</code>.
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">Endpoint & Method</th>
+              <th style="width: 45%;">Fungsi & Payload</th>
+              <th style="width: 30%;">Otorisasi Akses</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="badge post">POST</span>
+                <span class="endpoint-path">/api/rating-aplikasi</span>
+              </td>
+              <td class="desc">
+                <strong>buatRating()</strong><br>
+                Menyimpan ulasan baru dari pengguna aplikasi. Nilai skor mendukung tipe data pecahan desimal (<code>real</code>).
+                <details>
+                  <summary>Lihat JSON Payload</summary>
+                  <pre>{
+  "<span class="json-key">skor</span>": <span class="json-number">4.5</span>,
+  "<span class="json-key">pesan</span>": "<span class="json-string">UI aplikasi sangat responsif, tapi pelacakan peta perlu sedikit akurasi tambahan.</span>"
+}</pre>
+                </details>
+              </td>
+              <td>
+                <span class="badge role">Pelanggan</span>
+                <span class="badge role">Kurir</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge get">GET</span>
+                <span class="endpoint-path">/api/rating-aplikasi/me</span>
+              </td>
+              <td class="desc">
+                <strong>getRatingSaya()</strong><br>
+                Membaca ulasan yang pernah dikirimkan oleh pengguna terkait guna ditampilkan di halaman profil mereka masing-masing.
+              </td>
+              <td>
+                <span class="badge role">Pelanggan</span>
+                <span class="badge role">Kurir</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge get">GET</span>
+                <span class="endpoint-path">/api/admin/rating-aplikasi</span>
+              </td>
+              <td class="desc">
+                <strong>getAllRating()</strong><br>
+                Mengambil seluruh rekaman rating dari semua pengguna aplikasi, diurutkan dari yang paling baru (<code>created_at DESC</code>).
+              </td>
+              <td>
+                <span class="badge role admin">Admin</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge get">GET</span>
+                <span class="endpoint-path">/api/admin/rating-aplikasi/statistik</span>
+              </td>
+              <td class="desc">
+                <strong>getStatistikRating()</strong><br>
+                Menghitung agregasi data untuk ringkasan visual Dashboard Admin. Output berupa rata-rata nilai bintang (AVG skor) dan total distribusi rating.
+              </td>
+              <td>
+                <span class="badge role admin">Admin</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="badge delete">DELETE</span>
+                <span class="endpoint-path">/api/admin/rating-aplikasi/:id</span>
+              </td>
+              <td class="desc">
+                <strong>hapusRating(id)</strong><br>
+                Menghapus paksa ulasan dari database apabila mengandung unsur spam, ujaran kebencian, atau kata-kata yang melanggar ketentuan platform.
+              </td>
+              <td>
+                <span class="badge role admin">Admin</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SCHEMA INTEGRITY FOOTER -->
+    <section id="skema-db" class="section" style="border-top: 1px solid var(--border); padding-top: 40px;">
+      <h2 style="color: var(--text2);">Integritas Relasi Database</h2>
+      <p style="font-size: 14px;">
+        Dokumen ini dibuat untuk melengkapi spesifikasi controller utama yang telah diimplementasikan sebelumnya. Semua controller di atas wajib mematuhi skema foreign key constraint yang didefinisikan pada database PostgreSQL/Supabase Anda guna mencegah adanya kegagalan referensi data (<em>orphan records</em>).
+      </p>
+    </section>
+  </main>
+</div>
+
+<script>
+  // Simple active visual state switching for sidebar
+  const links = document.querySelectorAll('nav a');
+  links.forEach(link => {
+    link.addEventListener('click', function() {
+      links.forEach(l => l.classList.remove('active'));
+      if(this.getAttribute('href').startsWith('#')) {
+        this.classList.add('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

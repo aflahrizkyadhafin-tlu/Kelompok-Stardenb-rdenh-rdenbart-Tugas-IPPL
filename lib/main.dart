@@ -4,7 +4,7 @@ import 'package:setting_api/controllers/connection.dart';
 import 'package:setting_api/router.dart';
 
 void main() {
-  Connection connection = Get.put(Connection());
+  final Connection connection = Get.put(Connection());
   WidgetsFlutterBinding.ensureInitialized;
   connection.connectDB();
 

@@ -10,10 +10,10 @@ class ProfileTesting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AkunController akunController = Get.put(AkunController());
-    LoadingController loadingController = Get.find();
+    final AkunController akunController = Get.put(AkunController());
+    final LoadingController loadingController = Get.find();
 
-    Akun updateData = Akun(alamat: "Pangandaran");
+    Akun updateData = Akun(alamat: "Bandung");
 
     return Scaffold(
       body: SafeArea(
@@ -94,12 +94,21 @@ class ProfileTesting extends StatelessWidget {
                                 Text(
                                   "alamat : ${akunController.profileAkun.value!.alamat}",
                                 ),
-                                Image.network(
-                                  akunController
-                                      .profileAkun
-                                      .value!
-                                      .fotoProfile!,
-                                  width: 200,
+                                ClipRRect(
+                                  borderRadius: BorderRadiusGeometry.all(
+                                    Radius.circular(
+                                      MediaQuery.sizeOf(context).height,
+                                    ),
+                                  ),
+                                  child: Image.network(
+                                    akunController
+                                        .profileAkun
+                                        .value!
+                                        .fotoProfile!,
+                                    width: 300,
+                                    height: 300,
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
                               ],
                             )
