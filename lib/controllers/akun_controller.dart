@@ -30,6 +30,10 @@ class AkunController extends GetxController {
         profileAkun.value = Akun.fromJson(profile!);
 
         print("[getProfile] : $profile");
+        Get.defaultDialog(
+          content: Text(profile.toString()),
+          title: "getProfile",
+        );
       }
     } catch (e) {
       print("[getProfile] #Error : $e");

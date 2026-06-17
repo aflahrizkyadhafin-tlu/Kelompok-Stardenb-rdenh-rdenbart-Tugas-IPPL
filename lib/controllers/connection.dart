@@ -13,9 +13,10 @@ class Connection {
         anonKey: 'sb_publishable_dgBbyZztR5oY0nI5u1GzyA_HL1X1Aae  ',
       );
       print("Connection : Koneksi ke Supabase Berhasil");
-      loadingController.hide();
     } catch (e) {
       print("Connection #Error : $e");
+    } finally {
+      loadingController.hide();
     }
   }
 }

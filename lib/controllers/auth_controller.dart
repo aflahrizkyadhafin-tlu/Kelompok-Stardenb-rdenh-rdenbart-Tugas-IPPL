@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:setting_api/controllers/connection.dart';
 import 'package:setting_api/controllers/loading_controller.dart';
@@ -13,8 +12,9 @@ class AuthController extends GetxController {
       print("[Register] : Kode OTP berhasil dikirim");
     } catch (e) {
       print("[Register] #Error: $e");
+    } finally {
+      loadingController.hide();
     }
-    loadingController.hide();
   }
 
   Future<void> verifOTPEmail(String kodeOTP, String email) async {
@@ -27,8 +27,9 @@ class AuthController extends GetxController {
       print("[verifOTP] : $response");
     } catch (e) {
       print("[verifOTP] #Error : $e");
+    } finally {
+      loadingController.hide();
     }
-    loadingController.hide();
   }
 
   Future<void> gantiNomorTelepon(String nomorTelepon) async {
@@ -37,8 +38,9 @@ class AuthController extends GetxController {
       print("[gantiNomorTelepon] : Kode OTP berhasil dikirim");
     } catch (e) {
       print("[gantiNomorTelepon] #Error : $e");
+    } finally {
+      loadingController.hide();
     }
-    loadingController.hide();
   }
 
   Future<bool> verifOTPTelepon(String nomorTelepon, String kodeOTP) async {
@@ -54,8 +56,9 @@ class AuthController extends GetxController {
       return true;
     } catch (e) {
       print("[verifOTPTelepon] #Error : $e");
-      loadingController.hide();
       return false;
+    } finally {
+      loadingController.hide();
     }
   }
 
@@ -73,8 +76,9 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       print("[Login] #error: $e");
+    } finally {
+      loadingController.hide();
     }
-    loadingController.hide();
   }
 
   Future<void> logout() async {
@@ -84,19 +88,20 @@ class AuthController extends GetxController {
       loadingController.hide();
     } catch (e) {
       print("[logout] #Error : $e");
+    } finally {
+      loadingController.hide();
     }
-    loadingController.hide();
   }
 
   Future<void> cekUser() async {
     try {
       final user = db.auth.currentUser;
       print("[cekUser] : $user");
-      Get.defaultDialog(content: Text(user.toString()), title: "getProfile");
     } catch (e) {
       print("[CekUser] #Error : $e");
+    } finally {
+      loadingController.hide();
     }
-    loadingController.hide();
   }
 
   Future<void> sendOTPPassword(String email) async {
@@ -105,8 +110,9 @@ class AuthController extends GetxController {
       print("[sendOTPPassword] : Kode OTP dikirim");
     } catch (e) {
       print("[sendOTPPassword] #Error : $e");
+    } finally {
+      loadingController.hide();
     }
-    loadingController.hide();
   }
 
   Future<void> changePassword(
@@ -121,7 +127,8 @@ class AuthController extends GetxController {
       print("[changePassword] : Password berhasil diubah");
     } catch (e) {
       print("[changePassword] #Error : $e");
+    } finally {
+      loadingController.hide();
     }
-    loadingController.hide();
   }
 }

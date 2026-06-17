@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:setting_api/controllers/connection.dart';
+import 'package:setting_api/controllers/loading_controller.dart';
 import 'package:setting_api/router.dart';
 
 void main() {
+  LoadingController loadingController = Get.put(LoadingController());
+  loadingController.show();
   final Connection connection = Get.put(Connection());
   WidgetsFlutterBinding.ensureInitialized;
   connection.connectDB();

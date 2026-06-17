@@ -10,8 +10,8 @@ class ProfileTesting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AkunController akunController = Get.put(AkunController());
-    final LoadingController loadingController = Get.find();
+    AkunController akunController = Get.put(AkunController());
+    LoadingController loadingController = Get.find();
 
     Akun updateData = Akun(alamat: "Bandung");
 
