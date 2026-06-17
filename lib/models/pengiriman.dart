@@ -1,5 +1,7 @@
 enum StatusPengiriman { pending, pickup, on_delivery, delivered, cancelled }
 
+enum UkuranPengiriman { kecil, sedang, besar }
+
 class Pengiriman {
   final String? idPengiriman;
   final String? nomorResi;
@@ -18,6 +20,7 @@ class Pengiriman {
   final double? longPengirim;
   final String? idPelanggan;
   final String? idKurir;
+  final UkuranPengiriman? ukuran;
 
   Pengiriman({
     this.idPengiriman,
@@ -37,6 +40,7 @@ class Pengiriman {
     this.longPengirim,
     this.idPelanggan,
     this.idKurir,
+    this.ukuran,
   });
 
   factory Pengiriman.fromJson(Map<String, dynamic> json) {
@@ -63,6 +67,9 @@ class Pengiriman {
       longPengirim: (json['long_pengirim'] as num).toDouble(),
       idPelanggan: json['id_pelanggan'] as String,
       idKurir: json['id_kurir'] as String?,
+      ukuran: UkuranPengiriman.values.firstWhere(
+        (e) => e.name == json['ukuran'],
+      ),
     );
   }
 
@@ -85,6 +92,7 @@ class Pengiriman {
       'long_pengirim': longPengirim,
       'id_pelanggan': idPelanggan,
       'id_kurir': idKurir,
+      'ukuran': ukuran,
     };
 
     jsonData.removeWhere(
