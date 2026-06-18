@@ -7,6 +7,12 @@ class FirstPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Map> pages = [
+      {"title": "Auth Testing", "path": "/authtesting"},
+      {"title": "Testing Photo", "path": "/testingphoto"},
+      {"title": "Testing Profile", "path": "/testingprofile"},
+      {"title": "Testing FAQ", "path": "/testingFAQ"},
+    ];
     Get.lazyPut(() => LoadingController());
 
     return Scaffold(
@@ -14,90 +20,30 @@ class FirstPage extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              // ================================
-              // Auth
-              // ================================
-              Card(
-                elevation: 2,
-                margin: const EdgeInsets.only(bottom: 16),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Auth",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+              for (Map data in pages)
+                Card(
+                  elevation: 2,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          data["title"],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      ElevatedButton(
-                        onPressed: () => Get.toNamed("/authtesting"),
-                        child: const Text("Auth"), // Nama tombol diperbaiki
-                      ),
-                    ],
+                        const SizedBox(height: 8),
+                        ElevatedButton(
+                          onPressed: () => Get.toNamed(data["path"]),
+                          child: Text(data["title"]), // Nama tombol diperbaiki
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-
-              // ================================
-              // Testing Photo
-              // ================================
-              Card(
-                elevation: 2,
-                margin: const EdgeInsets.only(bottom: 16),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Testing Photo",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      ElevatedButton(
-                        onPressed: () => Get.toNamed("/testingphoto"),
-                        child: const Text(
-                          "Testing Photo",
-                        ), // Nama tombol diperbaiki
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // ================================
-              // Profile Testing
-              // ================================
-              Card(
-                elevation: 2,
-                margin: const EdgeInsets.only(bottom: 16),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Testing profile",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      ElevatedButton(
-                        onPressed: () => Get.toNamed("/testingprofile"),
-                        child: const Text(
-                          "Testing profile",
-                        ), // Nama tombol diperbaiki
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
         ),

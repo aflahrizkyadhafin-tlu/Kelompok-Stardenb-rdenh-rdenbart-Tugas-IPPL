@@ -1,11 +1,10 @@
 class Faq {
-  final int? idSupport;
+  final String? idSupport;
   final String? pertanyaan;
   final String? jawaban;
   final int? likes;
   final int? dislikes;
   final DateTime? createdAt;
-  final String? idAdmin;
 
   Faq({
     this.idSupport,
@@ -14,18 +13,16 @@ class Faq {
     this.likes,
     this.dislikes,
     this.createdAt,
-    this.idAdmin,
   });
 
   factory Faq.fromJson(Map<String, dynamic> json) {
     return Faq(
-      idSupport: json['id_support'] as int,
+      idSupport: json['id_support'] as String,
       pertanyaan: json['pertanyaan'] as String,
       jawaban: json['jawaban'] as String,
       likes: json['likes'] as int?,
       dislikes: json['dislikes'] as int?,
       createdAt: DateTime.parse(json['created_at'] as String),
-      idAdmin: json['id_admin'] as String,
     );
   }
 
@@ -37,7 +34,6 @@ class Faq {
       if (likes != null) 'likes': likes,
       if (dislikes != null) 'dislikes': dislikes,
       'created_at': createdAt?.toIso8601String(),
-      'id_admin': idAdmin,
     };
 
     jsonData.removeWhere((key, value) => value == null || value == "");
