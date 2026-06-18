@@ -8,7 +8,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFF9E1217),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -23,18 +23,18 @@ class Body extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF9E1217),
+                  color: Color(0xFFFEFEFE),
                   letterSpacing: -0.8,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
-                'Selamat datang! Silakan pilih peran anda\n untuk memulai.',
+                'Selamat datang! Silakan pilih peran anda untuk memulai.',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF5A5A5A),
+                  color: Color(0xFFFEFEFE),
                   letterSpacing: 0,
                 ),
               ),
@@ -45,9 +45,10 @@ class Body extends StatelessWidget {
                 title: 'Pengguna',
                 style: GoogleFonts.poppins(
                   fontSize: 24,
+                  color: Color(0xFF1A1C1C),
                   fontWeight: FontWeight.w600,
                 ),
-                subtitle: 'Pesan barang dari rumah\ndengan mudah',
+                subtitle: 'Pesan barang dari rumah dengan mudah',
                 onTap: () {
                   // TODO: navigate to login/register as pengguna
                 },
@@ -59,10 +60,11 @@ class Body extends StatelessWidget {
                 title: 'Driver',
                 style: GoogleFonts.poppins(
                   fontSize: 24,
+                  color: Color(0xFF1A1C1C),
                   fontWeight: FontWeight.w600,
                 ),
                 subtitle:
-                    'Join menjadi kurir mitra\n"MyKurir" untuk\nmenghasilkan uang.',
+                    'Join menjadi kurir mitra "MyKurir" untuk menghasilkan uang.',
                 onTap: () {
                   // TODO: navigate to login/register as driver
                 },
@@ -96,14 +98,15 @@ class _RoleCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        width: 325,
+        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Color(0xFFF9F9F9),
           border: Border.all(color: Colors.red[200]!),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               padding: const EdgeInsets.all(10),
@@ -117,25 +120,32 @@ class _RoleCard extends StatelessWidget {
                         : Image.asset(assetIcon!, width: 56, height: 56))
                   : const Icon(Icons.person, color: Colors.red, size: 28),
             ),
-            const SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style:
-                      style ??
-                      const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: const TextStyle(fontSize: 12, color: Colors.black54),
-                ),
-              ],
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 8),
+                  Text(
+                    title,
+                    style:
+                        style ??
+                        const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: Color(0xFF5F5E5E),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

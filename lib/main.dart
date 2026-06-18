@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontendmykurir_rizqi/pages/pilihrole/pilihrole_screen.dart';
+import 'package:frontendmykurir_rizqi/pages/ratingaplikasi/ratingaplikasi_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,6 +10,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: PilihroleScreen());
+    return const MaterialApp(home: RatingAplikasiScreen());
   }
 }
