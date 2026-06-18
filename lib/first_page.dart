@@ -12,6 +12,7 @@ class FirstPage extends StatelessWidget {
       {"title": "Testing Photo", "path": "/testingphoto"},
       {"title": "Testing Profile", "path": "/testingprofile"},
       {"title": "Testing FAQ", "path": "/testingFAQ"},
+      {"title": "Testing Laporan", "path": "/testinglaporan"},
     ];
     Get.lazyPut(() => LoadingController());
 
