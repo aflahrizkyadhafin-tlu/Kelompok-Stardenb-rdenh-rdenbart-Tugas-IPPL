@@ -1,4 +1,4 @@
-import 'package:arata/pages/konfirmasi_otp/components/body.dart';
+import 'package:arata/pages/persetujuan_hapus/components/body.dart';
 import 'package:flutter/material.dart';
 
 void main() {

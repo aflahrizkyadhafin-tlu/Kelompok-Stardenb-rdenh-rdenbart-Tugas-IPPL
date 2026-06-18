@@ -172,7 +172,7 @@ class Body extends StatelessWidget {
               child: Text(
                 description,
                 style: GoogleFonts.inter(
-                  fontSize: 12,
+                  fontSize: 10,
                   color: Colors.black54),
               ),
             ),
