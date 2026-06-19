@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RatingBody extends StatefulWidget {
-  const RatingBody({super.key});
+class RatingBody extends StatelessWidget {
+  // Parameter yang diterima dari widget parent
+  final int selectedRating;
+  final ValueChanged<int> onRatingChanged;
+  final TextEditingController feedbackController;
 
-  @override
-  State<RatingBody> createState() => _RatingBodyState();
-}
-
-class _RatingBodyState extends State<RatingBody> {
-  int _selectedRating = 0;
-  final TextEditingController _feedbackController = TextEditingController();
-
-  @override
-  void dispose() {
-    _feedbackController.dispose();
-    super.dispose();
-  }
+  const RatingBody({
+    super.key,
+    required this.selectedRating,
+    required this.onRatingChanged,
+    required this.feedbackController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -81,12 +77,11 @@ class _RatingBodyState extends State<RatingBody> {
                         ),
                         child: Center(
                           child: Image.asset(
-                            'assets/emojismile.png', // <-- Pastikan file emojismile.png sudah ada di folder assets
+                            'assets/emojismile.png', // Pastikan file ada di assets
                             width: 48,
                             height: 48,
                             fit: BoxFit.contain,
                             errorBuilder: (context, error, stackTrace) {
-                              // Menampilkan backup icon jika file PNG gagal dimuat/tidak ditemukan
                               return const Icon(
                                 Icons.sentiment_satisfied_alt_rounded,
                                 size: 48,
@@ -126,20 +121,19 @@ class _RatingBodyState extends State<RatingBody> {
                         children: List.generate(5, (index) {
                           return GestureDetector(
                             onTap: () {
-                              setState(() {
-                                _selectedRating = index + 1;
-                              });
+                              // Memanggil callback saat bintang ditekan
+                              onRatingChanged(index + 1);
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 6.0,
                               ),
                               child: Icon(
-                                index < _selectedRating
+                                index < selectedRating
                                     ? Icons.star_rounded
                                     : Icons.star_outline_rounded,
                                 size: 48,
-                                color: index < _selectedRating
+                                color: index < selectedRating
                                     ? const Color(0xFFFFC107)
                                     : const Color(0xFFCCCCCC),
                               ),
@@ -171,7 +165,8 @@ class _RatingBodyState extends State<RatingBody> {
                           border: Border.all(color: const Color(0xFFCCCCCC)),
                         ),
                         child: TextField(
-                          controller: _feedbackController,
+                          controller:
+                              feedbackController, // Menggunakan parameter dari konstruktor
                           maxLines: 6,
                           decoration: InputDecoration(
                             border: InputBorder.none,

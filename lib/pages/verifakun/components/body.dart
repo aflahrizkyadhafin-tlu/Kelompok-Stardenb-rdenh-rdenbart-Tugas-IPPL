@@ -2,22 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Body extends StatefulWidget {
-  const Body({super.key});
+class Body extends StatelessWidget {
+  // Parameter yang diterima dari parent widget
+  final TextEditingController phoneController;
+  final bool isButtonActive;
+  final ValueChanged<String> onPhoneChanged;
+  final VoidCallback onSendPressed;
 
-  @override
-  State<Body> createState() => _BodyState();
-}
-
-class _BodyState extends State<Body> {
-  final TextEditingController _phoneController = TextEditingController();
-  bool _isButtonActive = false;
-
-  @override
-  void dispose() {
-    _phoneController.dispose();
-    super.dispose();
-  }
+  const Body({
+    super.key,
+    required this.phoneController,
+    required this.isButtonActive,
+    required this.onPhoneChanged,
+    required this.onSendPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -135,13 +133,9 @@ class _BodyState extends State<Body> {
                   border: Border.all(color: const Color(0xFF9E9E9E)),
                 ),
                 child: TextField(
-                  controller: _phoneController,
+                  controller: phoneController,
                   keyboardType: TextInputType.phone,
-                  onChanged: (value) {
-                    setState(() {
-                      _isButtonActive = value.trim().isNotEmpty;
-                    });
-                  },
+                  onChanged: onPhoneChanged, // Menggunakan callback dari parent
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(
@@ -201,16 +195,9 @@ class _BodyState extends State<Body> {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: _isButtonActive
-                      ? () {
-                          debugPrint(
-                            "Mengirim OTP ke: ${_phoneController.text}",
-                          );
-                          Navigator.pushNamed(context, '/otp_verification');
-                        }
-                      : null,
+                  onPressed: isButtonActive ? onSendPressed : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _isButtonActive
+                    backgroundColor: isButtonActive
                         ? const Color(0xFFE31E24)
                         : const Color(0xFFFEFEFE),
                     elevation: 0,
@@ -223,8 +210,8 @@ class _BodyState extends State<Body> {
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: _isButtonActive
-                          ? Color(0xFFFEFEFE)
+                      color: isButtonActive
+                          ? const Color(0xFFFEFEFE)
                           : const Color(0xFF2E2E2E),
                     ),
                   ),

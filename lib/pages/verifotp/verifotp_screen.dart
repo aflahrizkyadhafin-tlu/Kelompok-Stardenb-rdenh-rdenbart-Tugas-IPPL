@@ -1,11 +1,103 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:frontendmykurir_rizqi/pages/verifotp/components/body.dart';
+import 'package:frontendmykurir_rizqi/pages/verifotp/components/body.dart'; // Sesuaikan path-nya
 
-class VerifotpScreen extends StatelessWidget {
-  const VerifotpScreen({super.key});
+class VerifOtpScreen extends StatefulWidget {
+  const VerifOtpScreen({super.key});
+
+  @override
+  State<VerifOtpScreen> createState() => _VerifOtpScreenState();
+}
+
+class _VerifOtpScreenState extends State<VerifOtpScreen> {
+  final List<TextEditingController> _otpControllers = List.generate(
+    6,
+    (_) => TextEditingController(),
+  );
+  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
+
+  bool _isButtonActive = false;
+  Timer? _timer;
+  int _startWaktu = 120;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    for (var controller in _otpControllers) {
+      controller.dispose();
+    }
+    for (var node in _focusNodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_startWaktu == 0) {
+        setState(() {
+          _timer?.cancel();
+        });
+      } else {
+        setState(() {
+          _startWaktu--;
+        });
+      }
+    });
+  }
+
+  String get _timerString {
+    int menit = _startWaktu ~/ 60;
+    int detik = _startWaktu % 60;
+    return "${menit.toString().padLeft(2, '0')} : ${detik.toString().padLeft(2, '0')}";
+  }
+
+  void _handleOtpChange(int index, String value) {
+    // Cek 6 kotak terisi penuh
+    bool isFull = _otpControllers.every(
+      (controller) => controller.text.trim().isNotEmpty,
+    );
+    setState(() {
+      _isButtonActive = isFull;
+    });
+
+    // Pindah Kotak Otomatis
+    if (value.isNotEmpty && index < 5) {
+      FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
+    } else if (value.isEmpty && index > 0) {
+      FocusScope.of(context).requestFocus(_focusNodes[index - 1]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Body());
+    return Scaffold(
+      body: Body(
+        otpControllers: _otpControllers,
+        focusNodes: _focusNodes,
+        isButtonActive: _isButtonActive,
+        timerString: _timerString,
+        phoneNumber:
+            '62812345678900', // Nantinya bisa di-passing dari halaman login
+        onOtpChanged: _handleOtpChange,
+        onResendPressed: () {
+          debugPrint("Kirim Ulang OTP");
+        },
+        onChangePhonePressed: () {
+          Navigator.pop(context);
+        },
+        onVerifyPressed: () {
+          String kodeOtp = _otpControllers.map((e) => e.text).join();
+          debugPrint("Memverifikasi OTP: $kodeOtp");
+          // TODO: Navigasi jika berhasil
+        },
+      ),
+    );
   }
 }

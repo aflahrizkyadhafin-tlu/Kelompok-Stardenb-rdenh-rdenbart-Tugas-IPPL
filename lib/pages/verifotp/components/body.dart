@@ -1,85 +1,33 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Body extends StatefulWidget {
-  const Body({super.key});
+class Body extends StatelessWidget {
+  // Semua state dan fungsi dilempar dari Parent
+  final List<TextEditingController> otpControllers;
+  final List<FocusNode> focusNodes;
+  final bool isButtonActive;
+  final String timerString;
+  final String phoneNumber; // Agar nomor telepon bisa dinamis
+  final void Function(int index, String value) onOtpChanged;
+  final VoidCallback onResendPressed;
+  final VoidCallback onChangePhonePressed;
+  final VoidCallback onVerifyPressed;
 
-  @override
-  State<Body> createState() => _BodyState();
-}
-
-class _BodyState extends State<Body> {
-  // Deklarasi List Controller dan FocusNode untuk 6 digit OTP
-  final List<TextEditingController> _otpControllers = List.generate(
-    6,
-    (_) => TextEditingController(),
-  );
-  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
-
-  bool _isButtonActive = false;
-
-  // Deklarasi State untuk Timer Kadaluwarsa
-  Timer? _timer;
-  int _startWaktu = 120;
-
-  @override
-  void initState() {
-    super.initState();
-    _startTimer();
-  }
-
-  @override
-  void dispose() {
-    // Mencegah kebocoran memori
-    _timer?.cancel();
-    for (var controller in _otpControllers) {
-      controller.dispose();
-    }
-    for (var node in _focusNodes) {
-      node.dispose();
-    }
-    super.dispose();
-  }
-
-  // Menjalankan Timer hitungan mundur
-  void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_startWaktu == 0) {
-        setState(() {
-          _timer?.cancel();
-        });
-      } else {
-        setState(() {
-          _startWaktu--;
-        });
-      }
-    });
-  }
-
-  // Helper ubah detik jadi format MM : SS
-  String get _timerString {
-    int menit = _startWaktu ~/ 60;
-    int detik = _startWaktu % 60;
-    return "${menit.toString().padLeft(2, '0')} : ${detik.toString().padLeft(2, '0')}";
-  }
-
-  // Cek 6 kotak OTP sudah terisi semua
-  void _checkOtpFull() {
-    bool isFull = true;
-    for (var controller in _otpControllers) {
-      if (controller.text.trim().isEmpty) {
-        isFull = false;
-        break;
-      }
-    }
-    setState(() {
-      _isButtonActive = isFull;
-    });
-  }
+  const Body({
+    super.key,
+    required this.otpControllers,
+    required this.focusNodes,
+    required this.isButtonActive,
+    required this.timerString,
+    required this.phoneNumber,
+    required this.onOtpChanged,
+    required this.onResendPressed,
+    required this.onChangePhonePressed,
+    required this.onVerifyPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -93,13 +41,13 @@ class _BodyState extends State<Body> {
             children: [
               const SizedBox(height: 10),
 
-              // --- Header (Tombol Back & Judul) ---
+              // --- Header ---
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.pop(context); // Back ke halaman Verif Akun
+                      Navigator.pop(context);
                     },
                     child: const Icon(
                       Icons.arrow_back_ios_new,
@@ -129,7 +77,7 @@ class _BodyState extends State<Body> {
               ),
               const SizedBox(height: 32),
 
-              // --- Ikon Kotak Merah Muda (Chat/Pesan) ---
+              // --- Ikon Kotak Merah Muda ---
               Container(
                 width: 56,
                 height: 56,
@@ -184,7 +132,7 @@ class _BodyState extends State<Body> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      _timerString,
+                      timerString, // Pakai data dari parameter
                       style: GoogleFonts.poppins(
                         fontSize: 40,
                         fontWeight: FontWeight.w600,
@@ -209,10 +157,9 @@ class _BodyState extends State<Body> {
                       border: Border.all(color: const Color(0xFF2E2E2E)),
                     ),
                     child: TextField(
-                      controller: _otpControllers[index],
-                      focusNode: _focusNodes[index],
+                      controller: otpControllers[index],
+                      focusNode: focusNodes[index],
                       keyboardType: TextInputType.number,
-                      // INPUT HANYA BISA ANGKA
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       textAlign: TextAlign.center,
                       maxLength: 1,
@@ -226,18 +173,8 @@ class _BodyState extends State<Body> {
                         counterText: "",
                       ),
                       onChanged: (value) {
-                        _checkOtpFull();
-                        if (value.isNotEmpty && index < 5) {
-                          // Pindah ke kotak kanan jika diisi
-                          FocusScope.of(
-                            context,
-                          ).requestFocus(_focusNodes[index + 1]);
-                        } else if (value.isEmpty && index > 0) {
-                          // Pindah ke kotak kiri jika dihapus
-                          FocusScope.of(
-                            context,
-                          ).requestFocus(_focusNodes[index - 1]);
-                        }
+                        // Memanggil fungsi dari Parent
+                        onOtpChanged(index, value);
                       },
                     ),
                   );
@@ -264,9 +201,7 @@ class _BodyState extends State<Body> {
                           fontWeight: FontWeight.w600,
                         ),
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            // Aksi ketika tombol "Kirim ulang" diklik
-                          },
+                          ..onTap = onResendPressed,
                       ),
                     ],
                   ),
@@ -274,7 +209,7 @@ class _BodyState extends State<Body> {
               ),
               const SizedBox(height: 32),
 
-              // --- Display Nomor Telepon (Disabled State) ---
+              // --- Display Nomor Telepon ---
               Row(
                 children: [
                   SvgPicture.asset(
@@ -308,7 +243,7 @@ class _BodyState extends State<Body> {
                     vertical: 12,
                   ),
                   child: Text(
-                    '62812345678900', // Mock data
+                    phoneNumber, // Pakai parameter agar dinamis
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       color: const Color(0xFF8A8A8A),
@@ -318,9 +253,7 @@ class _BodyState extends State<Body> {
               ),
               const SizedBox(height: 8),
               GestureDetector(
-                onTap: () {
-                  Navigator.pop(context); // Back ke halaman input nomor
-                },
+                onTap: onChangePhonePressed,
                 child: Text(
                   'Ubah Nomor Telepon',
                   style: GoogleFonts.poppins(
@@ -337,16 +270,9 @@ class _BodyState extends State<Body> {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: _isButtonActive
-                      ? () {
-                          String kodeOtp = _otpControllers
-                              .map((e) => e.text)
-                              .join();
-                          debugPrint("Memverifikasi OTP: $kodeOtp");
-                        }
-                      : null,
+                  onPressed: isButtonActive ? onVerifyPressed : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _isButtonActive
+                    backgroundColor: isButtonActive
                         ? const Color(0xFFE31E24)
                         : const Color(0xFFD9D9D9),
                     elevation: 0,
@@ -359,7 +285,7 @@ class _BodyState extends State<Body> {
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: _isButtonActive
+                      color: isButtonActive
                           ? const Color(0xFFFEFEFE)
                           : const Color(0xFF2E2E2E),
                     ),
