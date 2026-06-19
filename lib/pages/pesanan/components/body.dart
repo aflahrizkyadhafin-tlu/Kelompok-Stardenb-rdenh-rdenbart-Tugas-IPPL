@@ -12,25 +12,20 @@ class _BodyState extends State<Body> {
   final TextEditingController _customBeratController = TextEditingController();
 
   String? _selectedUkuran;
-  String? _selectedBerat;
+  double? _selectedBerat;
+  bool _isCustomSelected = false;
 
   bool get _isFormValid {
     if (_selectedUkuran == null) return false;
-    if (_selectedBerat == null) return false;
-    if (_selectedBerat == 'Custom' &&
-        _customBeratController.text.trim().isEmpty) {
-      return false;
-    }
+    if (!_isBeratValid) return false;
     return true;
   }
 
   bool get _isBeratValid {
-    if (_selectedBerat == null) return false;
-    if (_selectedBerat == 'Custom' &&
-        _customBeratController.text.trim().isEmpty) {
-      return false;
+    if (_isCustomSelected) {
+      return _customBeratController.text.trim().isNotEmpty;
     }
-    return true;
+    return _selectedBerat != null;
   }
 
   @override
@@ -172,14 +167,15 @@ class _BodyState extends State<Body> {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      _buildBeratCard('1 - 5 Kg'),
+                      //Valie fIX
+                      _buildBeratCard(title: '1 - 5 Kg', value: 5.0),
                       const SizedBox(width: 16),
-                      _buildBeratCard('Custom'),
+                      _buildBeratCard(title: 'Custom', isCustom: true),
                     ],
                   ),
 
-                  // Form berat custom
-                  if (_selectedBerat == 'Custom') ...[
+                  // Form berat custom muncul berdasarkan kondisi boolean _isCustomSelected
+                  if (_isCustomSelected) ...[
                     const SizedBox(height: 50),
                     RichText(
                       text: TextSpan(
@@ -237,7 +233,19 @@ class _BodyState extends State<Body> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: _isFormValid ? () {} : null,
+                onPressed: _isFormValid
+                    ? () {
+                        // Simpan Value
+                        double beratAkhir = _isCustomSelected
+                            ? (double.tryParse(
+                                    _customBeratController.text.trim(),
+                                  ) ??
+                                  0.0)
+                            : (_selectedBerat ?? 0.0);
+
+                        // Isi buat ke pahge selanjutnya
+                      }
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _isFormValid
                       ? const Color(0xFFE31E24)
@@ -308,18 +316,26 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Widget _buildBeratCard(String title) {
-    bool isSelected = _selectedBerat == title;
-
+  Widget _buildBeratCard({
+    required String title,
+    double? value,
+    bool isCustom = false,
+  }) {
+    bool isSelected = isCustom
+        ? _isCustomSelected
+        : (_selectedBerat == value && !_isCustomSelected);
+    // Logika Value disini
     return GestureDetector(
       onTap: () {
         setState(() {
           if (isSelected) {
             _selectedBerat = null;
+            _isCustomSelected = false;
             _customBeratController.clear();
           } else {
-            _selectedBerat = title;
-            if (title != 'Custom') {
+            _isCustomSelected = isCustom;
+            _selectedBerat = value;
+            if (!isCustom) {
               _customBeratController.clear();
             }
           }
