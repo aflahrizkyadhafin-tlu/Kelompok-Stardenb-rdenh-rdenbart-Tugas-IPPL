@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
 import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:mykurir/db/connection.dart';
+import 'package:mykurir/models/akun.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthController extends GetxController {
   LoadingController loadingController = Get.put(LoadingController());
+  Rxn<Akun> detailUser = Rxn<Akun>();
 
   Future<void> register(String email, String password) async {
     try {
@@ -71,6 +73,13 @@ class AuthController extends GetxController {
 
       if (response.user != null) {
         print("[Login] : ${response.user}");
+        final akunUser = await db
+            .from("akun")
+            .select()
+            .eq("id_user", response.user!.id)
+            .maybeSingle();
+
+        detailUser.value = Akun.fromJson(akunUser!);
       } else {
         print("[Login] : Akun tidak ditemukan");
       }
@@ -93,7 +102,7 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> cekUser() async {
+  Future<void> getUser() async {
     try {
       final user = db.auth.currentUser;
       print("[cekUser] : $user");

@@ -11,6 +11,8 @@ class LoginSementara extends StatelessWidget {
     List<Map> pages = [
       {"title": "Masukan Nomor HP", "path": "/masukan_no_hp"},
       {"title": "Permintaan Pesanan", "path": "/permintaan_pesanan"},
+      {"title": "Pilih Role", "path": "/pilih_role"},
+      {"title": "Rating Aplikasi", "path": "/rating_aplikasi"},
     ];
     LoadingController loadingController = Get.put(LoadingController());
     AuthController authController = Get.put(AuthController());
@@ -55,9 +57,9 @@ class LoginSementara extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () => {
                           loadingController.show(),
-                          authController.cekUser(),
+                          authController.getUser(),
                         },
-                        child: Text("Login"), // Nama tombol diperbaiki
+                        child: Text("Cek User"), // Nama tombol diperbaiki
                       ),
                       Text(
                         "Logout",
@@ -72,7 +74,7 @@ class LoginSementara extends StatelessWidget {
                           loadingController.show(),
                           authController.logout(),
                         },
-                        child: Text("Login"), // Nama tombol diperbaiki
+                        child: Text("Logout"), // Nama tombol diperbaiki
                       ),
                     ],
                   ),
