@@ -90,7 +90,7 @@ class Profil extends StatelessWidget {
                         ),
                         child: const Center(
                           child: Icon(
-                            Icons.person,
+                            Icons.account_circle_outlined,
                             size: 85,
                             color: Colors.white,
                           ),
