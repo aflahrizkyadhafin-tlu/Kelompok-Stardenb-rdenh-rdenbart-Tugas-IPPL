@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthController extends GetxController {
   LoadingController loadingController = Get.put(LoadingController());
   Rxn<Akun> detailUser = Rxn<Akun>();
+  String nomorTelepon = "";
 
   Future<void> register(String email, String password) async {
     try {
@@ -54,8 +55,16 @@ class AuthController extends GetxController {
         token: kodeOTP,
       );
       print("[verifOTPTelepon] : Kode OTP berhasil diverifikasi");
-      loadingController.hide();
       return true;
+    } on AuthException catch (e) {
+      if (e.message.contains("Invalid OTP") ||
+          e.code == "bad_verification_code") {
+        Get.snackbar(
+          "OTP Salah",
+          "Kode yang Anda masukkan tidak sesuai. Silakan periksa kembali.",
+        );
+      }
+      return false;
     } catch (e) {
       print("[verifOTPTelepon] #Error : $e");
       return false;

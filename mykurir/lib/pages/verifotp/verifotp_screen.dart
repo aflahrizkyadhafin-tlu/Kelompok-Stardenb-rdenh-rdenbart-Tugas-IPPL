@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mykurir/controllers/auth_controller.dart';
+import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:mykurir/pages/verifotp/components/body.dart'; // Sesuaikan path-nya
 
 class VerifOtpScreen extends StatefulWidget {
@@ -19,6 +22,8 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
   bool _isButtonActive = false;
   Timer? _timer;
   int _startWaktu = 120;
+  final AuthController authController = Get.put(AuthController());
+  final LoadingController loadingController = Get.put(LoadingController());
 
   @override
   void initState() {
@@ -83,8 +88,8 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
         focusNodes: _focusNodes,
         isButtonActive: _isButtonActive,
         timerString: _timerString,
-        phoneNumber:
-            '62812345678900', // Nantinya bisa di-passing dari halaman login
+        phoneNumber: authController
+            .nomorTelepon, // Nantinya bisa di-passing dari halaman login
         onOtpChanged: _handleOtpChange,
         onResendPressed: () {
           debugPrint("Kirim Ulang OTP");
@@ -92,9 +97,17 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
         onChangePhonePressed: () {
           Navigator.pop(context);
         },
-        onVerifyPressed: () {
+        onVerifyPressed: () async {
           String kodeOtp = _otpControllers.map((e) => e.text).join();
           debugPrint("Memverifikasi OTP: $kodeOtp");
+          loadingController.show();
+          final bool verifOTP = await authController.verifOTPTelepon(
+            authController.nomorTelepon,
+            kodeOtp,
+          );
+          if (verifOTP) {
+            Get.snackbar("Verifikasi OTP", "Verifikasi OTP berhasil");
+          }
           // TODO: Navigasi jika berhasil
         },
       ),

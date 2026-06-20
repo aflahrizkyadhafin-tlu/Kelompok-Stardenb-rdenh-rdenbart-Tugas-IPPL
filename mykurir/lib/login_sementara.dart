@@ -13,7 +13,7 @@ class LoginSementara extends StatelessWidget {
       {"title": "Permintaan Pesanan", "path": "/permintaan_pesanan"},
       {"title": "Pilih Role", "path": "/pilih_role"},
       {"title": "Rating Aplikasi", "path": "/rating_aplikasi"},
-      {"title": "Verifikasi Akun", "path": "/verif_akun"},
+      {"title": "Verifikasi Telepon", "path": "/verif_telepon"},
       {"title": "Verifikasi OTP", "path": "/verif_otp"},
     ];
     LoadingController loadingController = Get.put(LoadingController());
