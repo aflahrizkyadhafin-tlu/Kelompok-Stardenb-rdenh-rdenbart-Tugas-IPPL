@@ -5,8 +5,8 @@ import 'package:frontend/pages/editProfil/components/body.dart';
 // import 'package:frontend/pages/pesanan/pesanan_screen.dart';
 // import 'package:frontend/pages/login/login_screen.dart';
 //import 'package:frontend/pages/daftar/daftar_screen.dart';
-// import 'package:frontend/pages/profil/profil_screen.dart';
-import 'package:frontend/pages/editProfil/editProfil_screen.dart';
+import 'package:frontend/pages/profil/profil_screen.dart';
+// import 'package:frontend/pages/editProfil/editProfil_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -17,6 +17,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: EditprofilScreen());
+    return const MaterialApp(home: ProfilScreen());
   }
 }
