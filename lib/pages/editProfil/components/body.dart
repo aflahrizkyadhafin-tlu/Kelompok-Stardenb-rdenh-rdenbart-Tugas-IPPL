@@ -1,8 +1,101 @@
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
+import 'editdetail.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
+
+  void _showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          contentPadding: const EdgeInsets.only(
+            top: 24,
+            left: 20,
+            right: 20,
+            bottom: 8,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                '-Konfirmasi-',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Apakah anda yakin dengan perubahan ini? Perubahan ini akan di simpan.',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black87,
+                  height: 1.4,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              Divider(height: 1, color: Colors.grey[300]),
+              IntrinsicHeight(
+                child: Row(
+                  children: [
+                    // Tombol Simpan
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        child: const Text(
+                          'Simpan',
+                          style: TextStyle(
+                            color: Color(0xFF1E56C5),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    VerticalDivider(width: 1, color: Colors.grey[300]),
+
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        child: const Text(
+                          'Batalkan',
+                          style: TextStyle(
+                            color: Color(0xFFE31E24),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +154,6 @@ class Body extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-
-                    // tombol Ubah Profil
                     TextButton(
                       onPressed: () {},
                       style: TextButton.styleFrom(
@@ -104,25 +195,31 @@ class Body extends StatelessWidget {
                 child: Column(
                   children: [
                     _buildEditItem(
+                      context: context,
                       icon: Icons.account_circle_outlined,
                       label: 'Username',
-                      value: '@raffymbg8',
-                      onTap: () {},
+                      value: 'raffymbg8',
+                      maxLength: 30,
+                      subtitle:
+                          'Username anda hanya dapat diubah satu kali setiap 30 hari',
                     ),
                     Divider(height: 1, color: Colors.grey[300]),
                     _buildEditItem(
+                      context: context,
                       icon: Icons.person_outline,
                       label: 'Nama Pengguna',
                       value: 'Raffy Anggara',
-                      onTap: () {},
+                      maxLength: 50,
                     ),
                     Divider(height: 1, color: Colors.grey[300]),
                     _buildEditItem(
+                      context: context,
                       icon: MaterialCommunityIcons.map_outline,
                       label: 'Alamat',
                       value:
                           'Jl. Anggrek Nomor 20, Karang Pucung, Purwokerto Selatan, Banyumas',
-                      onTap: () {},
+                      maxLength: 150,
+                      maxLines: 3,
                     ),
                   ],
                 ),
@@ -147,10 +244,12 @@ class Body extends StatelessWidget {
                   border: Border.all(color: Colors.grey[300]!),
                 ),
                 child: _buildEditItem(
+                  context: context,
                   icon: Icons.phone_outlined,
                   label: 'No Telepon',
                   value: '+62 812345678900',
-                  onTap: () {},
+                  maxLength: 15,
+                  keyboardType: TextInputType.phone,
                 ),
               ),
 
@@ -160,7 +259,9 @@ class Body extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _showConfirmationDialog(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFE31E24),
                     shape: RoundedRectangleBorder(
@@ -185,7 +286,9 @@ class Body extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Color(0xFFE31E24), width: 1),
                     shape: RoundedRectangleBorder(
@@ -211,63 +314,78 @@ class Body extends StatelessWidget {
   }
 
   Widget _buildEditItem({
+    required BuildContext context,
     required IconData icon,
     required String label,
     required String value,
-    required VoidCallback onTap,
+    required int maxLength,
+    String? subtitle,
+    int maxLines = 1,
+    TextInputType keyboardType = TextInputType.text,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 14.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(icon, size: 18, color: Colors.black54),
-                    const SizedBox(width: 10),
-                    Text(
-                      label,
-                      style: const TextStyle(
-                        color: Colors.black45,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 6),
-
-                Text(
-                  value,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    height: 1.3,
-                  ),
-                ),
-              ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditFieldPage(
+              title: label,
+              initialValue: value,
+              maxLength: maxLength,
+              subtitle: subtitle,
+              maxLines: maxLines,
+              keyboardType: keyboardType,
             ),
           ),
-
-          const SizedBox(width: 16),
-
-          IconButton(
-            onPressed: onTap,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            icon: const Icon(
+        );
+      },
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 14.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(icon, size: 18, color: Colors.black54),
+                      const SizedBox(width: 10),
+                      Text(
+                        label,
+                        style: const TextStyle(
+                          color: Colors.black45,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    label == 'Username' && !value.startsWith('@')
+                        ? '@$value'
+                        : value,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      height: 1.3,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 16),
+            const Icon(
               MaterialCommunityIcons.square_edit_outline,
               size: 20,
               color: Colors.black54,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
