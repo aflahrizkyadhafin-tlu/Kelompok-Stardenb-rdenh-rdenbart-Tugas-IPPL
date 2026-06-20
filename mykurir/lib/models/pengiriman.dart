@@ -1,88 +1,86 @@
 enum StatusPengiriman { pending, pickup, on_delivery, delivered, cancelled }
 
-enum UkuranPengiriman { kecil, sedang, besar }
+enum DimensiBarang { kecil, sedang, besar }
 
 class Pengiriman {
-  String? idPengiriman;
-  String? nomorResi;
-  String? deskripsiBarang;
-  double? berat;
-  int? biaya;
-  StatusPengiriman? statusPengiriman;
-  DateTime? createdAt;
-  String? namaPenerima;
-  String? nomorTeleponPenerima;
-  String? alamatPenerima;
-  double? latPenerima;
-  double? longPenerima;
-  String? alamatPengirim;
-  double? latPengirim;
-  double? longPengirim;
-  String? idPelanggan;
-  String? idKurir;
-  UkuranPengiriman? ukuran;
+  final String? idPengiriman;
+  final String? nomorResi;
+  final String? deskripsiBarang;
+  final String? alamatPengirim;
+  final String? alamatPenerima;
+  final String? namaPenerima;
+  final String? nomorTeleponPenerima;
+  final double? berat;
+  final int? biaya;
+  final StatusPengiriman? statusPengiriman;
+  final DateTime? createdAt;
+  final String? idAkun;
+  final String? idKurir;
+  final double? longPengirim;
+  final double? latPengirim;
+  final double? longPenerima;
+  final double? latPenerima;
+  final DimensiBarang? ukuran;
 
   Pengiriman({
     this.idPengiriman,
     this.nomorResi,
     this.deskripsiBarang,
+    this.alamatPengirim,
+    this.alamatPenerima,
+    this.namaPenerima,
+    this.nomorTeleponPenerima,
     this.berat,
     this.biaya,
     this.statusPengiriman,
     this.createdAt,
-    this.namaPenerima,
-    this.nomorTeleponPenerima,
-    this.alamatPenerima,
-    this.latPenerima,
-    this.longPenerima,
-    this.alamatPengirim,
-    this.latPengirim,
-    this.longPengirim,
-    this.idPelanggan,
+    this.idAkun,
     this.idKurir,
+    this.longPengirim,
+    this.latPengirim,
+    this.longPenerima,
+    this.latPenerima,
     this.ukuran,
   });
 
   factory Pengiriman.fromJson(Map<String, dynamic> json) {
+    StatusPengiriman? statusEnum;
+    if (json['status_pengiriman'] != null) {
+      statusEnum = StatusPengiriman.values.firstWhere(
+        (e) => e.name == json['status_pengiriman'],
+        orElse: () => StatusPengiriman.pending,
+      );
+    }
+
+    DimensiBarang? ukuranEnum;
+    if (json['ukuran'] != null) {
+      ukuranEnum = DimensiBarang.values.firstWhere(
+        (e) => e.name == json['ukuran'],
+        orElse: () => DimensiBarang.kecil,
+      );
+    }
+
     return Pengiriman(
       idPengiriman: json['id_pengiriman'] as String?,
       nomorResi: json['nomor_resi'] as String?,
       deskripsiBarang: json['deskripsi_barang'] as String?,
-      berat: json['berat'] != null ? (json['berat'] as num).toDouble() : null,
-      biaya: json['biaya'] != null ? (json['biaya'] as num).toInt() : null,
-      statusPengiriman: json['status_pengiriman'] != null
-          ? StatusPengiriman.values.firstWhere(
-              (e) => e.name == json['status_pengiriman'],
-              orElse: () => StatusPengiriman.pending,
-            )
-          : StatusPengiriman.pending,
-      createdAt: json['created_at'] != null
-          ? DateTime.tryParse(json['created_at'] as String)
-          : null,
+      alamatPengirim: json['alamat_pengirim'] as String?,
+      alamatPenerima: json['alamat_penerima'] as String?,
       namaPenerima: json['nama_penerima'] as String?,
       nomorTeleponPenerima: json['nomor_telepon_penerima'] as String?,
-      alamatPenerima: json['alamat_penerima'] as String?,
-      latPenerima: json['lat_penerima'] != null
-          ? (json['lat_penerima'] as num).toDouble()
+      berat: (json['berat'] as num?)?.toDouble(),
+      biaya: json['biaya'] as int?,
+      statusPengiriman: statusEnum,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'] as String)
           : null,
-      longPenerima: json['long_penerima'] != null
-          ? (json['long_penerima'] as num).toDouble()
-          : null,
-      alamatPengirim: json['alamat_pengirim'] as String?,
-      latPengirim: json['lat_pengirim'] != null
-          ? (json['lat_pengirim'] as num).toDouble()
-          : null,
-      longPengirim: json['long_pengirim'] != null
-          ? (json['long_pengirim'] as num).toDouble()
-          : null,
-      idPelanggan: json['id_pelanggan'] as String?,
+      idAkun: json['id_akun'] as String?,
       idKurir: json['id_kurir'] as String?,
-      ukuran: json['ukuran'] != null
-          ? UkuranPengiriman.values.firstWhere(
-              (e) => e.name == json['ukuran'],
-              orElse: () => UkuranPengiriman.kecil,
-            )
-          : null,
+      longPengirim: (json['long_pengirim'] as num?)?.toDouble(),
+      latPengirim: (json['lat_pengirim'] as num?)?.toDouble(),
+      longPenerima: (json['long_penerima'] as num?)?.toDouble(),
+      latPenerima: (json['lat_penerima'] as num?)?.toDouble(),
+      ukuran: ukuranEnum,
     );
   }
 
@@ -91,26 +89,24 @@ class Pengiriman {
       'id_pengiriman': idPengiriman,
       'nomor_resi': nomorResi,
       'deskripsi_barang': deskripsiBarang,
+      'alamat_pengirim': alamatPengirim,
+      'alamat_penerima': alamatPenerima,
+      'nama_penerima': namaPenerima,
+      'nomor_telepon_penerima': nomorTeleponPenerima,
       'berat': berat,
       'biaya': biaya,
       'status_pengiriman': statusPengiriman?.name,
       'created_at': createdAt?.toIso8601String(),
-      'nama_penerima': namaPenerima,
-      'nomor_telepon_penerima': nomorTeleponPenerima,
-      'alamat_penerima': alamatPenerima,
-      'lat_penerima': latPenerima,
-      'long_penerima': longPenerima,
-      'alamat_pengirim': alamatPengirim,
-      'lat_pengirim': latPengirim,
-      'long_pengirim': longPengirim,
-      'id_pelanggan': idPelanggan,
+      'id_akun': idAkun,
       'id_kurir': idKurir,
+      'long_pengirim': longPengirim,
+      'lat_pengirim': latPengirim,
+      'long_penerima': longPenerima,
+      'lat_penerima': latPenerima,
       'ukuran': ukuran?.name,
     };
 
-    jsonData.removeWhere(
-      (key, value) => (value == null || value == "") && key != "id_kurir",
-    );
+    jsonData.removeWhere((k, v) => v == null || v == "");
 
     return jsonData;
   }

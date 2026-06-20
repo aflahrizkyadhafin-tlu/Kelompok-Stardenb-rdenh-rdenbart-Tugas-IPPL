@@ -1,14 +1,12 @@
-enum UserRole { pengguna, kurir, admin }
-
 class Akun {
-  String? idAkun;
-  String? username;
-  String? namaLengkap;
-  String? alamat;
-  UserRole? role;
-  DateTime? createdAt;
-  String? fotoProfile;
-  String? idUser;
+  final String? idAkun;
+  final String? username;
+  final String? namaLengkap;
+  final String? alamat;
+  final String? role;
+  final DateTime? createdAt;
+  final String? fotoProfile;
+  final String? idUser;
 
   Akun({
     this.idAkun,
@@ -27,14 +25,9 @@ class Akun {
       username: json['username'] as String?,
       namaLengkap: json['nama_lengkap'] as String?,
       alamat: json['alamat'] as String?,
-      role: json['role'] != null
-          ? UserRole.values.firstWhere(
-              (e) => e.name == json['role'] as String,
-              orElse: () => UserRole.pengguna,
-            )
-          : null,
+      role: json['role'] as String?,
       createdAt: json['created_at'] != null
-          ? DateTime.tryParse(json['created_at'] as String)
+          ? DateTime.parse(json['created_at'] as String)
           : null,
       fotoProfile: json['foto_profile'] as String?,
       idUser: json['id_user'] as String?,
@@ -47,7 +40,7 @@ class Akun {
       'username': username,
       'nama_lengkap': namaLengkap,
       'alamat': alamat,
-      'role': role?.name,
+      'role': role,
       'created_at': createdAt?.toIso8601String(),
       'foto_profile': fotoProfile,
       'id_user': idUser,

@@ -15,11 +15,13 @@ class RatingAplikasi {
 
   factory RatingAplikasi.fromJson(Map<String, dynamic> json) {
     return RatingAplikasi(
-      idRatingAplikasi: json['id_rating_aplikasi'] as String,
-      skor: (json['skor'] as num).toDouble(),
+      idRatingAplikasi: json['id_rating_aplikasi'] as String?,
+      skor: (json['skor'] as num?)?.toDouble(),
       pesan: json['pesan'] as String?,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      idAkun: json['id_akun'] as String,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'] as String)
+          : null,
+      idAkun: json['id_akun'] as String?,
     );
   }
 
@@ -32,7 +34,7 @@ class RatingAplikasi {
       'id_akun': idAkun,
     };
 
-    jsonData.removeWhere((key, value) => value == null || value == "");
+    jsonData.removeWhere((k, v) => v == null || v == "");
 
     return jsonData;
   }
