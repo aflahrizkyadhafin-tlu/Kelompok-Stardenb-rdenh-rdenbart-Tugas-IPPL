@@ -9,6 +9,7 @@ import 'package:mykurir/pages/profil/profil_screen.dart';
 import 'package:mykurir/pages/rating_aplikasi/rating_aplikasi_screen.dart';
 import 'package:mykurir/pages/setting/setting_screen.dart';
 import 'package:mykurir/pages/verifotp/verifotp_screen.dart';
+import 'package:mykurir/pages/terima_kasih_penilaian/terima_kasih_penilaian_screen.dart';
 
 List<GetPage<dynamic>> routes = [
   // Login Sementara
@@ -35,6 +36,10 @@ List<GetPage<dynamic>> routes = [
 
   // Route Rating Aplikasi
   GetPage(name: "/rating_aplikasi", page: () => RatingAplikasiScreen()),
+  GetPage(
+    name: "/terima_kasih_penilaian",
+    page: () => TerimakasihPenilaianScreen(),
+  ),
 
   // Route Profil
   GetPage(name: "/profil", page: () => ProfilScreen()),

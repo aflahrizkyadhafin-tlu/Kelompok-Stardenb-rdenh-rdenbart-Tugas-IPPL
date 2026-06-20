@@ -193,14 +193,22 @@ class Body extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             _loadingController.show();
-                            _ratingAplikasiController.tambahRatingAplikasi(
-                              RatingAplikasi(
-                                pesan: feedbackController.text.trim(),
-                                skor: double.parse(selectedRating.toString()),
-                                idAkun:
-                                    _akunController.profileAkun.value!.idAkun,
-                              ),
-                            );
+                            _ratingAplikasiController
+                                .tambahRatingAplikasi(
+                                  RatingAplikasi(
+                                    pesan: feedbackController.text.trim(),
+                                    skor: double.parse(
+                                      selectedRating.toString(),
+                                    ),
+                                    idAkun: _akunController
+                                        .profileAkun
+                                        .value!
+                                        .idAkun,
+                                  ),
+                                )
+                                .then(
+                                  (e) => Get.toNamed("/terima_kasih_penilaian"),
+                                );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFE31E24),
