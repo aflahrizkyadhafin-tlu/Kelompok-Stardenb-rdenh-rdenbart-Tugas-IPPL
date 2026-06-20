@@ -24,6 +24,7 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
   int _startWaktu = 120;
   final AuthController authController = Get.put(AuthController());
   final LoadingController loadingController = Get.put(LoadingController());
+  final args = Get.arguments;
 
   @override
   void initState() {
@@ -82,6 +83,7 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(args);
     return Scaffold(
       body: Body(
         otpControllers: _otpControllers,
@@ -89,7 +91,7 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
         isButtonActive: _isButtonActive,
         timerString: _timerString,
         phoneNumber: authController
-            .nomorTelepon, // Nantinya bisa di-passing dari halaman login
+            .sendNomorTelepon, // Nantinya bisa di-passing dari halaman login
         onOtpChanged: _handleOtpChange,
         onResendPressed: () {
           debugPrint("Kirim Ulang OTP");
@@ -101,11 +103,18 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
           String kodeOtp = _otpControllers.map((e) => e.text).join();
           debugPrint("Memverifikasi OTP: $kodeOtp");
           loadingController.show();
-          final bool verifOTP = await authController.verifOTPTelepon(
-            authController.nomorTelepon,
-            kodeOtp,
-          );
+          final bool verifOTP = args["type"] == "telepon"
+              ? await authController.verifOTPTelepon(
+                  authController.sendNomorTelepon,
+                  kodeOtp,
+                )
+              : await authController.verifOTPEmail(
+                  authController.sendEmail,
+                  kodeOtp,
+                );
           if (verifOTP) {
+            authController.sendNomorTelepon = "";
+            authController.sendEmail = "";
             Get.snackbar("Verifikasi OTP", "Verifikasi OTP berhasil");
           }
           // TODO: Navigasi jika berhasil

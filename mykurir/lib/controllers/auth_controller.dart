@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:mykurir/controllers/akun_controller.dart';
 import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:mykurir/db/connection.dart';
 import 'package:mykurir/models/akun.dart';
@@ -6,13 +7,18 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthController extends GetxController {
   LoadingController loadingController = Get.put(LoadingController());
+  AkunController akunController = Get.put(AkunController());
+
   Rxn<Akun> detailUser = Rxn<Akun>();
-  String nomorTelepon = "";
+  String sendEmail = "";
+  String sendNomorTelepon = "";
+  String sendUsername = "";
 
   Future<void> register(String email, String password) async {
     try {
       await db.auth.signUp(password: password, email: email);
       print("[Register] : Kode OTP berhasil dikirim");
+      Get.snackbar("Register", "Kode OTP berhasil dikirim");
     } catch (e) {
       print("[Register] #Error: $e");
     } finally {
@@ -20,16 +26,24 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> verifOTPEmail(String kodeOTP, String email) async {
+  Future<bool> verifOTPEmail(String kodeOTP) async {
     try {
       final response = await db.auth.verifyOTP(
         type: OtpType.email,
-        email: email,
+        email: sendEmail,
         token: kodeOTP,
       );
       print("[verifOTP] : $response");
+
+      Get.snackbar("Kode OTP", "Kode OTP berhasil diverifikasi");
+
+      Akun sendData = Akun(idUser: response.user!.id, username: sendUsername);
+      akunController.createProfile(sendData);
+
+      return true;
     } catch (e) {
       print("[verifOTP] #Error : $e");
+      return false;
     } finally {
       loadingController.hide();
     }

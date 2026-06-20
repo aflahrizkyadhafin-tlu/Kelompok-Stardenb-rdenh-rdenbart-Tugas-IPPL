@@ -236,7 +236,7 @@ class Body extends StatelessWidget {
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
                                 loadingController.show();
-                                authController.nomorTelepon =
+                                authController.sendNomorTelepon =
                                     nomorTeleponController.text.trim();
                                 await authController
                                     .gantiNomorTelepon(

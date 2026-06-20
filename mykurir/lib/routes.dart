@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mykurir/login_sementara.dart';
+import 'package:mykurir/beranda_sementara.dart';
 import 'package:mykurir/pages/daftar/daftar_screen.dart';
 import 'package:mykurir/pages/login/login_screen.dart';
 import 'package:mykurir/pages/masukNoHP/masukNoHP_screen.dart';
@@ -11,7 +11,7 @@ import 'package:mykurir/pages/verifotp/verifotp_screen.dart';
 
 List<GetPage<dynamic>> routes = [
   // Login Sementara
-  GetPage(name: "/login_sementara", page: () => LoginSementara()),
+  GetPage(name: "/beranda_sementara", page: () => BerandaSementara()),
 
   // Route Login
   GetPage(name: "/", page: () => LoginScreen()),

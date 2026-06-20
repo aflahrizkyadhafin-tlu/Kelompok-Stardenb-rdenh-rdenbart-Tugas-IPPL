@@ -148,7 +148,7 @@ class Body extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, '/daftar');
+                                Get.toNamed("/daftar");
                               },
                               child: const Text(
                                 'Buat Akun',

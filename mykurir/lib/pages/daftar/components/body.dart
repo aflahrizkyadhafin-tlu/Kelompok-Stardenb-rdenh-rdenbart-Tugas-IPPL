@@ -1,23 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/route_manager.dart';
+import 'package:get/state_manager.dart';
+import 'package:mykurir/controllers/auth_controller.dart';
+import 'package:mykurir/controllers/loading_controller.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true),
-      home: const Daftar(),
-    );
-  }
-}
+    final LoadingController loadingController = Get.find();
+    final AuthController authController = Get.find();
 
-class Daftar extends StatelessWidget {
-  const Daftar({super.key});
+    TextEditingController _usernameController = TextEditingController();
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
+    TextEditingController _confirmPasswordController = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
+    RxBool isValid = false.obs;
+
+    void checkValid() {
+      isValid.value =
+          _usernameController.text != "" &&
+          _emailController.text != "" &&
+          _passwordController.text != "" &&
+          _confirmPasswordController.text != "" &&
+          _passwordController == _confirmPasswordController;
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -38,19 +49,30 @@ class Daftar extends StatelessWidget {
               const Text('Buat akun untuk masuk ke aplikasi'),
               const SizedBox(height: 30),
               _buildTextField(
+                controller: _usernameController,
+                onChanged: (value) => {},
                 label: 'Nama Pengguna',
                 icon: Icons.person_outline,
               ),
               const SizedBox(height: 16),
-              _buildTextField(label: 'Email', icon: Icons.email_outlined),
+              _buildTextField(
+                controller: _emailController,
+                onChanged: (value) => {},
+                label: 'Email',
+                icon: Icons.email_outlined,
+              ),
               const SizedBox(height: 16),
               _buildTextField(
+                controller: _passwordController,
+                onChanged: (value) => {},
                 label: 'Password',
                 icon: Icons.lock_outline,
                 isPassword: true,
               ),
               const SizedBox(height: 16),
               _buildTextField(
+                controller: _confirmPasswordController,
+                onChanged: (value) => {},
                 label: 'Konfirmasi Password',
                 icon: Icons.lock_reset_outlined,
                 isPassword: true,
@@ -60,7 +82,20 @@ class Daftar extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    loadingController.show();
+                    authController
+                        .register(
+                          _emailController.text.trim(),
+                          _passwordController.text.trim(),
+                        )
+                        .then(
+                          (v) => Get.toNamed(
+                            "/verif_otp",
+                            arguments: {"type": "email"},
+                          ),
+                        );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFE31E24),
                     shape: RoundedRectangleBorder(
@@ -104,6 +139,8 @@ class Daftar extends StatelessWidget {
   Widget _buildTextField({
     required String label,
     required IconData icon,
+    required TextEditingController controller,
+    required Function(String)? onChanged,
     bool isPassword = false,
   }) {
     return Column(
@@ -118,6 +155,8 @@ class Daftar extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextFormField(
+          controller: controller,
+          onChanged: onChanged,
           obscureText: isPassword,
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
