@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'statususerpage.dart';
 
-class Body extends StatefulWidget {
+class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
-  State<Body> createState() => _BodyState();
-}
-
-class _BodyState extends State<Body> {
-  bool isDriverRole = false;
-
-  @override
   Widget build(BuildContext context) {
+    final ValueNotifier<bool> isDriverRoleNotifier = ValueNotifier<bool>(false);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -31,7 +26,6 @@ class _BodyState extends State<Body> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        //Gradient
                         Color(0xFFB71C1C),
                         Color(0xFFEF5350),
                       ],
@@ -51,7 +45,7 @@ class _BodyState extends State<Body> {
                           color: Colors.white,
                           size: 20,
                         ),
-                        onPressed: () {},
+                        onPressed: () => Navigator.pop(context),
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 8.0),
@@ -156,36 +150,36 @@ class _BodyState extends State<Body> {
                     'Alamat Tersimpan',
                     onTap: () {},
                   ),
-                  _buildMenuSwitchItem(
-                    Icons.person_pin_outlined,
-                    isDriverRole ? 'Role : Driver' : 'Role : Pengguna',
-                    isDriverRole,
-                    (value) {
-                      setState(() {
-                        isDriverRole = value;
-                      });
+                  
+                  
+                  ValueListenableBuilder<bool>(
+                    valueListenable: isDriverRoleNotifier,
+                    builder: (context, isDriverRole, child) {
+                      return _buildMenuSwitchItem(
+                        Icons.person_pin_outlined,
+                        isDriverRole ? 'Role : Driver' : 'Role : Pengguna',
+                        isDriverRole,
+                        (value) {
+                          isDriverRoleNotifier.value = value;
+                          String statusTeks = value ? 'Driver' : 'Umum';
 
-                      String statusTeks = value ? 'Driver' : 'Umum';
-
-                      // Animasi & Nav
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
+                          // Animasi & Navigasi
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) =>
                                   StatusUserPage(statusRole: statusTeks),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                 return FadeTransition(
                                   opacity: animation,
                                   child: child,
                                 );
                               },
-                          transitionDuration: const Duration(milliseconds: 400),
-                          reverseTransitionDuration: const Duration(
-                            milliseconds: 400,
-                          ),
-                        ),
+                              transitionDuration: const Duration(milliseconds: 400),
+                              reverseTransitionDuration: const Duration(milliseconds: 400),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
