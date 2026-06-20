@@ -1,10 +1,18 @@
 import 'package:get/get.dart';
 import 'package:mykurir/beranda_sementara.dart';
 import 'package:mykurir/pages/daftar/daftar_screen.dart';
+import 'package:mykurir/pages/daftar_mitra_driver_1/mitra_driver_1_screen.dart';
+import 'package:mykurir/pages/daftar_mitra_driver_2/mitra_driver_2_screen.dart';
+import 'package:mykurir/pages/daftar_mitra_driver_3/mitra_driver_3_screen.dart';
+import 'package:mykurir/pages/daftar_mitra_driver_4/mitra_driver_4_screen.dart';
+import 'package:mykurir/pages/daftar_mitra_driver_5/mitra_driver_5_screen.dart';
+import 'package:mykurir/pages/detail_pesanan_on_deliv/detail_pesanan_on_deliv_screen.dart';
+import 'package:mykurir/pages/detail_pesanan_selesai/detail_pesanan_selesai_screen.dart';
+import 'package:mykurir/pages/edit_profil/edit_profil_screen.dart';
 import 'package:mykurir/pages/login/login_screen.dart';
-import 'package:mykurir/pages/masukNoHP/masukNoHP_screen.dart';
-import 'package:mykurir/pages/permintaanPesanan/pesanan_screen.dart';
-import 'package:mykurir/pages/pilihrole/pilihrole_screen.dart';
+import 'package:mykurir/pages/masuk_no_HP/masuk_no_HP_screen.dart';
+import 'package:mykurir/pages/permintaan_pesanan/permintaan_pesanan_screen.dart';
+import 'package:mykurir/pages/pilih_role/pilihrole_screen.dart';
 import 'package:mykurir/pages/profil/profil_screen.dart';
 import 'package:mykurir/pages/rating_aplikasi/rating_aplikasi_screen.dart';
 import 'package:mykurir/pages/rating_driver/rating_driver_screen.dart';
@@ -28,6 +36,14 @@ List<GetPage<dynamic>> routes = [
 
   // Route Pesanan
   GetPage(name: "/permintaan_pesanan", page: () => PermintaanPesananScreen()),
+  GetPage(
+    name: "/detail_pesanan_on_deliv",
+    page: () => DetailPesananOnDelivScreen(),
+  ),
+  GetPage(
+    name: "/detail_pesanan_selesai",
+    page: () => DetailPesananSelesaiScreen(),
+  ),
 
   // Route Setting
   GetPage(name: "/setting", page: () => SettingScreen()),
@@ -45,4 +61,12 @@ List<GetPage<dynamic>> routes = [
 
   // Route Profil
   GetPage(name: "/profil", page: () => ProfilScreen()),
+  GetPage(name: "/edit_profil", page: () => EditprofilScreen()),
+
+  // Route Daftar Mitra
+  GetPage(name: "/daftar_mitra_driver_1", page: () => MitraDriver1Screen()),
+  GetPage(name: "/daftar_mitra_driver_2", page: () => MitraDriver2Screen()),
+  GetPage(name: "/daftar_mitra_driver_3", page: () => MitraDriver3Screen()),
+  GetPage(name: "/daftar_mitra_driver_4", page: () => MitraDriver4Screen()),
+  GetPage(name: "/daftar_mitra_driver_5", page: () => MitraDriver5Screen()),
 ];
