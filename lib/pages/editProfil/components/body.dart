@@ -6,19 +6,6 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true),
-      home: const EditProfil(),
-    );
-  }
-}
-
-class EditProfil extends StatelessWidget {
-  const EditProfil({super.key});
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

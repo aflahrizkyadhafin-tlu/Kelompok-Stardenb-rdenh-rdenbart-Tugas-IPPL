@@ -6,33 +6,15 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true),
-      home: const MasukNoHP(),
-    );
-  }
-}
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-class MasukNoHP extends StatefulWidget {
-  const MasukNoHP({super.key});
-
-  @override
-  State<MasukNoHP> createState() => _MasukNoHPState();
-}
-
-class _MasukNoHPState extends State<MasukNoHP> {
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Form(
-            key: _formKey,
+            key: _formKey, // Terhubung ke variabel lokal di atas
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,7 +129,6 @@ class _MasukNoHPState extends State<MasukNoHP> {
                 const SizedBox(height: 8),
                 TextFormField(
                   keyboardType: TextInputType.number,
-                  // Input hanya angka
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
@@ -177,11 +158,10 @@ class _MasukNoHPState extends State<MasukNoHP> {
                     }
                     String nomor = value.trim();
 
-                    // Wajib 08/628, Max panjang 9-13 digit
-                    String pattern = r'^(08|628)[0-9]{9,11}$';
+                    String pattern = r'^(08|628)[0-9]{8,11}$';
                     RegExp regExp = RegExp(pattern);
 
-                    if (!regExp.hasMatch(value)) {
+                    if (!regExp.hasMatch(nomor)) {
                       return 'harap masukan nomor telepon yang valid';
                     }
                     return null;
@@ -226,9 +206,8 @@ class _MasukNoHPState extends State<MasukNoHP> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      // 3. Memvalidasi form saat tombol ditekan
+                      // Validasi form menggunakan instansiasi lokal _formKey
                       if (_formKey.currentState!.validate()) {
-                        // Jika valid, jalankan fungsi kirim OTP di sini
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Memproses OTP...')),
                         );
