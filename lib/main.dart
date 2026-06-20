@@ -1,4 +1,4 @@
-import 'package:arata/pages/persetujuan_hapus/components/body.dart';
+import 'package:arata/pages/lupa_password/components/body.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
-          child: Body(),
+          child: LupaPasswordScreen(),
         ),
       ),
     );
