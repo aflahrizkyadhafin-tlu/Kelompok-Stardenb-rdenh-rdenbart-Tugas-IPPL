@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontendmykurir_rizqi/pages/notifikasi/notifikasi_screen.dart';
+import 'package:frontendmykurir_rizqi/pages/daftarmitradriver5/mitradriver5_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,9 +10,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const NotifikasiScreen(),
+      home: MitraDriver5Screen(),
     );
   }
 }

@@ -43,26 +43,26 @@ class Body extends StatelessWidget {
                 height: 50,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xFFDCFCE7), // Warna hijau muda background icon
+                  color: Color(0xFFFCF8E3), // Kuning pudar
                 ),
                 child: const Icon(
-                  Icons.check_circle,
-                  color: Color(0xFF16A34A), // Warna hijau icon
-                  size: 28,
+                  Icons.send_rounded, // Ikon pesawat kertas
+                  color: Color(0xFFD4A017), // Kuning emas
+                  size: 24,
                 ),
               ),
               const SizedBox(height: 16),
               Text(
-                'Order Completed',
+                'On Delivery',
                 style: GoogleFonts.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xFF15803D),
+                  color: const Color(0xFF8B4513), // Coklat gelap
                 ),
               ),
               const SizedBox(height: 6),
               Text(
-                'Barang anda telah dikirim pada\n11 Juni 2026',
+                'Barang anda dalam pengiriman',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                   fontSize: 14,
@@ -99,7 +99,7 @@ class Body extends StatelessWidget {
                       children: [
                         const Icon(
                           Icons.location_on_outlined,
-                          color: Color(0xFFA60B14), // Merah ikon lokasi
+                          color: Color(0xFFA60B14),
                           size: 20,
                         ),
                         const SizedBox(width: 8),
@@ -131,9 +131,7 @@ class Body extends StatelessWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: const Color(
-                          0xFFF5F5F5,
-                        ), // Abu-abu background input
+                        color: const Color(0xFFF5F5F5),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -189,11 +187,11 @@ class Body extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // --- Card 3: Info Driver (Kartu Merah) ---
+              // --- Card 3: Info Driver ---
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFA60B14), // Merah gelap
+                  color: const Color(0xFFA60B14),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -207,7 +205,6 @@ class Body extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   child: Stack(
                     children: [
-                      // Dekorasi lingkaran transparan di kanan
                       Positioned(
                         right: -40,
                         bottom: -40,
@@ -220,12 +217,10 @@ class Body extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Konten Driver
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Row(
                           children: [
-                            // Foto Driver
                             Container(
                               width: 60,
                               height: 60,
@@ -235,13 +230,7 @@ class Body extends StatelessWidget {
                                   color: Colors.white,
                                   width: 2,
                                 ),
-                                // Ganti AssetImage di bawah dengan path gambar aslimu
-                                // image: DecorationImage(
-                                //   image: AssetImage('assets/images/driver_photo.png'),
-                                //   fit: BoxFit.cover,
-                                // ),
-                                color: Colors
-                                    .grey, // Placeholder jika gambar belum ada
+                                color: Colors.grey,
                               ),
                               child: const Icon(
                                 Icons.person,
@@ -250,7 +239,6 @@ class Body extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 16),
-                            // Info Text Driver
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -300,38 +288,69 @@ class Body extends StatelessWidget {
               ),
               const SizedBox(height: 32),
 
-              // --- Tombol Bawah (Pesanan Selesai) ---
-              Container(
-                width: double.infinity,
-                height: 54,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: const Color(0xFFD4D4D4),
-                    width: 1.5,
-                  ),
-                ),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.check_circle_outline,
-                        color: Color(0xFF9E9E9E),
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Pesanan Selesai',
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF9E9E9E),
+              // --- Tombol Bawah (Chat Driver & Pesanan Selesai) ---
+              Row(
+                children: [
+                  // Tombol Chat Driver
+                  Expanded(
+                    child: SizedBox(
+                      height: 54,
+                      child: ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.chat_outlined,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        label: Text(
+                          'Chat Driver',
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(
+                            0xFF0A915E,
+                          ), // Hijau tebal
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 16),
+
+                  // Tombol Pesanan Selesai
+                  Expanded(
+                    child: SizedBox(
+                      height: 54,
+                      child: OutlinedButton(
+                        onPressed: () {},
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(
+                            color: Color(0xFFE31E24),
+                            width: 1.5,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          'Pesanan Selesai',
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFFE31E24), // Merah
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 24),
             ],
@@ -341,8 +360,6 @@ class Body extends StatelessWidget {
     );
   }
 
-  // --- Widget Bantuan ---
-  // Buat Label abu-abu kecil
   Widget _buildLabel(String text, {bool isUppercase = true}) {
     return Text(
       isUppercase ? text.toUpperCase() : text,
@@ -355,7 +372,6 @@ class Body extends StatelessWidget {
     );
   }
 
-  // Buat Box Card putih dengan bayangan
   Widget _buildWhiteCard({required Widget child}) {
     return Container(
       width: double.infinity,
