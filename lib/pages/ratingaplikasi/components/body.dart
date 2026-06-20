@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RatingBody extends StatelessWidget {
-  // Parameter yang diterima dari widget parent
   final int selectedRating;
   final ValueChanged<int> onRatingChanged;
   final TextEditingController feedbackController;
@@ -17,16 +16,18 @@ class RatingBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F9FB),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // --- Header ---
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-                vertical: 16.0,
+              padding: const EdgeInsets.only(
+                left: 24.0,
+                right: 24.0,
+                top: 24.0,
+                bottom: 12.0,
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,113 +36,102 @@ class RatingBody extends StatelessWidget {
                     onTap: () => Navigator.pop(context),
                     child: const Icon(
                       Icons.arrow_back_ios_new,
-                      color: Color(0xFF2E2E2E),
-                      size: 20,
+                      color: Colors.black,
+                      size: 22,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 16),
                   Text(
                     'Rating Aplikasi',
                     style: GoogleFonts.poppins(
-                      fontSize: 22,
+                      fontSize: 24,
                       fontWeight: FontWeight.w700,
-                      color: const Color(0xFF2E2E2E),
+                      color: Color(0xFF000000),
                     ),
                   ),
                 ],
               ),
             ),
-            const Divider(height: 1, color: Color(0xFFDDDDDD)),
 
-            // --- Konten ---
+            // --- Garis Pembatas ---
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              child: Divider(
+                height: 2,
+                thickness: 1.5,
+                color: Color(0xB2000000),
+              ),
+            ),
+
+            // --- Konten Utama ---
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24.0,
-                    vertical: 32.0,
+                    vertical: 40.0,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // --- Ikon Smiley Menggunakan PNG Assets ---
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: const Color(0xFF2E2E2E),
-                            width: 2.5,
-                          ),
-                        ),
-                        child: Center(
-                          child: Image.asset(
-                            'assets/emojismile.png', // Pastikan file ada di assets
-                            width: 48,
-                            height: 48,
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(
-                                Icons.sentiment_satisfied_alt_rounded,
-                                size: 48,
-                                color: Color(0xFF2E2E2E),
-                              );
-                            },
-                          ),
-                        ),
+                      // --- Ikon Smiley ---
+                      Image.asset(
+                        'assets/icons/emojismile.png',
+                        width: 90,
+                        height: 90,
+                        fit: BoxFit.contain,
+                        color: Color(0xFF2E2E2E),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 32),
 
                       // --- Judul ---
                       Text(
-                        'Bagimana Pengalaman Anda?',
+                        'Bagaimana Pengalaman Anda?',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
-                          color: const Color(0xFF2E2E2E),
+                          color: Colors.black,
+                          height: 1.2,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 6),
                       Text(
                         'Penilaian anda sangat membantu kami untuk mengembangkan aplikasi ini menjadi lebih baik',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
-                          fontSize: 14,
+                          fontSize: 13,
                           fontWeight: FontWeight.w400,
                           color: const Color(0xFF5A5A5A),
+                          height: 1.4,
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 36),
 
                       // --- Bintang Rating ---
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(5, (index) {
+                          final isSelected = index < selectedRating;
                           return GestureDetector(
-                            onTap: () {
-                              // Memanggil callback saat bintang ditekan
-                              onRatingChanged(index + 1);
-                            },
+                            onTap: () => onRatingChanged(index + 1),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 6.0,
+                                horizontal: 4.0,
                               ),
-                              child: Icon(
-                                index < selectedRating
-                                    ? Icons.star_rounded
-                                    : Icons.star_outline_rounded,
-                                size: 48,
-                                color: index < selectedRating
+                              child: Image.asset(
+                                'assets/icons/Vector.png',
+                                width: 46,
+                                height: 46,
+                                color: isSelected
                                     ? const Color(0xFFFFC107)
-                                    : const Color(0xFFCCCCCC),
+                                    : const Color(0xFFE5E5E5),
                               ),
                             ),
                           );
                         }),
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 36),
 
                       // --- Label Textarea ---
                       Align(
@@ -150,8 +140,8 @@ class RatingBody extends StatelessWidget {
                           'Apa yang bisa kami tingkatkan?',
                           style: GoogleFonts.poppins(
                             fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF2E2E2E),
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
                           ),
                         ),
                       ),
@@ -162,30 +152,32 @@ class RatingBody extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: const Color(0xFFCCCCCC)),
+                          border: Border.all(
+                            color: const Color(0xFFCCCCCC),
+                            width: 1.2,
+                          ),
                         ),
                         child: TextField(
-                          controller:
-                              feedbackController, // Menggunakan parameter dari konstruktor
-                          maxLines: 6,
+                          controller: feedbackController,
+                          maxLines: 5,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             contentPadding: const EdgeInsets.all(16),
                             hintText: 'Tulis saran atau masukan Anda...',
                             hintStyle: GoogleFonts.poppins(
                               fontSize: 13,
-                              color: Colors.grey,
+                              color: const Color(0xFF999999),
                             ),
                           ),
                           style: GoogleFonts.poppins(fontSize: 14),
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 40),
 
                       // --- Tombol Kirim ---
                       SizedBox(
                         width: double.infinity,
-                        height: 56,
+                        height: 54,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.pushReplacementNamed(
@@ -197,7 +189,7 @@ class RatingBody extends StatelessWidget {
                             backgroundColor: const Color(0xFFE31E24),
                             elevation: 0,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                           child: Text(
@@ -210,7 +202,6 @@ class RatingBody extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
