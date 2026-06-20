@@ -105,10 +105,11 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
           loadingController.show();
           final bool verifOTP = args["type"] == "telepon"
               ? await authController.verifOTPTelepon(kodeOtp)
+              : args["type"] == "recovery"
+              ? await authController.verifChangePassword(kodeOtp, args["email"])
               : await authController.verifOTPEmail(kodeOtp);
           if (verifOTP) {
-            authController.registerData.nomorTelepon = "";
-            authController.registerData.email = "";
+            authController.registerData = RegisterPayload();
             Get.snackbar("Verifikasi OTP", "Verifikasi OTP berhasil");
           }
           // TODO: Navigasi jika berhasil

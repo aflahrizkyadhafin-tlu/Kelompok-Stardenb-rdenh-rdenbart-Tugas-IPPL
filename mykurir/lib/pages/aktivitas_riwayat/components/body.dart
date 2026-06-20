@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:icons_flutter/icons_flutter.dart';
+// import 'package:icons_flutter/icons_flutter.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -9,7 +9,7 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      
+
       // =========================================================
       // MENU NAVIGASI BAWAH (Sesuai kode asli yang Anda berikan)
       // =========================================================
@@ -80,7 +80,10 @@ class Body extends StatelessWidget {
 
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 8.0,
+                ),
                 children: [
                   // KARTU 1 (Data Dimas)
                   _buildKartuOrder(
@@ -90,9 +93,9 @@ class Body extends StatelessWidget {
                     lokasiAwal: "Teluk",
                     lokasiTujuan: "Perumahan Arca",
                     harga: "Rp 12.000",
-                  ), 
+                  ),
                   const SizedBox(height: 16),
-                  
+
                   // KARTU 2 (Data Renisa) - Berbeda!
                   _buildKartuOrder(
                     isSukses: true,
@@ -101,7 +104,7 @@ class Body extends StatelessWidget {
                     lokasiAwal: "Teluk",
                     lokasiTujuan: "Telkom University Purwokerto",
                     harga: "Rp 9.000",
-                  ), 
+                  ),
                   const SizedBox(height: 16),
 
                   // KARTU 3 (Data Rizqi - Batal) - Berbeda lagi!
@@ -112,7 +115,7 @@ class Body extends StatelessWidget {
                     lokasiAwal: "Karang Lwas",
                     lokasiTujuan: "Teluk",
                     harga: "Rp 22.000",
-                  ), 
+                  ),
                   const SizedBox(height: 32),
                 ],
               ),
@@ -170,7 +173,11 @@ class Body extends StatelessWidget {
                 child: Center(
                   child: Text(
                     "Riwayat",
-                    style: GoogleFonts.poppins(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
@@ -179,7 +186,11 @@ class Body extends StatelessWidget {
               child: Center(
                 child: Text(
                   "Berlangsung",
-                  style: GoogleFonts.poppins(color: Colors.black54, fontSize: 12, fontWeight: FontWeight.w500),
+                  style: GoogleFonts.poppins(
+                    color: Colors.black54,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ),
@@ -202,8 +213,8 @@ class Body extends StatelessWidget {
   }) {
     Color warnaStatus = isSukses ? Colors.green : Colors.red;
     String teksStatus = isSukses ? "Orderan Selesai" : "Orderan dibatalkan";
-    IconData ikonStatus = isSukses ? Feather.check_circle : Feather.x_circle;
-    IconData ikonUtama = isSukses ? FontAwesome.truck : Feather.x_circle;
+    // IconData ikonStatus = isSukses ? Feather.check_circle : Feather.x_circle;
+    // IconData ikonUtama = isSukses ? FontAwesome.truck : Feather.x_circle;
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -220,48 +231,56 @@ class Body extends StatelessWidget {
             children: [
               // Variabel tanggal dimasukkan ke sini
               Text(
-                tanggal, 
+                tanggal,
                 style: GoogleFonts.poppins(
-                  fontSize: 12, 
-                  color: Colors.grey.shade600)
-              ),
-              Container(
-                padding: const EdgeInsets.all(6.0),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFADBD8), 
-                  borderRadius: BorderRadius.circular(8.0)
+                  fontSize: 12,
+                  color: Colors.grey.shade600,
                 ),
-                child: Icon(
-                  ikonUtama, 
-                  color: const Color(0xFFB03A2E), 
-                  size: 16.0),
               ),
+              // Container(
+              //   padding: const EdgeInsets.all(6.0),
+              //   decoration: BoxDecoration(
+              //     color: const Color(0xFFFADBD8),
+              //     borderRadius: BorderRadius.circular(8.0)
+              //   ),
+              //   child: Icon(
+              //     ikonUtama,
+              //     color: const Color(0xFFB03A2E),
+              //     size: 16.0),
+              // ),
             ],
           ),
           const SizedBox(height: 8),
-          
+
           // Variabel namaPelanggan dimasukkan ke sini
-        SizedBox(
-          width: 100,
-          child: Text(
-            namaPelanggan, 
-            style: GoogleFonts.poppins(
-              fontSize: 16, 
-              fontWeight: FontWeight.bold
-              )
+          SizedBox(
+            width: 100,
+            child: Text(
+              namaPelanggan,
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-        ),
           const SizedBox(height: 12),
-          
+
           Container(
             padding: const EdgeInsets.all(12.0),
-            decoration: BoxDecoration(color: const Color(0xFFF8F9FA), borderRadius: BorderRadius.circular(8.0)),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8F9FA),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
             child: Row(
               children: [
                 Column(
                   children: [
                     const Icon(Icons.circle, size: 8, color: Colors.grey),
-                    Container(height: 12, width: 1.5, color: Colors.grey.shade300),
+                    Container(
+                      height: 12,
+                      width: 1.5,
+                      color: Colors.grey.shade300,
+                    ),
                     const Icon(Icons.circle, size: 8, color: Colors.red),
                   ],
                 ),
@@ -275,26 +294,27 @@ class Body extends StatelessWidget {
                           lokasiAwal,
                           textAlign: TextAlign.left,
                           style: GoogleFonts.poppins(fontSize: 13),
-                          overflow: TextOverflow.ellipsis
-                        )
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0), 
-                        child: Icon(
-                          Feather.arrow_right, 
-                          size: 16, 
-                          color: Colors.grey)
-                      ),
+                      // const Padding(
+                      //   padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      //   child: Icon(
+                      //     Feather.arrow_right,
+                      //     size: 16,
+                      //     color: Colors.grey,
+                      //   ),
+                      // ),
                       // Variabel lokasiTujuan dimasukkan ke sini
-                     Expanded(
+                      Expanded(
                         child: Text(
                           lokasiTujuan,
                           textAlign: TextAlign.right,
-                          style: GoogleFonts.poppins(fontSize: 13), 
+                          style: GoogleFonts.poppins(fontSize: 13),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           softWrap: false,
-                        )
+                        ),
                       ),
                     ],
                   ),
@@ -303,26 +323,29 @@ class Body extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Variabel harga dimasukkan ke sini
               Text(
-                harga, 
+                harga,
                 style: GoogleFonts.poppins(
-                  fontSize: 18, 
-                  fontWeight: FontWeight.bold)
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Row(
                 children: [
-                  Icon(
-                    ikonStatus, 
-                    color: warnaStatus, size: 14),
+                  // Icon(ikonStatus, color: warnaStatus, size: 14),
                   const SizedBox(width: 4),
                   Text(
-                    teksStatus, 
-                    style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.bold, color: warnaStatus)
+                    teksStatus,
+                    style: GoogleFonts.poppins(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: warnaStatus,
+                    ),
                   ),
                 ],
               ),

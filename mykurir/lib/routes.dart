@@ -19,13 +19,12 @@ import 'package:mykurir/pages/keamanan_akun/keamanan_akun_screen.dart';
 import 'package:mykurir/pages/login/login_screen.dart';
 import 'package:mykurir/pages/lupa_password/lupa_password_screen.dart';
 import 'package:mykurir/pages/lupa_password_input_new_password/lupa_password_input_new_password_screen.dart';
-import 'package:mykurir/pages/lupa_password_otp/lupa_password_otp_screen.dart';
 import 'package:mykurir/pages/lupa_password_validasi/lupa_password_validasi_screen.dart';
 import 'package:mykurir/pages/masuk_no_HP/masuk_no_HP_screen.dart';
 import 'package:mykurir/pages/notifikasi/notifikasi_screen.dart';
 import 'package:mykurir/pages/opsi_hapus_akun/opsi_hapus_akun_screen.dart';
 import 'package:mykurir/pages/permintaan_pesanan/permintaan_pesanan_screen.dart';
-import 'package:mykurir/pages/pilih_role/pilihrole_screen.dart';
+import 'package:mykurir/pages/pilih_role/pilih_role_screen.dart';
 import 'package:mykurir/pages/profil/profil_screen.dart';
 import 'package:mykurir/pages/pusatbantuan/pusatbantuan_screen.dart';
 import 'package:mykurir/pages/rating_aplikasi/rating_aplikasi_screen.dart';
@@ -58,7 +57,6 @@ List<GetPage<dynamic>> routes = [
     name: "/lupa_password_input_new_password",
     page: () => LupaPasswordInputNewPassword(),
   ),
-  GetPage(name: "/lupa_password_otp", page: () => LupaPasswordOtpScreen()),
   GetPage(
     name: "/lupa_password_validasi",
     page: () => LupapasswordValidasiScreen(),

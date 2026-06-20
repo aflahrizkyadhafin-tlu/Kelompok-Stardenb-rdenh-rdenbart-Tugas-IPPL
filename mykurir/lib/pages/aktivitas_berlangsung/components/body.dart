@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:icons_flutter/icons_flutter.dart';
+// import 'package:icons_flutter/icons_flutter.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -36,13 +36,16 @@ class Body extends StatelessWidget {
             selectedItemColor: const Color(0xFF9E1014),
             unselectedItemColor: Colors.black45,
             currentIndex: 1,
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+            selectedLabelStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
             unselectedLabelStyle: const TextStyle(fontSize: 12),
             items: const [
-              BottomNavigationBarItem(icon: Icon(Feather.home), label: 'Beranda'),
-              BottomNavigationBarItem(icon: Icon(Feather.file_text), label: 'Aktivitas'),
-              BottomNavigationBarItem(icon: Icon(Feather.help_circle), label: 'Bantuan'),
-              BottomNavigationBarItem(icon: Icon(Feather.user), label: 'Profil'),
+              // BottomNavigationBarItem(icon: Icon(Feather.home), label: 'Beranda'),
+              // BottomNavigationBarItem(icon: Icon(Feather.file_text), label: 'Aktivitas'),
+              // BottomNavigationBarItem(icon: Icon(Feather.help_circle), label: 'Bantuan'),
+              // BottomNavigationBarItem(icon: Icon(Feather.user), label: 'Profil'),
             ],
           ),
         ),
@@ -58,7 +61,10 @@ class Body extends StatelessWidget {
             const SizedBox(height: 16),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 8.0,
+                ),
                 children: [
                   _buildKartuOrder(isSukses: true),
                   const SizedBox(height: 16),
@@ -89,9 +95,7 @@ class Body extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          const Divider(
-            color: Colors.grey, 
-          thickness: 1),
+          const Divider(color: Colors.grey, thickness: 1),
         ],
       ),
     );
@@ -165,7 +169,6 @@ class Body extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           // ✅ DITAMBAH: Baris foto profil + nama + rating + badge status
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,42 +177,42 @@ class Body extends StatelessWidget {
               CircleAvatar(
                 radius: 30,
                 backgroundColor: Colors.grey.shade300,
-                child: const Icon(Feather.user, color: Colors.white, size: 30),
+                // child: const Icon(Feather.user, color: Colors.white, size: 30),
               ),
               const SizedBox(width: 12),
 
               // Nama dan rating
               Expanded(
-                child : Transform.translate(
+                child: Transform.translate(
                   offset: Offset(3, 10),
                   child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Dimas Putra",
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        const Icon(FontAwesome.star, color: Colors.amber, size: 16),
-                        const SizedBox(width: 4),
-                        Text(
-                          "4.0",
-                          style: GoogleFonts.poppins(fontSize: 13),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Dimas Putra",
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      Row(
+                        children: [
+                          // const Icon(FontAwesome.star, color: Colors.amber, size: 16),
+                          const SizedBox(width: 4),
+                          Text("4.0", style: GoogleFonts.poppins(fontSize: 13)),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
 
               // Badge status (SEDANG DIANTAR)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: bgStatus,
                   borderRadius: BorderRadius.circular(20),
@@ -217,7 +220,7 @@ class Body extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(FontAwesome.circle, color: warnaStatus, size: 8),
+                    // Icon(FontAwesome.circle, color: warnaStatus, size: 8),
                     const SizedBox(width: 4),
                     Text(
                       teksStatus,
@@ -240,45 +243,45 @@ class Body extends StatelessWidget {
             children: [
               Transform.translate(
                 offset: Offset(25, 17),
-              // Ikon titik rute (lingkaran merah → garis → pin hijau)
-              child: Column(
-                children: [
-                  Container(
-                    width: 16,
-                    height: 16,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Color(0xFFA20513),
-                        width: 3.2
+                // Ikon titik rute (lingkaran merah → garis → pin hijau)
+                child: Column(
+                  children: [
+                    Container(
+                      width: 16,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Color(0xFFA20513),
+                          width: 3.2,
                         ),
+                      ),
                     ),
-                  ),
 
-              Transform.translate(
-                offset: Offset(-17, 5),
-                  child: Container(
-                    height: 24,
-                    width: 2.5,
-                    color: Color(0xFFE4BEBA),
-                  ),
-              ),
+                    Transform.translate(
+                      offset: Offset(-17, 5),
+                      child: Container(
+                        height: 24,
+                        width: 2.5,
+                        color: Color(0xFFE4BEBA),
+                      ),
+                    ),
 
-                  Transform.translate(
-                    offset: Offset(0, 14),
-                  child: const Icon(
-                    FontAwesome.map_marker, 
-                    color: Color(0xFF1A7A4A), 
-                    size: 20),
-                  ),
-                ],
+                    // Transform.translate(
+                    //   offset: Offset(0, 14),
+                    // child: const Icon(
+                    //   FontAwesome.map_marker,
+                    //   color: Color(0xFF1A7A4A),
+                    //   size: 20),
+                    // ),
+                  ],
+                ),
               ),
-            ),
               const SizedBox(width: 40),
 
               // Teks lokasi
               Expanded(
-                child : Transform.translate(
+                child: Transform.translate(
                   offset: Offset(0, 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -288,15 +291,14 @@ class Body extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFF5D5E61,
-                          ),
+                          color: Color(0xFF5D5E61),
                         ),
                       ),
                       Text(
                         "Gudang Hub Jakarta Barat",
                         style: GoogleFonts.poppins(
                           fontSize: 13,
-                          fontWeight: FontWeight.bold
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -305,7 +307,7 @@ class Body extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFF5D5E61)
+                          color: Color(0xFF5D5E61),
                         ),
                       ),
                       Text(
@@ -315,10 +317,10 @@ class Body extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
             ],
           ),
           const SizedBox(height: 40),
@@ -329,7 +331,7 @@ class Body extends StatelessWidget {
               SizedBox(
                 width: 100,
                 height: 50,
-              // Tombol Detail (outline merah)
+                // Tombol Detail (outline merah)
                 child: OutlinedButton(
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
@@ -338,7 +340,7 @@ class Body extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                  ), 
+                  ),
                   child: Text(
                     "Detail",
                     style: GoogleFonts.poppins(
@@ -355,26 +357,26 @@ class Body extends StatelessWidget {
               Expanded(
                 child: SizedBox(
                   height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Feather.message_circle, color: Colors.white, size: 16),
-                  label: Text(
-                    "Chat Driver",
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    // icon: const Icon(Feather.message_circle, color: Colors.white, size: 16),
+                    label: Text(
+                      "Chat Driver",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
                     ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1A7A4A),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1A7A4A),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
                 ),
-              ),
               ),
             ],
           ),

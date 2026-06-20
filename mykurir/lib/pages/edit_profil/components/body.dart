@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:icons_flutter/icons_flutter.dart';
+// import 'package:icons_flutter/icons_flutter.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -117,13 +117,13 @@ class Body extends StatelessWidget {
                       onTap: () {},
                     ),
                     Divider(height: 1, color: Colors.grey[300]),
-                    _buildEditItem(
-                      icon: MaterialCommunityIcons.map_outline,
-                      label: 'Alamat',
-                      value:
-                          'Jl. Anggrek Nomor 20, Karang Pucung, Purwokerto Selatan, Banyumas',
-                      onTap: () {},
-                    ),
+                    // _buildEditItem(
+                    //   icon: MaterialCommunityIcons.map_outline,
+                    //   label: 'Alamat',
+                    //   value:
+                    //       'Jl. Anggrek Nomor 20, Karang Pucung, Purwokerto Selatan, Banyumas',
+                    //   onTap: () {},
+                    // ),
                   ],
                 ),
               ),
@@ -257,16 +257,16 @@ class Body extends StatelessWidget {
 
           const SizedBox(width: 16),
 
-          IconButton(
-            onPressed: onTap,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            icon: const Icon(
-              MaterialCommunityIcons.square_edit_outline,
-              size: 20,
-              color: Colors.black54,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: onTap,
+          //   padding: EdgeInsets.zero,
+          //   constraints: const BoxConstraints(),
+          //   icon: const Icon(
+          //     MaterialCommunityIcons.square_edit_outline,
+          //     size: 20,
+          //     color: Colors.black54,
+          //   ),
+          // ),
         ],
       ),
     );

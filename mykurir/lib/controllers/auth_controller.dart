@@ -155,7 +155,7 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> sendOTPPassword(String email) async {
+  Future<void> resetPasswordOTP(String email) async {
     try {
       await db.auth.resetPasswordForEmail(email);
       print("[sendOTPPassword] : Kode OTP dikirim");
@@ -166,20 +166,36 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> changePassword(
-    String otp,
-    String newPassword,
-    String email,
-  ) async {
+  Future<bool> verifChangePassword(String otp, String email) async {
     try {
-      await db.auth.verifyOTP(type: OtpType.recovery, email: email, token: otp);
-
-      await db.auth.updateUser(UserAttributes(password: newPassword));
-      print("[changePassword] : Password berhasil diubah");
+      final response = await db.auth.verifyOTP(
+        type: OtpType.recovery,
+        email: email,
+        token: otp,
+      );
+      if (response.user != null) {
+        Get.toNamed(
+          "/lupa_password_input_new_password",
+          arguments: {"email": email},
+        );
+        return true;
+      }
+      return false;
     } catch (e) {
       print("[changePassword] #Error : $e");
+      return false;
     } finally {
       loadingController.hide();
+    }
+  }
+
+  Future<void> changePassword(String newPassword) async {
+    try {
+      await db.auth.updateUser(UserAttributes(password: newPassword));
+      print("[changePassword] : Password berhasil diubah");
+      Get.snackbar("Change password", "Password berhasil diganti");
+    } catch (e) {
+      print("[changePassword] #Error : $e");
     }
   }
 }

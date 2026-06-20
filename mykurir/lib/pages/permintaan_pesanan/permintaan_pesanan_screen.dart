@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:mykurir/controllers/pengiriman_controller.dart';
-import 'package:mykurir/pages/permintaanPesanan/components/body.dart';
+import 'package:mykurir/pages/permintaan_pesanan/components/body.dart';
 
 class PermintaanPesananScreen extends StatelessWidget {
   const PermintaanPesananScreen({super.key});

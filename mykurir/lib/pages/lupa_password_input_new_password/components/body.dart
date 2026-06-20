@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:icons_flutter/icons_flutter.dart';
+import 'package:mykurir/controllers/auth_controller.dart';
+import 'package:mykurir/controllers/loading_controller.dart';
+// import 'package:icons_flutter/icons_flutter.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AuthController _authController = Get.put(AuthController());
+    LoadingController _loadingController = Get.put(LoadingController());
+
+    TextEditingController _passwordController = TextEditingController();
+    TextEditingController _confirmPasswordController = TextEditingController();
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -61,12 +70,17 @@ class Body extends StatelessWidget {
                 const SizedBox(height: 40),
 
                 // --- 3. AREA INPUT PASSWORD ---
-                _buildPasswordInput(label: "Password Baru", icon: Feather.lock),
+                _buildPasswordInput(
+                  controller: _passwordController,
+                  label: "Password Baru",
+                  icon: Icons.lock_outline,
+                ),
                 const SizedBox(height: 20),
 
                 _buildPasswordInput(
+                  controller: _confirmPasswordController,
                   label: "Konfirmasi Password Baru",
-                  icon: Feather.mail,
+                  icon: Icons.lock_outline,
                 ),
                 const SizedBox(height: 20),
 
@@ -83,6 +97,11 @@ class Body extends StatelessWidget {
                       elevation: 0,
                     ),
                     onPressed: () {
+                      _authController.isLoading.value = true;
+                      _authController.changePassword(
+                        _passwordController.text.trim(),
+                      );
+                      Get.toNamed("/lupa_password_validasi");
                       // Aksi saat tombol ditekan
                     },
                     child: Text(
@@ -106,7 +125,11 @@ class Body extends StatelessWidget {
   // =========================================================
   // FUNGSI BARU: PEMBUAT KOTAK INPUT PASSWORD
   // =========================================================
-  Widget _buildPasswordInput({required String label, required IconData icon}) {
+  Widget _buildPasswordInput({
+    required String label,
+    required IconData icon,
+    required TextEditingController controller,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -131,6 +154,7 @@ class Body extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextField(
+          controller: TextEditingController(),
           obscureText: true, // Membuat teks jadi titik-titik
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(

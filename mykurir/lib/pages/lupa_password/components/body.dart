@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:icons_flutter/icons_flutter.dart';
+import 'package:mykurir/controllers/auth_controller.dart';
+import 'package:mykurir/controllers/loading_controller.dart';
+// import 'package:icons_flutter/icons_flutter.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _emailController = TextEditingController();
+
+    LoadingController _loadingController = Get.put(LoadingController());
+    AuthController _authController = Get.put(AuthController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -22,11 +30,11 @@ class Body extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       // Fungsi tombol kembali
-                      Navigator.pop(context);
+                      Get.back();
                     },
                     child: const Icon(
                       Icons.arrow_back_ios,
-                      color: Colors.red, // Warna ikon kembali
+                      color: Color(0xff9E1217), // Warna ikon kembali
                       size: 22.0,
                     ),
                   ),
@@ -36,7 +44,7 @@ class Body extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.red, // Warna teks judul
+                      color: Color(0xff9E1217), // Warna teks judul
                     ),
                   ),
                 ],
@@ -62,7 +70,7 @@ class Body extends StatelessWidget {
                 offset: Offset(15, 0),
                 child: Row(
                   children: [
-                    const Icon(Feather.mail, color: Colors.black, size: 18),
+                    Icon(Icons.mail_outline, color: Colors.black, size: 18),
                     const SizedBox(width: 8),
                     Text(
                       "Email", // <-- KETIK LABEL EMAIL DI SINI
@@ -79,6 +87,7 @@ class Body extends StatelessWidget {
 
               // --- 4. KOTAK INPUT (TEXTFIELD) ---
               TextField(
+                controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(
@@ -117,7 +126,17 @@ class Body extends StatelessWidget {
                     elevation: 0,
                   ),
                   onPressed: () {
-                    // Aksi saat tombol ditekan
+                    _loadingController.show();
+                    _authController.resetPasswordOTP(
+                      _emailController.text.trim(),
+                    );
+                    Get.toNamed(
+                      "/verif_otp",
+                      arguments: {
+                        "email": _emailController.text.trim(),
+                        "type": "recovery",
+                      },
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -133,9 +152,9 @@ class Body extends StatelessWidget {
 
                       const SizedBox(width: 8),
                       const Icon(
-                        Feather.arrow_right,
+                        Icons.arrow_right_alt,
                         color: Colors.white,
-                        size: 18,
+                        size: 25,
                       ),
                     ],
                   ),
