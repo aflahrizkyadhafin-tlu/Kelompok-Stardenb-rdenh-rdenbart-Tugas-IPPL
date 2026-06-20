@@ -1,11 +1,11 @@
 class RatingKurir {
-  final String? idRating;
-  final double? rating;
-  final String? pesan;
-  final DateTime? createdAt;
-  final String? idAkun;
-  final String? idKurir;
-  final String? idPengiriman;
+  String? idRating;
+  double? rating;
+  String? pesan;
+  DateTime? createdAt;
+  String? idAkun;
+  String? idKurir;
+  String? idPengiriman;
 
   RatingKurir({
     this.idRating,

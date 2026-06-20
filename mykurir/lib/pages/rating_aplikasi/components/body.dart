@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
-import 'package:mykurir/controllers/auth_controller.dart';
 import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:mykurir/controllers/rating_aplikasi_controller.dart';
 import 'package:mykurir/models/rating_aplikasi.dart';
@@ -21,11 +20,11 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoadingController _loadingController = Get.put(LoadingController());
-    final RatingAplikasiController _ratingAplikasiController = Get.put(
+    final LoadingController loadingController = Get.put(LoadingController());
+    final RatingAplikasiController ratingAplikasiController = Get.put(
       RatingAplikasiController(),
     );
-    final AkunController _akunController = Get.put(AkunController());
+    final AkunController akunController = Get.put(AkunController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -192,15 +191,15 @@ class Body extends StatelessWidget {
                         height: 54,
                         child: ElevatedButton(
                           onPressed: () {
-                            _loadingController.show();
-                            _ratingAplikasiController
+                            loadingController.show();
+                            ratingAplikasiController
                                 .tambahRatingAplikasi(
                                   RatingAplikasi(
                                     pesan: feedbackController.text.trim(),
                                     skor: double.parse(
                                       selectedRating.toString(),
                                     ),
-                                    idAkun: _akunController
+                                    idAkun: akunController
                                         .profileAkun
                                         .value!
                                         .idAkun,

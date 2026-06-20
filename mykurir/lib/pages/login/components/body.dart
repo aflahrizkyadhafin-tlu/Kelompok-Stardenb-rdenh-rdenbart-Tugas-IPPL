@@ -8,12 +8,12 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RxBool _isObscure = true.obs;
+    RxBool isObscure = true.obs;
 
-    final LoadingController _loadingController = Get.find();
-    final AuthController _authController = Get.find();
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
+    final LoadingController loadingController = Get.find();
+    final AuthController authController = Get.find();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -66,7 +66,7 @@ class Body extends StatelessWidget {
                     _inputLabel(Icons.person_outline, 'Nama Pengguna / Email'),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _emailController,
+                      controller: emailController,
                       decoration: _inputDecoration(),
                     ),
 
@@ -75,18 +75,18 @@ class Body extends StatelessWidget {
                     _inputLabel(Icons.lock_outline, 'Password'),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _passwordController,
-                      obscureText: _isObscure.value,
+                      controller: passwordController,
+                      obscureText: isObscure.value,
                       decoration: _inputDecoration(
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _isObscure.value
+                            isObscure.value
                                 ? Icons.visibility_off_outlined
                                 : Icons.visibility_outlined,
                             color: Colors.black54,
                           ),
                           onPressed: () {
-                            _isObscure.value = !_isObscure.value;
+                            isObscure.value = !isObscure.value;
                           },
                         ),
                       ),
@@ -99,19 +99,19 @@ class Body extends StatelessWidget {
                       height: 55,
                       child: ElevatedButton(
                         onPressed: () {
-                          _loadingController.show();
-                          _authController
+                          loadingController.show();
+                          authController
                               .login(
-                                _emailController.text.trim(),
-                                _passwordController.text.trim(),
+                                emailController.text.trim(),
+                                passwordController.text.trim(),
                               )
                               .then(
                                 (e) => {
-                                  if (_authController.detailUser.value != null)
+                                  if (authController.detailUser.value != null)
                                     {
                                       Get.snackbar(
                                         "Login berhasil",
-                                        "Email : ${_authController.detailUser.value!.email}",
+                                        "Email : ${authController.detailUser.value!.email}",
                                       ),
                                       Get.toNamed("/beranda_sementara"),
                                     },

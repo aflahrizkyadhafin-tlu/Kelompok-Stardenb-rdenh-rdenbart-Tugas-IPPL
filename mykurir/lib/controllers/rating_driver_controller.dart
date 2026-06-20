@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
 import 'package:mykurir/db/connection.dart';
 import 'package:mykurir/models/rating_kurir.dart';
@@ -8,7 +7,12 @@ class RatingDriverController extends GetxController {
   final AkunController _akunController = Get.put(AkunController());
 
   Future<void> beriRating(RatingKurir ratingKurir) async {
-    // ratingKurir.idPelanggan = _akunController.profileAkun.value!.idAkun;
+    ratingKurir.idAkun = _akunController.profileAkun.value?.idAkun;
+
+    // sementara
+    ratingKurir.idKurir = "c0268626-79a0-4316-aabd-7c47545f71f8";
+    ratingKurir.idPengiriman = "8752cf22-548a-4bd4-8f13-b56a95d459cb";
+
     Map<String, dynamic> jsonData = ratingKurir.toJson();
 
     try {

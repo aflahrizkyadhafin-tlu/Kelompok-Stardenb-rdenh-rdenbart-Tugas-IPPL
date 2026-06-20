@@ -13,14 +13,14 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     RxBool isDriverRole = false.obs;
 
-    LoadingController _loadingController = Get.put(LoadingController());
-    AuthController _authController = Get.put(AuthController());
-    AkunController _akunController = Get.put(AkunController());
+    LoadingController loadingController = Get.put(LoadingController());
+    AuthController authController = Get.put(AuthController());
+    AkunController akunController = Get.put(AkunController());
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(
-        () => _loadingController.getLoadingStatus().value
+        () => loadingController.getLoadingStatus().value
             ? LoadingScreen()
             : SingleChildScrollView(
                 child: Column(
@@ -95,7 +95,7 @@ class Body extends StatelessWidget {
                             ),
                             child: Row(
                               children: [
-                                _akunController
+                                akunController
                                             .profileAkun
                                             .value!
                                             .fotoProfile !=
@@ -122,7 +122,7 @@ class Body extends StatelessWidget {
                                                 ),
                                               ),
                                           child: Image.network(
-                                            _akunController
+                                            akunController
                                                 .profileAkun
                                                 .value!
                                                 .fotoProfile
@@ -147,12 +147,12 @@ class Body extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      _akunController
+                                      akunController
                                                   .profileAkun
                                                   .value!
                                                   .namaLengkap !=
                                               null
-                                          ? _akunController
+                                          ? akunController
                                                 .profileAkun
                                                 .value!
                                                 .namaLengkap
@@ -166,7 +166,7 @@ class Body extends StatelessWidget {
                                     ),
                                     SizedBox(height: 4),
                                     Text(
-                                      _authController.detailUser.value!.email
+                                      authController.detailUser.value!.email
                                           .toString(),
                                       style: TextStyle(
                                         fontSize: 13,
@@ -175,9 +175,9 @@ class Body extends StatelessWidget {
                                     ),
                                     SizedBox(height: 2),
                                     Text(
-                                      _authController.detailUser.value!.phone !=
+                                      authController.detailUser.value!.phone !=
                                               null
-                                          ? _authController
+                                          ? authController
                                                 .detailUser
                                                 .value!
                                                 .phone

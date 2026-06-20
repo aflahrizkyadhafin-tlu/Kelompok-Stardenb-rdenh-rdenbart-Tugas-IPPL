@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:mykurir/controllers/pengiriman_controller.dart';
 import 'package:mykurir/models/pengiriman.dart';
 
@@ -52,7 +51,6 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    LoadingController loadingController = Get.find();
     PengirimanController pengirimanController = Get.find();
 
     return Scaffold(

@@ -39,12 +39,12 @@ class PengirimanController extends GetxController {
     }
   }
 
-  Future<void> riwayatPengiriman(String idPelanggan) async {
+  Future<void> riwayatPengiriman(String idAkun) async {
     try {
       final response = await db
           .from("pengiriman")
           .select()
-          .eq("id_pelanggan", idPelanggan);
+          .eq("id_pelanggan", idAkun);
       print("riwayatPengiriman : $response");
     } catch (e) {
       print("riwayatPengiriman #Error : $e");

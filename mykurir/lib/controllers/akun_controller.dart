@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:mykurir/controllers/pelanggan_controller.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:get/get.dart';

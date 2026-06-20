@@ -11,8 +11,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoadingController _loadingController = Get.find();
-    AuthController _authController = Get.find();
+    LoadingController loadingController = Get.find();
+    AuthController authController = Get.find();
 
     final args = Get.arguments;
 
@@ -59,9 +59,9 @@ class Body extends StatelessWidget {
                 ),
                 subtitle: 'Pesan barang dari rumah dengan mudah',
                 onTap: () {
-                  _authController.registerData?.role = UserRole.pengguna;
-                  _loadingController.show();
-                  _authController.register();
+                  authController.registerData.role = UserRole.pengguna;
+                  loadingController.show();
+                  authController.register();
                   Get.toNamed("/verif_otp", arguments: args);
                 },
               ),
@@ -78,9 +78,9 @@ class Body extends StatelessWidget {
                 subtitle:
                     'Join menjadi kurir mitra "MyKurir" untuk menghasilkan uang.',
                 onTap: () {
-                  _authController.registerData?.role = UserRole.kurir;
-                  _loadingController.show();
-                  _authController.register();
+                  authController.registerData.role = UserRole.kurir;
+                  loadingController.show();
+                  authController.register();
                   Get.toNamed("/verif_otp", arguments: args);
                 },
               ),

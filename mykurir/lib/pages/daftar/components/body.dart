@@ -13,20 +13,20 @@ class Body extends StatelessWidget {
     final LoadingController loadingController = Get.find();
     final AuthController authController = Get.find();
 
-    TextEditingController _usernameController = TextEditingController();
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
-    TextEditingController _confirmPasswordController = TextEditingController();
+    TextEditingController usernameController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    TextEditingController confirmPasswordController = TextEditingController();
 
     RxBool isValid = false.obs;
 
     void checkValid() {
       isValid.value =
-          _usernameController.text != "" &&
-          _emailController.text != "" &&
-          _passwordController.text != "" &&
-          _confirmPasswordController.text != "" &&
-          _passwordController == _confirmPasswordController;
+          usernameController.text != "" &&
+          emailController.text != "" &&
+          passwordController.text != "" &&
+          confirmPasswordController.text != "" &&
+          passwordController == confirmPasswordController;
     }
 
     return Scaffold(
@@ -49,21 +49,21 @@ class Body extends StatelessWidget {
               const Text('Buat akun untuk masuk ke aplikasi'),
               const SizedBox(height: 30),
               _buildTextField(
-                controller: _usernameController,
+                controller: usernameController,
                 onChanged: (value) => {},
                 label: 'Nama Pengguna',
                 icon: Icons.person_outline,
               ),
               const SizedBox(height: 16),
               _buildTextField(
-                controller: _emailController,
+                controller: emailController,
                 onChanged: (value) => {},
                 label: 'Email',
                 icon: Icons.email_outlined,
               ),
               const SizedBox(height: 16),
               _buildTextField(
-                controller: _passwordController,
+                controller: passwordController,
                 onChanged: (value) => {},
                 label: 'Password',
                 icon: Icons.lock_outline,
@@ -71,7 +71,7 @@ class Body extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _buildTextField(
-                controller: _confirmPasswordController,
+                controller: confirmPasswordController,
                 onChanged: (value) => {},
                 label: 'Konfirmasi Password',
                 icon: Icons.lock_reset_outlined,
@@ -84,12 +84,12 @@ class Body extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     loadingController.show();
-                    authController.registerData?.email = _emailController.text
+                    authController.registerData.email = emailController.text
                         .trim();
-                    authController.registerData?.password = _passwordController
+                    authController.registerData.password = passwordController
                         .text
                         .trim();
-                    authController.registerData?.username = _usernameController
+                    authController.registerData.username = usernameController
                         .text
                         .trim();
                     Get.toNamed("/pilih_role", arguments: {"type": "email"});

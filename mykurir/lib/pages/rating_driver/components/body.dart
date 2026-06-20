@@ -37,8 +37,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoadingController _loadingController = Get.put(LoadingController());
-    final RatingDriverController _ratingDriverController = Get.put(
+    final LoadingController loadingController = Get.put(LoadingController());
+    final RatingDriverController ratingDriverController = Get.put(
       RatingDriverController(),
     );
 
@@ -81,7 +81,7 @@ class Body extends StatelessWidget {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.12),
+                      color: Colors.black.withValues(alpha: 0.12),
                       blurRadius: 13,
                       offset: const Offset(0, 4),
                     ),
@@ -193,8 +193,8 @@ class Body extends StatelessWidget {
                 height: 54,
                 child: ElevatedButton(
                   onPressed: () {
-                    _loadingController.show();
-                    _ratingDriverController.beriRating(
+                    loadingController.show();
+                    ratingDriverController.beriRating(
                       RatingKurir(
                         pesan: pesanController.text.trim(),
                         rating: selectedRating.toDouble(),

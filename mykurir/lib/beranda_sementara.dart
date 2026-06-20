@@ -10,12 +10,7 @@ class BerandaSementara extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map> pages = [
-      {"title": "Masukan Nomor HP", "path": "/masukan_no_hp"},
-      {"title": "Permintaan Pesanan", "path": "/permintaan_pesanan"},
-      {"title": "Pilih Role", "path": "/pilih_role"},
-      {"title": "Rating Aplikasi", "path": "/rating_aplikasi"},
-      {"title": "Verifikasi Telepon", "path": "/verif_telepon"},
-      {"title": "Verifikasi OTP", "path": "/verif_otp"},
+      {"title": "Rating Driver", "path": "/rating_driver"},
     ];
     LoadingController loadingController = Get.put(LoadingController());
     AuthController authController = Get.put(AuthController());
