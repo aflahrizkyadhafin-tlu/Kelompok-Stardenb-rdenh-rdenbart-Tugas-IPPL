@@ -5,6 +5,8 @@ import 'package:mykurir/pages/permintaanPesanan/pesanan_screen.dart';
 import 'package:mykurir/pages/pilihrole/pilihrole_screen.dart';
 import 'package:mykurir/pages/rating_aplikasi/rating_aplikasi_screen.dart';
 import 'package:mykurir/pages/setting/setting_screen.dart';
+import 'package:mykurir/pages/verifakun/verifakun_screen.dart';
+import 'package:mykurir/pages/verifotp/verifotp_screen.dart';
 
 List<GetPage<dynamic>> routes = [
   // Login Sementara
@@ -12,6 +14,8 @@ List<GetPage<dynamic>> routes = [
 
   // Route Verifikasi OTP
   GetPage(name: "/masukan_no_hp", page: () => MasukNoHPScreen()),
+  GetPage(name: "/verif_akun", page: () => VerifAkunScreen()),
+  GetPage(name: "/verif_otp", page: () => VerifOtpScreen()),
 
   // Route Pesanan
   GetPage(name: "/permintaan_pesanan", page: () => PermintaanPesananScreen()),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:mykurir/controllers/pengiriman_controller.dart';
 import 'package:mykurir/models/pengiriman.dart';
 
@@ -11,32 +12,25 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  final PengirimanController _pengirimanController = Get.put(
-    PengirimanController(),
-  );
   final TextEditingController _deskripsiController = TextEditingController();
   final TextEditingController _customBeratController = TextEditingController();
 
   UkuranPengiriman? _selectedUkuran;
-  String? _selectedBerat;
+  String? _selectedUkuranName;
+  double? _selectedBerat;
+  bool _isCustomSelected = false;
 
   bool get _isFormValid {
-    if (_selectedUkuran == null) return false;
-    if (_selectedBerat == null) return false;
-    if (_selectedBerat == 'Custom' &&
-        _customBeratController.text.trim().isEmpty) {
-      return false;
-    }
+    if (_selectedUkuranName == null) return false;
+    if (!_isBeratValid) return false;
     return true;
   }
 
   bool get _isBeratValid {
-    if (_selectedBerat == null) return false;
-    if (_selectedBerat == 'Custom' &&
-        _customBeratController.text.trim().isEmpty) {
-      return false;
+    if (_isCustomSelected) {
+      return _customBeratController.text.trim().isNotEmpty;
     }
-    return true;
+    return _selectedBerat != null;
   }
 
   @override
@@ -58,6 +52,9 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    LoadingController loadingController = Get.find();
+    PengirimanController pengirimanController = Get.find();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -178,14 +175,15 @@ class _BodyState extends State<Body> {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      _buildBeratCard('1 - 5 Kg'),
+                      //Valie fIX
+                      _buildBeratCard(title: '1 - 5 Kg', value: 5.0),
                       const SizedBox(width: 16),
-                      _buildBeratCard('Custom'),
+                      _buildBeratCard(title: 'Custom', isCustom: true),
                     ],
                   ),
 
-                  // Form berat custom
-                  if (_selectedBerat == 'Custom') ...[
+                  // Form berat custom muncul berdasarkan kondisi boolean _isCustomSelected
+                  if (_isCustomSelected) ...[
                     const SizedBox(height: 50),
                     RichText(
                       text: TextSpan(
@@ -244,17 +242,20 @@ class _BodyState extends State<Body> {
               height: 50,
               child: ElevatedButton(
                 onPressed: _isFormValid
-                    // Belum beres disini
                     ? () {
-                        _pengirimanController.sendData.value!.deskripsiBarang =
+                        double beratAkhir = _isCustomSelected
+                            ? (double.tryParse(
+                                    _customBeratController.text.trim(),
+                                  ) ??
+                                  0.0)
+                            : (_selectedBerat ?? 0.0);
+
+                        pengirimanController.sendData.deskripsiBarang =
                             _deskripsiController.text.trim();
-                        _pengirimanController.sendData.value!.ukuran =
-                            _selectedUkuran;
-                        _selectedBerat != null
-                            ? _pengirimanController.sendData.value!.berat =
-                                  double.parse(_selectedBerat!)
-                            : _pengirimanController.sendData.value!.berat =
-                                  double.parse(_customBeratController.text);
+                        pengirimanController.sendData.ukuran = _selectedUkuran;
+                        pengirimanController.sendData.berat = beratAkhir;
+
+                        // Isi buat ke pahge selanjutnya
                       }
                     : null,
                 style: ElevatedButton.styleFrom(
@@ -283,14 +284,16 @@ class _BodyState extends State<Body> {
   }
 
   Widget _buildUkuranCard(String title, String subTitle) {
-    bool isSelected = _selectedUkuran == title;
+    bool isSelected = _selectedUkuranName == title;
 
     return GestureDetector(
       onTap: () {
         setState(() {
           if (isSelected) {
             _selectedUkuran = null;
+            _selectedUkuranName = null;
           } else {
+            _selectedUkuranName = title;
             if (title == "Kecil") {
               _selectedUkuran = UkuranPengiriman.kecil;
             } else if (title == "Sedang") {
@@ -298,7 +301,6 @@ class _BodyState extends State<Body> {
             } else {
               _selectedUkuran = UkuranPengiriman.besar;
             }
-            // _selectedUkuran = title;
           }
         });
       },
@@ -334,18 +336,26 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Widget _buildBeratCard(String title) {
-    bool isSelected = _selectedBerat == title;
-
+  Widget _buildBeratCard({
+    required String title,
+    double? value,
+    bool isCustom = false,
+  }) {
+    bool isSelected = isCustom
+        ? _isCustomSelected
+        : (_selectedBerat == value && !_isCustomSelected);
+    // Logika Value disini
     return GestureDetector(
       onTap: () {
         setState(() {
           if (isSelected) {
             _selectedBerat = null;
+            _isCustomSelected = false;
             _customBeratController.clear();
           } else {
-            _selectedBerat = title;
-            if (title != 'Custom') {
+            _isCustomSelected = isCustom;
+            _selectedBerat = value;
+            if (!isCustom) {
               _customBeratController.clear();
             }
           }

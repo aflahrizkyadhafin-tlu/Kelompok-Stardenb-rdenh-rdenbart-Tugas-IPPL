@@ -3,7 +3,7 @@ import 'package:mykurir/db/connection.dart';
 import 'package:mykurir/models/pengiriman.dart';
 
 class PengirimanController extends GetxController {
-  Rxn<Pengiriman> sendData = Rxn<Pengiriman>();
+  Pengiriman sendData = Pengiriman();
 
   Future<void> buatDraftPengiriman(Pengiriman dataPengiriman) async {
     Map jsonData = dataPengiriman.toJson();

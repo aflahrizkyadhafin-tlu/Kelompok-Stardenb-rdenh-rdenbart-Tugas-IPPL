@@ -13,6 +13,8 @@ class LoginSementara extends StatelessWidget {
       {"title": "Permintaan Pesanan", "path": "/permintaan_pesanan"},
       {"title": "Pilih Role", "path": "/pilih_role"},
       {"title": "Rating Aplikasi", "path": "/rating_aplikasi"},
+      {"title": "Verifikasi Akun", "path": "/verif_akun"},
+      {"title": "Verifikasi OTP", "path": "/verif_otp"},
     ];
     LoadingController loadingController = Get.put(LoadingController());
     AuthController authController = Get.put(AuthController());
@@ -60,6 +62,25 @@ class LoginSementara extends StatelessWidget {
                           authController.getUser(),
                         },
                         child: Text("Cek User"), // Nama tombol diperbaiki
+                      ),
+                      Text(
+                        "Cek Detail Akun",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () => {
+                          loadingController.show(),
+                          print(
+                            "Detail user = ${authController.detailUser.value!.idAkun}",
+                          ),
+                        },
+                        child: Text(
+                          "Cek Detail AKun",
+                        ), // Nama tombol diperbaiki
                       ),
                       Text(
                         "Logout",
