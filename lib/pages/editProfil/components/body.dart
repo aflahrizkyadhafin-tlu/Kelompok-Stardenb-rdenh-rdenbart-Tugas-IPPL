@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icons_flutter/icons_flutter.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -73,14 +74,25 @@ class EditProfil extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Ubah Profil',
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+
+                    // tombol Ubah Profil
+                    TextButton(
+                      onPressed: () {
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                    ),
+                      child: const Text(
+                        'Ubah Profil',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -88,7 +100,7 @@ class EditProfil extends StatelessWidget {
               const SizedBox(height: 30),
 
               const Text(
-                'Infromasi Pribadi',
+                'Informasi Pribadi',
                 style: TextStyle(
                   color: Color(0xFF9E1014),
                   fontSize: 16,
@@ -109,19 +121,27 @@ class EditProfil extends StatelessWidget {
                       icon: Icons.account_circle_outlined,
                       label: 'Username',
                       value: '@raffymbg8',
+                      onTap: (){
+
+                      }
                     ),
                     Divider(height: 1, color: Colors.grey[300]),
                     _buildEditItem(
                       icon: Icons.person_outline,
                       label: 'Nama Pengguna',
                       value: 'Raffy Anggara',
+                      onTap: () {
+
+                      },
                     ),
                     Divider(height: 1, color: Colors.grey[300]),
                     _buildEditItem(
-                      icon: Icons.map_sharp,
+                      icon: MaterialCommunityIcons.map_outline,
                       label: 'Alamat',
-                      value:
-                          'Jl. Anggrek Nomor 20, Karang Pucung, Purwokerto Selatan, Banyumas',
+                      value: 'Jl. Anggrek Nomor 20, Karang Pucung, Purwokerto Selatan, Banyumas',
+                      onTap: () {
+                        
+                      },
                     ),
                   ],
                 ),
@@ -149,6 +169,9 @@ class EditProfil extends StatelessWidget {
                   icon: Icons.phone_outlined,
                   label: 'No Telepon',
                   value: '+62 812345678900',
+                  onTap: () {
+                    
+                  },
                 ),
               ),
 
@@ -208,34 +231,38 @@ class EditProfil extends StatelessWidget {
     );
   }
 
-  // REVISI: Penataan Item Form (Ikon, Teks, Tombol Pensil)
   Widget _buildEditItem({
     required IconData icon,
     required String label,
     required String value,
+    required VoidCallback onTap,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 14.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon, size: 28, color: Colors.black54),
-          const SizedBox(width: 14),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  label,
-                  style: const TextStyle(
-                    color: Colors.black45,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                  ),
+                Row(
+                  children: [
+                    Icon(icon, size: 18, color: Colors.black54),
+                    const SizedBox(width: 10),
+                    Text(
+                      label,
+                      style: const TextStyle(
+                        color: Colors.black45,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 3),
+                
+                const SizedBox(height: 6),
+
                 Text(
                   value,
                   style: const TextStyle(
@@ -248,9 +275,19 @@ class EditProfil extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 14),
-
-          const Icon(Icons.edit_square, size: 18, color: Colors.black54),
+          
+          const SizedBox(width: 16),
+          
+          IconButton(
+            onPressed: onTap,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: const Icon(
+              MaterialCommunityIcons.square_edit_outline, 
+              size: 20, 
+              color: Colors.black54,
+            ),
+          ),
         ],
       ),
     );
