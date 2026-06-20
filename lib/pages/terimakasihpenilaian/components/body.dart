@@ -26,7 +26,7 @@ class Body extends StatelessWidget {
 
             // --- Judul ---
             Text(
-              'Terimakasih Atas\nPenilaian Anda',
+              'Terimakasih Atas Penilaian Anda',
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 24,
@@ -39,7 +39,7 @@ class Body extends StatelessWidget {
 
             // --- Sub Judul ---
             Text(
-              'Saran dan masukan dari anda akan kami\npertimbangkan',
+              'Saran dan masukan dari anda akan kami pertimbangkan',
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 14,
