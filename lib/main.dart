@@ -1,4 +1,4 @@
-import 'package:arata/pages/aktivitas_berlangsung/components/body.dart';
+import 'package:arata/pages/aktivitas_riwayat/components/body.dart';
 import 'package:flutter/material.dart';
 
 void main() {

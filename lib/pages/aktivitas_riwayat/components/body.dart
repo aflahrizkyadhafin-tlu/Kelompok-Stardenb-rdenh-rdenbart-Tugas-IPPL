@@ -85,7 +85,7 @@ class Body extends StatelessWidget {
                   // KARTU 1 (Data Dimas)
                   _buildKartuOrder(
                     isSukses: true,
-                    tanggal: "22 April, 18:15",
+                    tanggal: "22 APRIL, 18:15",
                     namaPelanggan: "Dimas Saputra",
                     lokasiAwal: "Teluk",
                     lokasiTujuan: "Perumahan Arca",
@@ -96,7 +96,7 @@ class Body extends StatelessWidget {
                   // KARTU 2 (Data Renisa) - Berbeda!
                   _buildKartuOrder(
                     isSukses: true,
-                    tanggal: "18 April, 11:15",
+                    tanggal: "18 APRIL, 11:15",
                     namaPelanggan: "Budi Santoso",
                     lokasiAwal: "Teluk",
                     lokasiTujuan: "Telkom University Purwokerto",
@@ -107,7 +107,7 @@ class Body extends StatelessWidget {
                   // KARTU 3 (Data Rizqi - Batal) - Berbeda lagi!
                   _buildKartuOrder(
                     isSukses: false,
-                    tanggal: "03 April, 09:30",
+                    tanggal: "03 APRIL, 09:30",
                     namaPelanggan: "Agus Prayogo",
                     lokasiAwal: "Karang Lwas",
                     lokasiTujuan: "Teluk",
@@ -170,7 +170,11 @@ class Body extends StatelessWidget {
                 child: Center(
                   child: Text(
                     "Riwayat",
-                    style: GoogleFonts.poppins(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                    style: GoogleFonts.poppins(
+                      color: Colors.white, 
+                      fontSize: 12, 
+                      fontWeight: FontWeight.w500
+                      ),
                   ),
                 ),
               ),
@@ -179,7 +183,11 @@ class Body extends StatelessWidget {
               child: Center(
                 child: Text(
                   "Berlangsung",
-                  style: GoogleFonts.poppins(color: Colors.black54, fontSize: 12, fontWeight: FontWeight.w500),
+                  style: GoogleFonts.poppins(
+                    color: Colors.black54, 
+                    fontSize: 12, 
+                    fontWeight: FontWeight.w500
+                    ),
                 ),
               ),
             ),
@@ -222,10 +230,14 @@ class Body extends StatelessWidget {
               Text(
                 tanggal, 
                 style: GoogleFonts.poppins(
-                  fontSize: 12, 
-                  color: Colors.grey.shade600)
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600, 
+                  color: Color(0xFF5D5E61))
               ),
-              Container(
+            
+            Transform.translate(
+              offset: Offset(0, 6),
+              child: Container (
                 padding: const EdgeInsets.all(6.0),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFADBD8), 
@@ -236,6 +248,7 @@ class Body extends StatelessWidget {
                   color: const Color(0xFFB03A2E), 
                   size: 16.0),
               ),
+            ),
             ],
           ),
           const SizedBox(height: 8),
@@ -252,10 +265,15 @@ class Body extends StatelessWidget {
           ),
         ),
           const SizedBox(height: 12),
-          
-          Container(
+
+      Opacity (
+        opacity: isSukses ? 1.0 : 0.3,    
+         child: Container(
             padding: const EdgeInsets.all(12.0),
-            decoration: BoxDecoration(color: const Color(0xFFF8F9FA), borderRadius: BorderRadius.circular(8.0)),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8F9FA), 
+              borderRadius: BorderRadius.circular(8.0)
+              ),
             child: Row(
               children: [
                 Column(
@@ -302,9 +320,12 @@ class Body extends StatelessWidget {
               ],
             ),
           ),
+      ),
           const SizedBox(height: 16),
-          
-          Row(
+
+        Opacity(
+          opacity: isSukses ? 1.0 : 0.3, 
+          child: Row (
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Variabel harga dimasukkan ke sini
@@ -322,12 +343,17 @@ class Body extends StatelessWidget {
                   const SizedBox(width: 4),
                   Text(
                     teksStatus, 
-                    style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.bold, color: warnaStatus)
+                    style: GoogleFonts.poppins(
+                      fontSize: 12, 
+                      fontWeight: FontWeight.bold, 
+                      color: warnaStatus
+                      )
                   ),
                 ],
               ),
             ],
           ),
+        ),
         ],
       ),
     );
