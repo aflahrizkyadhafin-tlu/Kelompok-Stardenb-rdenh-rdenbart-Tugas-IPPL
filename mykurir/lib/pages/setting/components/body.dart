@@ -276,7 +276,9 @@ class Body extends StatelessWidget {
                           _buildMenuItem(
                             Icons.star_border,
                             'Beri Rating',
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed("/rating_aplikasi");
+                            },
                           ),
                           _buildMenuItem(
                             Icons.outlined_flag,
