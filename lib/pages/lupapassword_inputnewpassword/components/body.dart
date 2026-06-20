@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 
-class GantiPasswordScreen extends StatelessWidget {
-  const GantiPasswordScreen({super.key});
+class LupaPasswordInputNewPasswordScreen extends StatelessWidget {
+  const LupaPasswordInputNewPasswordScreen ({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +27,17 @@ class GantiPasswordScreen extends StatelessWidget {
                       },
                       child: const Icon(
                         Icons.arrow_back_ios,
-                        color: Colors.red,
+                        color: Color(0xFF9E1217),
                         size: 22.0,
                       ),
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      "Ganti Password",
+                      "Lupa Password",
                       style: GoogleFonts.poppins(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.red,
+                        color: Color(0xFF9E1217),
                       ),
                     ),
                   ],
@@ -48,7 +48,7 @@ class GantiPasswordScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 30.0),
                   child: Text(
-                    "Silahkan isi data ini",
+                    "Silahkan isi kata sandi baru anda",
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       color: Colors.black87,
