@@ -64,8 +64,7 @@ class Body extends StatelessWidget {
 
                     // tombol Ubah Profil
                     TextButton(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: Size.zero,
@@ -79,7 +78,7 @@ class Body extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -108,27 +107,22 @@ class Body extends StatelessWidget {
                       icon: Icons.account_circle_outlined,
                       label: 'Username',
                       value: '@raffymbg8',
-                      onTap: (){
-
-                      }
+                      onTap: () {},
                     ),
                     Divider(height: 1, color: Colors.grey[300]),
                     _buildEditItem(
                       icon: Icons.person_outline,
                       label: 'Nama Pengguna',
                       value: 'Raffy Anggara',
-                      onTap: () {
-
-                      },
+                      onTap: () {},
                     ),
                     Divider(height: 1, color: Colors.grey[300]),
                     _buildEditItem(
                       icon: MaterialCommunityIcons.map_outline,
                       label: 'Alamat',
-                      value: 'Jl. Anggrek Nomor 20, Karang Pucung, Purwokerto Selatan, Banyumas',
-                      onTap: () {
-                        
-                      },
+                      value:
+                          'Jl. Anggrek Nomor 20, Karang Pucung, Purwokerto Selatan, Banyumas',
+                      onTap: () {},
                     ),
                   ],
                 ),
@@ -156,9 +150,7 @@ class Body extends StatelessWidget {
                   icon: Icons.phone_outlined,
                   label: 'No Telepon',
                   value: '+62 812345678900',
-                  onTap: () {
-                    
-                  },
+                  onTap: () {},
                 ),
               ),
 
@@ -247,7 +239,7 @@ class Body extends StatelessWidget {
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 6),
 
                 Text(
@@ -262,16 +254,16 @@ class Body extends StatelessWidget {
               ],
             ),
           ),
-          
+
           const SizedBox(width: 16),
-          
+
           IconButton(
             onPressed: onTap,
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
             icon: const Icon(
-              MaterialCommunityIcons.square_edit_outline, 
-              size: 20, 
+              MaterialCommunityIcons.square_edit_outline,
+              size: 20,
               color: Colors.black54,
             ),
           ),
