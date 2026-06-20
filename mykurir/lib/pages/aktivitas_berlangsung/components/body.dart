@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mykurir/controllers/pengiriman_controller.dart';
 // import 'package:icons_flutter/icons_flutter.dart';
 
 class Body extends StatelessWidget {
@@ -7,6 +9,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PengirimanController _pengirimanController = Get.find();
+
     return Scaffold(
       backgroundColor: Colors.white,
 
@@ -42,10 +46,22 @@ class Body extends StatelessWidget {
             ),
             unselectedLabelStyle: const TextStyle(fontSize: 12),
             items: const [
-              // BottomNavigationBarItem(icon: Icon(Feather.home), label: 'Beranda'),
-              // BottomNavigationBarItem(icon: Icon(Feather.file_text), label: 'Aktivitas'),
-              // BottomNavigationBarItem(icon: Icon(Feather.help_circle), label: 'Bantuan'),
-              // BottomNavigationBarItem(icon: Icon(Feather.user), label: 'Profil'),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                label: 'Beranda',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.list_alt),
+                label: 'Aktivitas',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.help_outline_rounded),
+                label: 'Bantuan',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle_outlined),
+                label: 'Profil',
+              ),
             ],
           ),
         ),
@@ -60,15 +76,30 @@ class Body extends StatelessWidget {
             _buildToggleButtons(),
             const SizedBox(height: 16),
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: 8.0,
+              child: Obx(
+                () => ListView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 8.0,
+                  ),
+                  children: [
+                    for (var data
+                        in _pengirimanController.pengirimanBerlangsung)
+                      _buildKartuOrder(
+                        isSukses: true,
+                        namaLengkap: RxString(
+                          data["akun"]["nama_lengkap"] ?? "No Name",
+                        ),
+                        statusPengiriman: RxString(data["status_pengiriman"]),
+                        fotoProfile: RxString(
+                          data["akun"]["foto_profile"] ?? "no image",
+                        ),
+                        alamatPengirim: RxString(data["alamat_pengirim"]),
+                        alamatPenerima: RxString(data["alamat_penerima"]),
+                      ),
+                    const SizedBox(height: 16),
+                  ],
                 ),
-                children: [
-                  _buildKartuOrder(isSukses: true),
-                  const SizedBox(height: 16),
-                ],
               ),
             ),
           ],
@@ -154,13 +185,22 @@ class Body extends StatelessWidget {
   // =========================================================
   // 3. KARTU ORDER — ELEMEN BARU DITAMBAHKAN DI SINI
   // =========================================================
-  Widget _buildKartuOrder({required bool isSukses}) {
+  Widget _buildKartuOrder({
+    required bool isSukses,
+    required RxString namaLengkap,
+    required RxString fotoProfile,
+    required RxString statusPengiriman,
+    required RxString alamatPengirim,
+    required RxString alamatPenerima,
+  }) {
     Color warnaStatus = isSukses ? const Color(0xFF1A7A4A) : Colors.red;
     Color bgStatus = isSukses ? const Color(0xFFE8F5EE) : Colors.red.shade50;
-    String teksStatus = isSukses ? "SEDANG DIANTAR" : "Orderan dibatalkan";
+
+    print(namaLengkap.value);
 
     return Container(
       padding: const EdgeInsets.all(16.0),
+      margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.0),
@@ -173,12 +213,13 @@ class Body extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Foto profil driver
-              CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.grey.shade300,
-                // child: const Icon(Feather.user, color: Colors.white, size: 30),
-              ),
+              fotoProfile.value != "no image"
+                  ? Image.network(fotoProfile.value)
+                  : CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.grey.shade300,
+                      // child: const Icon(Feather.user, color: Colors.white, size: 30),
+                    ),
               const SizedBox(width: 12),
 
               // Nama dan rating
@@ -189,7 +230,7 @@ class Body extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Dimas Putra",
+                        namaLengkap.value,
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -223,7 +264,7 @@ class Body extends StatelessWidget {
                     // Icon(FontAwesome.circle, color: warnaStatus, size: 8),
                     const SizedBox(width: 4),
                     Text(
-                      teksStatus,
+                      statusPengiriman.value,
                       style: GoogleFonts.poppins(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
@@ -295,7 +336,7 @@ class Body extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Gudang Hub Jakarta Barat",
+                        alamatPengirim.value,
                         style: GoogleFonts.poppins(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
@@ -311,7 +352,7 @@ class Body extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Alamat barang tujuan",
+                        alamatPenerima.value,
                         style: GoogleFonts.poppins(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,

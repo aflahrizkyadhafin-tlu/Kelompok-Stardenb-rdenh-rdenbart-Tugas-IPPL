@@ -121,6 +121,7 @@ class AuthController extends GetxController {
       );
 
       if (response.user != null) {
+        akunController.isLoading.value = true;
         print("[Login] : ${response.user}");
         detailUser.value = response.user;
         akunController.getProfile();
@@ -129,6 +130,8 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       print("[Login] #error: $e");
+    } finally {
+      isLoading.value = false;
     }
   }
 

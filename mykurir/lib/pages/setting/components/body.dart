@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:mykurir/components/loading/loading.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
-import 'package:mykurir/controllers/loading_controller.dart';
 import 'statususerpage.dart';
 
 class Body extends StatelessWidget {
@@ -13,14 +12,13 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     RxBool isDriverRole = false.obs;
 
-    LoadingController loadingController = Get.put(LoadingController());
     AuthController authController = Get.put(AuthController());
     AkunController akunController = Get.put(AkunController());
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(
-        () => loadingController.getLoadingStatus().value
+        () => authController.isLoading.value || akunController.isLoading.value
             ? LoadingScreen()
             : SingleChildScrollView(
                 child: Column(
@@ -95,10 +93,7 @@ class Body extends StatelessWidget {
                             ),
                             child: Row(
                               children: [
-                                akunController
-                                            .profileAkun
-                                            .value!
-                                            .fotoProfile !=
+                                akunController.profileAkun.value!.fotoProfile !=
                                         null
                                     ? Container(
                                         decoration: BoxDecoration(
@@ -208,12 +203,16 @@ class Body extends StatelessWidget {
                           _buildMenuItem(
                             Icons.person_outline,
                             'Profilku',
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed("/profil");
+                            },
                           ),
                           _buildMenuItem(
                             Icons.shield_outlined,
                             'Keamanan Akun',
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed("/keamanan_akun");
+                            },
                           ),
                           _buildMenuItem(
                             Icons.location_on_outlined,
@@ -271,7 +270,9 @@ class Body extends StatelessWidget {
                           _buildMenuItem(
                             Icons.assignment_outlined,
                             'Aktivitas Order',
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed("/aktivitas_berlangsung");
+                            },
                           ),
                           _buildMenuItem(
                             Icons.star_border,
@@ -283,7 +284,9 @@ class Body extends StatelessWidget {
                           _buildMenuItem(
                             Icons.outlined_flag,
                             'Report Driver',
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed("/report_driver");
+                            },
                           ),
 
                           const SizedBox(height: 20),
@@ -291,17 +294,23 @@ class Body extends StatelessWidget {
                           _buildMenuItem(
                             Icons.help_outline,
                             'Pusat Bantuan',
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed("/pusat_bantuan");
+                            },
                           ),
                           _buildMenuItem(
                             Icons.badge_outlined,
                             'Daftar menjadi kurir',
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed("/daftar_mitra_driver_1");
+                            },
                           ),
                           _buildMenuItem(
                             Icons.delete_outline,
                             'Atur Akun',
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed("/opsi_hapus_akun");
+                            },
                           ),
                           const SizedBox(height: 30),
                         ],

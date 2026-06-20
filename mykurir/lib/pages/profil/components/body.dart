@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
-import 'package:mykurir/controllers/loading_controller.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final LoadingController loadingController = Get.put(LoadingController());
     final AkunController akunController = Get.find();
     final AuthController authController = Get.find();
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(
-        () => loadingController.getLoadingStatus().value
+        () => akunController.isLoading.value || authController.isLoading.value
             ? Center(child: CircularProgressIndicator())
             : Stack(
                 children: [
@@ -217,9 +215,16 @@ class Body extends StatelessWidget {
                                               SizedBox(height: 4),
                                               Text(
                                                 akunController
-                                                    .profileAkun
-                                                    .value!
-                                                    .namaLengkap!,
+                                                            .profileAkun
+                                                            .value!
+                                                            .namaLengkap !=
+                                                        null
+                                                    ? akunController
+                                                          .profileAkun
+                                                          .value!
+                                                          .namaLengkap
+                                                          .toString()
+                                                    : "-",
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.black54,

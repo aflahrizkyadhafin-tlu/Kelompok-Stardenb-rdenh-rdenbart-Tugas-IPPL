@@ -4,6 +4,9 @@ import 'package:mykurir/models/pengiriman.dart';
 
 class PengirimanController extends GetxController {
   Pengiriman sendData = Pengiriman();
+  RxList<Map> pengirimanBerlangsung = <Map>[].obs;
+  RxList<Map> pengirimanSebelumnya = <Map>[].obs;
+  RxBool isLoading = false.obs;
 
   Future<void> buatDraftPengiriman(Pengiriman dataPengiriman) async {
     Map jsonData = dataPengiriman.toJson();
@@ -32,7 +35,7 @@ class PengirimanController extends GetxController {
       await db
           .from("pengiriman")
           .update(jsonData)
-          .eq("id_pengiriman", idPengiriman); //Tambahkan penambahan ke log
+          .eq("id_pengiriman", idPengiriman);
       print("konfirmasiPengiriman : Barang akan segera di pickup");
     } catch (e) {
       print("konfirmasiPengiriman #Error : $e");
@@ -43,8 +46,37 @@ class PengirimanController extends GetxController {
     try {
       final response = await db
           .from("pengiriman")
-          .select()
-          .eq("id_pelanggan", idAkun);
+          .select('''id_pengiriman,
+            nomor_resi,
+            deskripsi_barang,
+            alamat_pengirim,
+            alamat_penerima,
+            nama_penerima,
+            nomor_telepon_penerima,
+            berat,
+            biaya,
+            status_pengiriman,
+            created_at,
+            id_akun,
+            id_kurir,
+            long_pengirim,
+            lat_pengirim,
+            long_penerima,
+            lat_penerima,
+            ukuran,
+            akun!id_akun(nama_lengkap, foto_profile)''')
+          .eq("id_akun", idAkun);
+
+      for (var e in response) {
+        print("Response = $e");
+        if (e["status_pengiriman"] == StatusPengiriman.on_delivery.name ||
+            e["status_pengiriman"] == StatusPengiriman.pending.name ||
+            e["status_pengiriman"] == StatusPengiriman.pickup.name) {
+          pengirimanBerlangsung.add(e);
+        } else {
+          pengirimanSebelumnya.add(e);
+        }
+      }
       print("riwayatPengiriman : $response");
     } catch (e) {
       print("riwayatPengiriman #Error : $e");

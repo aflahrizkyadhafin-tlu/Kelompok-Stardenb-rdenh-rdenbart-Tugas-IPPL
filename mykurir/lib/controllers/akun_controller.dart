@@ -49,6 +49,23 @@ class AkunController extends GetxController {
     }
   }
 
+  Future<dynamic> getProfileById(String idAkun) async {
+    try {
+      final profile = await db
+          .from("akun")
+          .select('id_akun, username, nama_lengkap, alamat, role, foto_profile')
+          .eq("id_akun", idAkun)
+          .maybeSingle();
+
+      print("[getProfileById] : $profile");
+      return Akun.fromJson(profile!);
+    } catch (e) {
+      print("[getProfileById] #Error : $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> updateProfile(Akun updateData) async {
     Map<String, dynamic> jsonData = updateData.toJson();
     final user = db.auth.currentUser;

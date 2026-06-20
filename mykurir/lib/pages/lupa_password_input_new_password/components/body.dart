@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
-import 'package:mykurir/controllers/loading_controller.dart';
 // import 'package:icons_flutter/icons_flutter.dart';
 
 class Body extends StatelessWidget {
@@ -11,7 +10,6 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthController _authController = Get.put(AuthController());
-    LoadingController _loadingController = Get.put(LoadingController());
 
     TextEditingController _passwordController = TextEditingController();
     TextEditingController _confirmPasswordController = TextEditingController();

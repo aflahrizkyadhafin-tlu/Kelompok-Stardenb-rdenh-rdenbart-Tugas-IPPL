@@ -11,7 +11,7 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     RxBool isObscure = true.obs;
 
-    final LoadingController loadingController = Get.find();
+    // final LoadingController loadingController = Get.find();
     final AuthController authController = Get.find();
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
@@ -112,7 +112,7 @@ class Body extends StatelessWidget {
                   height: 55,
                   child: ElevatedButton(
                     onPressed: () {
-                      loadingController.show();
+                      authController.isLoading.value = true;
                       authController
                           .login(
                             emailController.text.trim(),
@@ -126,7 +126,7 @@ class Body extends StatelessWidget {
                                     "Login berhasil",
                                     "Email : ${authController.detailUser.value!.email}",
                                   ),
-                                  Get.toNamed("/beranda_sementara"),
+                                  Get.toNamed("/setting"),
                                 },
                             },
                           );
