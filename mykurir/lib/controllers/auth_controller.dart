@@ -1,24 +1,42 @@
 import 'package:get/get.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
 import 'package:mykurir/controllers/loading_controller.dart';
+import 'package:mykurir/controllers/pelanggan_controller.dart';
 import 'package:mykurir/db/connection.dart';
 import 'package:mykurir/models/akun.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+class RegisterPayload {
+  String email;
+  String nomorTelepon;
+  String username;
+  String password;
+  UserRole role;
+
+  RegisterPayload({
+    this.email = "",
+    this.nomorTelepon = "",
+    this.username = "",
+    this.password = "",
+    this.role = UserRole.pengguna,
+  });
+}
+
 class AuthController extends GetxController {
   LoadingController loadingController = Get.put(LoadingController());
   AkunController akunController = Get.put(AkunController());
+  PenggunaController penggunaController = Get.put(PenggunaController());
+  RxBool isLoading = false.obs;
 
   Rxn<User> detailUser = Rxn<User>();
-  String sendEmail = "";
-  String sendNomorTelepon = "";
-  String sendUsername = "";
-  String sendPassword = "";
-  UserRole sendRole = UserRole.pengguna;
+  RegisterPayload? registerData;
 
-  Future<void> register(String email, String password) async {
+  Future<void> register() async {
     try {
-      await db.auth.signUp(password: password, email: email);
+      await db.auth.signUp(
+        password: registerData!.password,
+        email: registerData!.email,
+      );
       print("[Register] : Kode OTP berhasil dikirim");
       Get.snackbar("Register", "Kode OTP berhasil dikirim");
     } catch (e) {
@@ -32,7 +50,7 @@ class AuthController extends GetxController {
     try {
       final response = await db.auth.verifyOTP(
         type: OtpType.email,
-        email: sendEmail,
+        email: registerData?.email,
         token: kodeOTP,
       );
       print("[verifOTP] : $response");
@@ -41,8 +59,8 @@ class AuthController extends GetxController {
 
       Akun sendData = Akun(
         idUser: response.user!.id,
-        username: sendUsername,
-        role: sendRole,
+        username: registerData?.username,
+        role: registerData?.role,
       );
       akunController.createProfile(sendData);
 
@@ -57,7 +75,9 @@ class AuthController extends GetxController {
 
   Future<void> gantiNomorTelepon() async {
     try {
-      await db.auth.updateUser(UserAttributes(phone: sendNomorTelepon));
+      await db.auth.updateUser(
+        UserAttributes(phone: registerData?.nomorTelepon),
+      );
       print("[gantiNomorTelepon] : Kode OTP berhasil dikirim");
     } catch (e) {
       print("[gantiNomorTelepon] #Error : $e");
@@ -68,12 +88,12 @@ class AuthController extends GetxController {
 
   Future<bool> verifOTPTelepon(String kodeOTP) async {
     print(
-      "Mencoba verifikasi nomor: [$sendNomorTelepon] dengan OTP: [$kodeOTP]",
+      "Mencoba verifikasi nomor: [${registerData?.nomorTelepon}] dengan OTP: [$kodeOTP]",
     );
     try {
       await db.auth.verifyOTP(
         type: OtpType.phoneChange,
-        phone: sendNomorTelepon,
+        phone: registerData?.nomorTelepon,
         token: kodeOTP,
       );
       print("[verifOTPTelepon] : Kode OTP berhasil diverifikasi");
@@ -106,6 +126,7 @@ class AuthController extends GetxController {
         print("[Login] : ${response.user}");
         detailUser.value = response.user;
         akunController.getProfile();
+        penggunaController.getProfilePengguna();
       } else {
         print("[Login] : Akun tidak ditemukan");
       }

@@ -59,12 +59,9 @@ class Body extends StatelessWidget {
                 ),
                 subtitle: 'Pesan barang dari rumah dengan mudah',
                 onTap: () {
-                  _authController.sendRole = UserRole.pengguna;
+                  _authController.registerData?.role = UserRole.pengguna;
                   _loadingController.show();
-                  _authController.register(
-                    _authController.sendEmail,
-                    _authController.sendPassword,
-                  );
+                  _authController.register();
                   Get.toNamed("/verif_otp", arguments: args);
                 },
               ),
@@ -81,12 +78,9 @@ class Body extends StatelessWidget {
                 subtitle:
                     'Join menjadi kurir mitra "MyKurir" untuk menghasilkan uang.',
                 onTap: () {
-                  _authController.sendRole = UserRole.kurir;
+                  _authController.registerData?.role = UserRole.kurir;
                   _loadingController.show();
-                  _authController.register(
-                    _authController.sendEmail,
-                    _authController.sendPassword,
-                  );
+                  _authController.register();
                   Get.toNamed("/verif_otp", arguments: args);
                 },
               ),

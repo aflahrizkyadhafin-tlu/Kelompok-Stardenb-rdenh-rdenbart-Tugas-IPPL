@@ -3,24 +3,24 @@ enum StatusPengiriman { pending, pickup, on_delivery, delivered, cancelled }
 enum DimensiBarang { kecil, sedang, besar }
 
 class Pengiriman {
-  final String? idPengiriman;
-  final String? nomorResi;
-  final String? deskripsiBarang;
-  final String? alamatPengirim;
-  final String? alamatPenerima;
-  final String? namaPenerima;
-  final String? nomorTeleponPenerima;
-  final double? berat;
-  final int? biaya;
-  final StatusPengiriman? statusPengiriman;
-  final DateTime? createdAt;
-  final String? idAkun;
-  final String? idKurir;
-  final double? longPengirim;
-  final double? latPengirim;
-  final double? longPenerima;
-  final double? latPenerima;
-  final DimensiBarang? ukuran;
+  String? idPengiriman;
+  String? nomorResi;
+  String? deskripsiBarang;
+  String? alamatPengirim;
+  String? alamatPenerima;
+  String? namaPenerima;
+  String? nomorTeleponPenerima;
+  double? berat;
+  int? biaya;
+  StatusPengiriman? statusPengiriman;
+  DateTime? createdAt;
+  String? idAkun;
+  String? idKurir;
+  double? longPengirim;
+  double? latPengirim;
+  double? longPenerima;
+  double? latPenerima;
+  DimensiBarang? ukuran;
 
   Pengiriman({
     this.idPengiriman,

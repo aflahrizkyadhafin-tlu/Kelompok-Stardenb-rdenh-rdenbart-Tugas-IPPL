@@ -1,9 +1,11 @@
+enum UserRole { pengguna, kurir, admin }
+
 class Akun {
   final String? idAkun;
   final String? username;
   final String? namaLengkap;
   final String? alamat;
-  final String? role;
+  final UserRole? role;
   final DateTime? createdAt;
   final String? fotoProfile;
   final String? idUser;
@@ -20,12 +22,20 @@ class Akun {
   });
 
   factory Akun.fromJson(Map<String, dynamic> json) {
+    UserRole? roleEnum;
+    if (json['role'] != null) {
+      roleEnum = UserRole.values.firstWhere(
+        (e) => e.name == json['role'],
+        orElse: () => UserRole.pengguna,
+      );
+    }
+
     return Akun(
       idAkun: json['id_akun'] as String?,
       username: json['username'] as String?,
       namaLengkap: json['nama_lengkap'] as String?,
       alamat: json['alamat'] as String?,
-      role: json['role'] as String?,
+      role: roleEnum,
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)
           : null,
@@ -40,7 +50,7 @@ class Akun {
       'username': username,
       'nama_lengkap': namaLengkap,
       'alamat': alamat,
-      'role': role,
+      'role': role?.name,
       'created_at': createdAt?.toIso8601String(),
       'foto_profile': fotoProfile,
       'id_user': idUser,

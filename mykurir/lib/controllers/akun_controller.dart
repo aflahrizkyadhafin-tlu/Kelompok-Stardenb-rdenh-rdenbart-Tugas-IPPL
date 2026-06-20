@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:mykurir/controllers/pelanggan_controller.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AkunController extends GetxController {
   LoadingController loadingController = Get.put(LoadingController());
   Rxn<Akun> profileAkun = Rxn<Akun>();
+  RxBool isLoading = false.obs;
 
   Future<void> createProfile(Akun sendData) async {
     try {
@@ -44,7 +46,7 @@ class AkunController extends GetxController {
     } catch (e) {
       print("[getProfile] #Error : $e");
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
   }
 

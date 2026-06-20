@@ -15,7 +15,7 @@ class _BodyState extends State<Body> {
   final TextEditingController _deskripsiController = TextEditingController();
   final TextEditingController _customBeratController = TextEditingController();
 
-  UkuranPengiriman? _selectedUkuran;
+  DimensiBarang? _selectedUkuran;
   String? _selectedUkuranName;
   double? _selectedBerat;
   bool _isCustomSelected = false;
@@ -295,11 +295,11 @@ class _BodyState extends State<Body> {
           } else {
             _selectedUkuranName = title;
             if (title == "Kecil") {
-              _selectedUkuran = UkuranPengiriman.kecil;
+              _selectedUkuran = DimensiBarang.kecil;
             } else if (title == "Sedang") {
-              _selectedUkuran = UkuranPengiriman.sedang;
+              _selectedUkuran = DimensiBarang.sedang;
             } else {
-              _selectedUkuran = UkuranPengiriman.besar;
+              _selectedUkuran = DimensiBarang.besar;
             }
           }
         });

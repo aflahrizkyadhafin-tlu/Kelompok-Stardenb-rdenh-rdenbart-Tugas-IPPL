@@ -1,0 +1,2 @@
+Perbaikin cara kerja Loading, dari asalnya umum menjadi terkhusus ke setiap controller. 
+Controller loading hanya mengumpulkan kesimpulan isLoading setiap page.

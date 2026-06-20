@@ -18,8 +18,7 @@ List<GetPage<dynamic>> routes = [
   GetPage(name: "/beranda_sementara", page: () => BerandaSementara()),
 
   // Route Login
-  GetPage(name: "/", page: () => RatingDriverScreen()),
-  // GetPage(name: "/", page: () => LoginScreen()),
+  GetPage(name: "/", page: () => LoginScreen()),
 
   // Route Daftar
   GetPage(name: "/daftar", page: () => DaftarScreen()),

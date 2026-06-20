@@ -84,10 +84,13 @@ class Body extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     loadingController.show();
-                    authController.sendEmail = _emailController.text.trim();
-                    authController.sendPassword = _passwordController.text
+                    authController.registerData?.email = _emailController.text
                         .trim();
-                    authController.sendUsername = _usernameController.text
+                    authController.registerData?.password = _passwordController
+                        .text
+                        .trim();
+                    authController.registerData?.username = _usernameController
+                        .text
                         .trim();
                     Get.toNamed("/pilih_role", arguments: {"type": "email"});
                   },

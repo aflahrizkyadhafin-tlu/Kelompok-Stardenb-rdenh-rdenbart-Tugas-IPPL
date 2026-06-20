@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mykurir/controllers/akun_controller.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
 import 'package:mykurir/controllers/loading_controller.dart';
 
@@ -18,6 +19,7 @@ class BerandaSementara extends StatelessWidget {
     ];
     LoadingController loadingController = Get.put(LoadingController());
     AuthController authController = Get.put(AuthController());
+    AkunController akunController = Get.put(AkunController());
 
     String email = "sucrosa@gi.mhy", password = "123456";
 
@@ -59,7 +61,7 @@ class BerandaSementara extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () => {
                           loadingController.show(),
-                          authController.getUser(),
+                          print(akunController.profileAkun.value!.idAkun),
                         },
                         child: Text("Cek User"), // Nama tombol diperbaiki
                       ),

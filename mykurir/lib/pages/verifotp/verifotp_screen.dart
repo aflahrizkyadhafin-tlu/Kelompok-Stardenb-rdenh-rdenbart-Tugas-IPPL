@@ -91,7 +91,8 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
         isButtonActive: _isButtonActive,
         timerString: _timerString,
         phoneNumber: authController
-            .sendNomorTelepon, // Nantinya bisa di-passing dari halaman login
+            .registerData!
+            .nomorTelepon, // Nantinya bisa di-passing dari halaman login
         onOtpChanged: _handleOtpChange,
         onResendPressed: () {
           debugPrint("Kirim Ulang OTP");
@@ -107,8 +108,8 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
               ? await authController.verifOTPTelepon(kodeOtp)
               : await authController.verifOTPEmail(kodeOtp);
           if (verifOTP) {
-            authController.sendNomorTelepon = "";
-            authController.sendEmail = "";
+            authController.registerData?.nomorTelepon = "";
+            authController.registerData?.email = "";
             Get.snackbar("Verifikasi OTP", "Verifikasi OTP berhasil");
           }
           // TODO: Navigasi jika berhasil

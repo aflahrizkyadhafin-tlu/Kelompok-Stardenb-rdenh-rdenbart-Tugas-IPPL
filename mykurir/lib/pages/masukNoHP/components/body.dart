@@ -236,7 +236,7 @@ class Body extends StatelessWidget {
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
                                 loadingController.show();
-                                authController.sendNomorTelepon =
+                                authController.registerData?.nomorTelepon =
                                     nomorTeleponController.text.trim();
                                 await authController.gantiNomorTelepon().then(
                                   (e) => Get.toNamed("/verif_otp"),
