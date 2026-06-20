@@ -113,9 +113,9 @@ class Body extends StatelessWidget {
                                       {
                                         Get.snackbar(
                                           "Login berhasil",
-                                          "Username id : ${_authController.detailUser.value!.username}",
+                                          "Email : ${_authController.detailUser.value!.email}",
                                         ),
-                                        Get.toNamed("/login_sementara"),
+                                        Get.toNamed("/rating_aplikasi"),
                                       },
                                   },
                                 );

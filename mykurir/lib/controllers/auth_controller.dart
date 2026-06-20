@@ -9,7 +9,7 @@ class AuthController extends GetxController {
   LoadingController loadingController = Get.put(LoadingController());
   AkunController akunController = Get.put(AkunController());
 
-  Rxn<Akun> detailUser = Rxn<Akun>();
+  Rxn<User> detailUser = Rxn<User>();
   String sendEmail = "";
   String sendNomorTelepon = "";
   String sendUsername = "";
@@ -104,20 +104,13 @@ class AuthController extends GetxController {
 
       if (response.user != null) {
         print("[Login] : ${response.user}");
-        final akunUser = await db
-            .from("akun")
-            .select()
-            .eq("id_user", response.user!.id)
-            .maybeSingle();
-
-        detailUser.value = Akun.fromJson(akunUser!);
+        detailUser.value = response.user;
+        akunController.getProfile();
       } else {
         print("[Login] : Akun tidak ditemukan");
       }
     } catch (e) {
       print("[Login] #error: $e");
-    } finally {
-      loadingController.hide();
     }
   }
 

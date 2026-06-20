@@ -5,6 +5,7 @@ import 'package:mykurir/pages/login/login_screen.dart';
 import 'package:mykurir/pages/masukNoHP/masukNoHP_screen.dart';
 import 'package:mykurir/pages/permintaanPesanan/pesanan_screen.dart';
 import 'package:mykurir/pages/pilihrole/pilihrole_screen.dart';
+import 'package:mykurir/pages/profil/profil_screen.dart';
 import 'package:mykurir/pages/rating_aplikasi/rating_aplikasi_screen.dart';
 import 'package:mykurir/pages/setting/setting_screen.dart';
 import 'package:mykurir/pages/verifotp/verifotp_screen.dart';
@@ -34,4 +35,7 @@ List<GetPage<dynamic>> routes = [
 
   // Route Rating Aplikasi
   GetPage(name: "/rating_aplikasi", page: () => RatingAplikasiScreen()),
+
+  // Route Profil
+  GetPage(name: "/profil", page: () => ProfilScreen()),
 ];

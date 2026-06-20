@@ -74,9 +74,9 @@ class BerandaSementara extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () => {
                           loadingController.show(),
-                          print(
-                            "Detail user = ${authController.detailUser.value!.idAkun}",
-                          ),
+                          // print(
+                          // "Detail user = ${authController.detailUser.value!.idAkun}",
+                          // ),
                         },
                         child: Text(
                           "Cek Detail AKun",

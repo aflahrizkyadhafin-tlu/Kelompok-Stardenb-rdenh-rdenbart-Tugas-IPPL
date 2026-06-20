@@ -21,7 +21,7 @@ class _RatingAplikasiScreenState extends State<RatingAplikasiScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RatingBody(
+      body: Body(
         selectedRating: _selectedRating,
         onRatingChanged: (newRating) {
           setState(() {
