@@ -1,52 +1,23 @@
 import 'package:flutter/material.dart';
 
-class Body extends StatefulWidget {
+class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
-  State<Body> createState() => _BodyState();
-}
-
-class _BodyState extends State<Body> {
-  final TextEditingController _deskripsiController = TextEditingController();
-  final TextEditingController _customBeratController = TextEditingController();
-
-  String? _selectedUkuran;
-  double? _selectedBerat;
-  bool _isCustomSelected = false;
-
-  bool get _isFormValid {
-    if (_selectedUkuran == null) return false;
-    if (!_isBeratValid) return false;
-    return true;
-  }
-
-  bool get _isBeratValid {
-    if (_isCustomSelected) {
-      return _customBeratController.text.trim().isNotEmpty;
-    }
-    return _selectedBerat != null;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _customBeratController.addListener(_onCustomBeratChanged);
-  }
-
-  void _onCustomBeratChanged() {
-    setState(() {});
-  }
-
-  @override
-  void dispose() {
-    _deskripsiController.dispose();
-    _customBeratController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final TextEditingController deskripsiController = TextEditingController();
+    final TextEditingController customBeratController = TextEditingController();
+
+    final ValueNotifier<String?> selectedUkuranNotifier = ValueNotifier<String?>(null);
+    final ValueNotifier<double?> selectedBeratNotifier = ValueNotifier<double?>(null);
+    final ValueNotifier<bool> isCustomSelectedNotifier = ValueNotifier<bool>(false);
+    
+    final ValueNotifier<String> customBeratTextNotifier = ValueNotifier<String>('');
+
+    customBeratController.addListener(() {
+      customBeratTextNotifier.value = customBeratController.text;
+    });
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -67,222 +38,244 @@ class _BodyState extends State<Body> {
         ),
         centerTitle: false,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //Header
-                  RichText(
-                    text: TextSpan(
-                      text: 'Pilih ukuran dan berat',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                      children: [
-                        if (!_isFormValid)
-                          const TextSpan(
-                            text: '*',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Pastiin paket kamu udah sesuai sama S&K Barang MyKurir, biar bisa klaim perlindungan paket.',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey.shade700,
-                      height: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
+      body: AnimatedBuilder(
+        animation: Listenable.merge([
+          selectedUkuranNotifier,
+          selectedBeratNotifier,
+          isCustomSelectedNotifier,
+          customBeratTextNotifier,
+        ]),
+        builder: (context, _) {
+          bool isBeratValid = isCustomSelectedNotifier.value
+              ? customBeratController.text.trim().isNotEmpty
+              : selectedBeratNotifier.value != null;
 
-                  // Deskripsi barang (text box)
-                  const Text(
-                    'Deskripsi barang',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  TextField(
-                    controller: _deskripsiController,
-                    decoration: InputDecoration(
-                      hintText: 'contoh: Cucian Pakaian',
-                      hintStyle: const TextStyle(color: Colors.black38),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.grey),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
+          bool isFormValid = selectedUkuranNotifier.value != null && isBeratValid;
 
-                  // Ukuran Barang
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildUkuranCard('Kecil', 'Maks. 30cm'),
-                      _buildUkuranCard('Sedang', 'Maks. 50cm'),
-                      _buildUkuranCard('Besar', 'Maks. 100cm'),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Berat Barang
-                  RichText(
-                    text: TextSpan(
-                      text: 'Berapa berat Paketmu?',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                      children: [
-                        if (!_isBeratValid)
-                          const TextSpan(
-                            text: '*',
-                            style: TextStyle(color: Colors.red),
+                      // Header
+                      RichText(
+                        text: TextSpan(
+                          text: 'Pilih ukuran dan berat',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      //Valie fIX
-                      _buildBeratCard(title: '1 - 5 Kg', value: 5.0),
-                      const SizedBox(width: 16),
-                      _buildBeratCard(title: 'Custom', isCustom: true),
-                    ],
-                  ),
-
-                  // Form berat custom muncul berdasarkan kondisi boolean _isCustomSelected
-                  if (_isCustomSelected) ...[
-                    const SizedBox(height: 50),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Berat',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                          children: [
+                            if (!isFormValid)
+                              const TextSpan(
+                                text: ' *',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                          ],
                         ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Pastiin paket kamu udah sesuai sama S&K Barang MyKurir, biar bisa klaim perlindungan paket.',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey.shade700,
+                          height: 1.4,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Deskripsi barang (text box)
+                      const Text(
+                        'Deskripsi barang',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      TextField(
+                        controller: deskripsiController,
+                        decoration: InputDecoration(
+                          hintText: 'contoh: Cucian Pakaian',
+                          hintStyle: const TextStyle(color: Colors.black38),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.black),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Ukuran Barang
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          if (_customBeratController.text.trim().isEmpty)
-                            const TextSpan(
-                              text: '*',
-                              style: TextStyle(color: Colors.red),
-                            ),
+                          _buildUkuranCard(context, 'Kecil', 'Maks. 30cm', selectedUkuranNotifier),
+                          _buildUkuranCard(context, 'Sedang', 'Maks. 50cm', selectedUkuranNotifier),
+                          _buildUkuranCard(context, 'Besar', 'Maks. 100cm', selectedUkuranNotifier),
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 6),
-                    TextField(
-                      controller: _customBeratController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: 'Masukan berat...',
-                        hintStyle: TextStyle(color: Colors.black26),
-                        suffixText: 'Kg',
-                        suffixStyle: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
+                      const SizedBox(height: 24),
+
+                      // Berat Barang
+                      RichText(
+                        text: TextSpan(
+                          text: 'Berapa berat Paketmu?',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                          children: [
+                            if (!isBeratValid)
+                              const TextSpan(
+                                text: ' *',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                          ],
                         ),
                       ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          _buildBeratCard(
+                            title: '1 - 5 Kg',
+                            value: 5.0,
+                            selectedBeratNotifier: selectedBeratNotifier,
+                            isCustomSelectedNotifier: isCustomSelectedNotifier,
+                            customBeratController: customBeratController,
+                          ),
+                          const SizedBox(width: 16),
+                          _buildBeratCard(
+                            title: 'Custom',
+                            isCustom: true,
+                            selectedBeratNotifier: selectedBeratNotifier,
+                            isCustomSelectedNotifier: isCustomSelectedNotifier,
+                            customBeratController: customBeratController,
+                          ),
+                        ],
+                      ),
+
+                      if (isCustomSelectedNotifier.value) ...[
+                        const SizedBox(height: 50),
+                        RichText(
+                          text: TextSpan(
+                            text: 'Berat',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            children: [
+                              if (customBeratController.text.trim().isEmpty)
+                                const TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        TextField(
+                          controller: customBeratController,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            hintText: 'Masukan berat...',
+                            hintStyle: TextStyle(color: Colors.black26),
+                            suffixText: 'Kg',
+                            suffixStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+
+              // Button Simpan
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                    top: BorderSide(color: Colors.grey.shade200, width: 1),
+                  ),
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: isFormValid
+                        ? () {
+                            double beratAkhir = isCustomSelectedNotifier.value
+                                ? (double.tryParse(customBeratController.text.trim()) ?? 0.0)
+                                : (selectedBeratNotifier.value ?? 0.0);
+
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isFormValid ? const Color(0xFFE31E24) : Colors.grey.shade300,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-
-          // Button Simpan
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(color: Colors.grey.shade200, width: 1),
-              ),
-            ),
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: _isFormValid
-                    ? () {
-                        // Simpan Value
-                        double beratAkhir = _isCustomSelected
-                            ? (double.tryParse(
-                                    _customBeratController.text.trim(),
-                                  ) ??
-                                  0.0)
-                            : (_selectedBerat ?? 0.0);
-
-                        // Isi buat ke pahge selanjutnya
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _isFormValid
-                      ? const Color(0xFFE31E24)
-                      : Colors.grey.shade300,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Text(
-                  'Simpan',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: _isFormValid ? Colors.white : Colors.grey.shade500,
+                    child: Text(
+                      'Simpan',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: isFormValid ? Colors.white : Colors.grey.shade500,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildUkuranCard(String title, String subTitle) {
-    bool isSelected = _selectedUkuran == title;
+  Widget _buildUkuranCard(
+    BuildContext context,
+    String title,
+    String subTitle,
+    ValueNotifier<String?> notifier,
+  ) {
+    bool isSelected = notifier.value == title;
 
     return GestureDetector(
       onTap: () {
-        setState(() {
-          if (isSelected) {
-            _selectedUkuran = null;
-          } else {
-            _selectedUkuran = title;
-          }
-        });
+        if (isSelected) {
+          notifier.value = null;
+        } else {
+          notifier.value = title;
+        }
       },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.28,
@@ -320,26 +313,27 @@ class _BodyState extends State<Body> {
     required String title,
     double? value,
     bool isCustom = false,
+    required ValueNotifier<double?> selectedBeratNotifier,
+    required ValueNotifier<bool> isCustomSelectedNotifier,
+    required TextEditingController customBeratController,
   }) {
     bool isSelected = isCustom
-        ? _isCustomSelected
-        : (_selectedBerat == value && !_isCustomSelected);
-    // Logika Value disini
+        ? isCustomSelectedNotifier.value
+        : (selectedBeratNotifier.value == value && !isCustomSelectedNotifier.value);
+
     return GestureDetector(
       onTap: () {
-        setState(() {
-          if (isSelected) {
-            _selectedBerat = null;
-            _isCustomSelected = false;
-            _customBeratController.clear();
-          } else {
-            _isCustomSelected = isCustom;
-            _selectedBerat = value;
-            if (!isCustom) {
-              _customBeratController.clear();
-            }
+        if (isSelected) {
+          selectedBeratNotifier.value = null;
+          isCustomSelectedNotifier.value = false;
+          customBeratController.clear();
+        } else {
+          isCustomSelectedNotifier.value = isCustom;
+          selectedBeratNotifier.value = value;
+          if (!isCustom) {
+            customBeratController.clear();
           }
-        });
+        }
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
