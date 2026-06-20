@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mykurir/components/loading/loading.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
+import 'package:mykurir/controllers/loading_controller.dart';
 import 'statususerpage.dart';
 
 class Body extends StatelessWidget {
@@ -11,279 +13,301 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     RxBool isDriverRole = false.obs;
 
+    LoadingController _loadingController = Get.put(LoadingController());
     AuthController _authController = Get.put(AuthController());
     AkunController _akunController = Get.put(AkunController());
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(
-        () => SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Container(
-                    height: 220,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          //Gradient
-                          Color(0xFFB71C1C),
-                          Color(0xFFEF5350),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(32),
-                        bottomRight: Radius.circular(32),
-                      ),
-                    ),
-                    padding: const EdgeInsets.only(top: 60, left: 16),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        () => _loadingController.getLoadingStatus().value
+            ? LoadingScreen()
+            : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Header
+                    Stack(
+                      clipBehavior: Clip.none,
                       children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
-                            size: 20,
+                        Container(
+                          height: 220,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                //Gradient
+                                Color(0xFFB71C1C),
+                                Color(0xFFEF5350),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(32),
+                              bottomRight: Radius.circular(32),
+                            ),
                           ),
-                          onPressed: () {},
+                          alignment: Alignment.topLeft,
+                          padding: const EdgeInsets.only(top: 60, left: 16),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                                onPressed: () {},
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 0.0),
+                                child: Text(
+                                  'Pengaturan Akun',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            'Pengaturan Akun',
-                            style: TextStyle(
+                        // Profile Card
+                        Positioned(
+                          top: 140,
+                          left: 20,
+                          right: 20,
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
                               color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.1),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                _akunController
+                                            .profileAkun
+                                            .value!
+                                            .fotoProfile !=
+                                        null
+                                    ? Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Color(0xffFFCD0F),
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                              MediaQuery.sizeOf(context).height,
+                                            ),
+                                          ),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadiusGeometry.all(
+                                                Radius.circular(
+                                                  MediaQuery.sizeOf(
+                                                    context,
+                                                  ).height,
+                                                ),
+                                              ),
+                                          child: Image.network(
+                                            _akunController
+                                                .profileAkun
+                                                .value!
+                                                .fotoProfile
+                                                .toString(),
+                                            fit: BoxFit.fill,
+                                            width: 60,
+                                            height: 60,
+                                          ),
+                                        ),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 30,
+                                        backgroundColor: Colors.blue.shade50,
+                                        child: const Icon(
+                                          Icons.person_outline,
+                                          size: 36,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                const SizedBox(width: 16),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      _akunController
+                                                  .profileAkun
+                                                  .value!
+                                                  .namaLengkap !=
+                                              null
+                                          ? _akunController
+                                                .profileAkun
+                                                .value!
+                                                .namaLengkap
+                                                .toString()
+                                          : "-",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF212121),
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      _authController.detailUser.value!.email
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    SizedBox(height: 2),
+                                    Text(
+                                      _authController.detailUser.value!.phone !=
+                                              null
+                                          ? _authController
+                                                .detailUser
+                                                .value!
+                                                .phone
+                                                .toString()
+                                          : "-",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  // Profile Card
-                  Positioned(
-                    top: 140,
-                    left: 20,
-                    right: 20,
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Row(
+
+                    const SizedBox(height: 80),
+                    // Menu List
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _akunController.profileAkun.value!.fotoProfile != null
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Color(0xffFFCD0F),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                        MediaQuery.sizeOf(context).height,
-                                      ),
-                                    ),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadiusGeometry.all(
-                                      Radius.circular(
-                                        MediaQuery.sizeOf(context).height,
-                                      ),
-                                    ),
-                                    child: Image.network(
-                                      _akunController
-                                          .profileAkun
-                                          .value!
-                                          .fotoProfile
-                                          .toString(),
-                                      fit: BoxFit.fill,
-                                      width: 60,
-                                      height: 60,
-                                    ),
-                                  ),
-                                )
-                              : CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Colors.blue.shade50,
-                                  child: const Icon(
-                                    Icons.person_outline,
-                                    size: 36,
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                          const SizedBox(width: 16),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _akunController
-                                            .profileAkun
-                                            .value!
-                                            .namaLengkap !=
-                                        null
-                                    ? _akunController
-                                          .profileAkun
-                                          .value!
-                                          .namaLengkap
-                                          .toString()
-                                    : "-",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF212121),
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                _authController.detailUser.value!.email
-                                    .toString(),
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(height: 2),
-                              Text(
-                                _authController.detailUser.value!.phone != null
-                                    ? _authController.detailUser.value!.phone
-                                          .toString()
-                                    : "-",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
+                          _buildSectionTitle('Preferensi'),
+                          _buildMenuItem(
+                            Icons.person_outline,
+                            'Profilku',
+                            onTap: () {},
                           ),
+                          _buildMenuItem(
+                            Icons.shield_outlined,
+                            'Keamanan Akun',
+                            onTap: () {},
+                          ),
+                          _buildMenuItem(
+                            Icons.location_on_outlined,
+                            'Alamat Tersimpan',
+                            onTap: () {},
+                          ),
+                          _buildMenuSwitchItem(
+                            Icons.person_pin_outlined,
+                            isDriverRole.value
+                                ? 'Role : Kurir'
+                                : 'Role : Pengguna',
+                            isDriverRole.value,
+                            (value) {
+                              isDriverRole.value = value;
+
+                              String statusTeks = value ? 'Kurir' : 'Pengguna';
+
+                              // Animasi & Nav
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (
+                                        context,
+                                        animation,
+                                        secondaryAnimation,
+                                      ) => StatusUserPage(
+                                        statusRole: statusTeks,
+                                      ),
+                                  transitionsBuilder:
+                                      (
+                                        context,
+                                        animation,
+                                        secondaryAnimation,
+                                        child,
+                                      ) {
+                                        return FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        );
+                                      },
+                                  transitionDuration: const Duration(
+                                    milliseconds: 400,
+                                  ),
+                                  reverseTransitionDuration: const Duration(
+                                    milliseconds: 400,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+
+                          const SizedBox(height: 20),
+                          _buildSectionTitle('Aktivitas'),
+                          _buildMenuItem(
+                            Icons.assignment_outlined,
+                            'Aktivitas Order',
+                            onTap: () {},
+                          ),
+                          _buildMenuItem(
+                            Icons.star_border,
+                            'Beri Rating',
+                            onTap: () {},
+                          ),
+                          _buildMenuItem(
+                            Icons.outlined_flag,
+                            'Report Driver',
+                            onTap: () {},
+                          ),
+
+                          const SizedBox(height: 20),
+                          _buildSectionTitle('Lainnya'),
+                          _buildMenuItem(
+                            Icons.help_outline,
+                            'Pusat Bantuan',
+                            onTap: () {},
+                          ),
+                          _buildMenuItem(
+                            Icons.badge_outlined,
+                            'Daftar menjadi kurir',
+                            onTap: () {},
+                          ),
+                          _buildMenuItem(
+                            Icons.delete_outline,
+                            'Atur Akun',
+                            onTap: () {},
+                          ),
+                          const SizedBox(height: 30),
                         ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 80),
-              // Menu List
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildSectionTitle('Preferensi'),
-                    _buildMenuItem(
-                      Icons.person_outline,
-                      'Profilku',
-                      onTap: () {},
-                    ),
-                    _buildMenuItem(
-                      Icons.shield_outlined,
-                      'Keamanan Akun',
-                      onTap: () {},
-                    ),
-                    _buildMenuItem(
-                      Icons.location_on_outlined,
-                      'Alamat Tersimpan',
-                      onTap: () {},
-                    ),
-                    _buildMenuSwitchItem(
-                      Icons.person_pin_outlined,
-                      isDriverRole.value ? 'Role : Kurir' : 'Role : Pengguna',
-                      isDriverRole.value,
-                      (value) {
-                        isDriverRole.value = value;
-
-                        String statusTeks = value ? 'Kurir' : 'Pengguna';
-
-                        // Animasi & Nav
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    StatusUserPage(statusRole: statusTeks),
-                            transitionsBuilder:
-                                (
-                                  context,
-                                  animation,
-                                  secondaryAnimation,
-                                  child,
-                                ) {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  );
-                                },
-                            transitionDuration: const Duration(
-                              milliseconds: 400,
-                            ),
-                            reverseTransitionDuration: const Duration(
-                              milliseconds: 400,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-
-                    const SizedBox(height: 20),
-                    _buildSectionTitle('Aktivitas'),
-                    _buildMenuItem(
-                      Icons.assignment_outlined,
-                      'Aktivitas Order',
-                      onTap: () {},
-                    ),
-                    _buildMenuItem(
-                      Icons.star_border,
-                      'Beri Rating',
-                      onTap: () {},
-                    ),
-                    _buildMenuItem(
-                      Icons.outlined_flag,
-                      'Report Driver',
-                      onTap: () {},
-                    ),
-
-                    const SizedBox(height: 20),
-                    _buildSectionTitle('Lainnya'),
-                    _buildMenuItem(
-                      Icons.help_outline,
-                      'Pusat Bantuan',
-                      onTap: () {},
-                    ),
-                    _buildMenuItem(
-                      Icons.badge_outlined,
-                      'Daftar menjadi kurir',
-                      onTap: () {},
-                    ),
-                    _buildMenuItem(
-                      Icons.delete_outline,
-                      'Atur Akun',
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 30),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
       ),
     );
   }

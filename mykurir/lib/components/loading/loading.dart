@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mykurir/pages/loading/components/body.dart';
+import 'package:mykurir/components/loading/components/body.dart';
 
 class LoadingScreen extends StatelessWidget {
   const LoadingScreen({super.key});

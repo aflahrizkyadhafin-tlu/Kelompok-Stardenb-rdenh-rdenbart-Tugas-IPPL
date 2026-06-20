@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mykurir/beranda_sementara.dart';
+import 'package:mykurir/components/loading/loading.dart';
 import 'package:mykurir/pages/daftar/daftar_screen.dart';
 import 'package:mykurir/pages/login/login_screen.dart';
 import 'package:mykurir/pages/masukNoHP/masukNoHP_screen.dart';
