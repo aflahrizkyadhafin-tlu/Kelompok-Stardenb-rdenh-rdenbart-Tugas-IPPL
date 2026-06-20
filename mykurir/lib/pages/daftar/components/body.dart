@@ -18,17 +18,6 @@ class Body extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
     TextEditingController confirmPasswordController = TextEditingController();
 
-    RxBool isValid = false.obs;
-
-    void checkValid() {
-      isValid.value =
-          usernameController.text != "" &&
-          emailController.text != "" &&
-          passwordController.text != "" &&
-          confirmPasswordController.text != "" &&
-          passwordController == confirmPasswordController;
-    }
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
