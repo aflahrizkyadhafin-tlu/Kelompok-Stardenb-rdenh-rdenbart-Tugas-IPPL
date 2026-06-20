@@ -84,17 +84,12 @@ class Body extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     loadingController.show();
-                    authController
-                        .register(
-                          _emailController.text.trim(),
-                          _passwordController.text.trim(),
-                        )
-                        .then(
-                          (v) => Get.toNamed(
-                            "/verif_otp",
-                            arguments: {"type": "email"},
-                          ),
-                        );
+                    authController.sendEmail = _emailController.text.trim();
+                    authController.sendPassword = _passwordController.text
+                        .trim();
+                    authController.sendUsername = _usernameController.text
+                        .trim();
+                    Get.toNamed("/pilih_role", arguments: {"type": "email"});
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFE31E24),

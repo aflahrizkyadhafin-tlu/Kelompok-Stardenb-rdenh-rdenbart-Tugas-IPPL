@@ -13,6 +13,8 @@ class AuthController extends GetxController {
   String sendEmail = "";
   String sendNomorTelepon = "";
   String sendUsername = "";
+  String sendPassword = "";
+  UserRole sendRole = UserRole.pengguna;
 
   Future<void> register(String email, String password) async {
     try {
@@ -37,7 +39,11 @@ class AuthController extends GetxController {
 
       Get.snackbar("Kode OTP", "Kode OTP berhasil diverifikasi");
 
-      Akun sendData = Akun(idUser: response.user!.id, username: sendUsername);
+      Akun sendData = Akun(
+        idUser: response.user!.id,
+        username: sendUsername,
+        role: sendRole,
+      );
       akunController.createProfile(sendData);
 
       return true;
@@ -49,9 +55,9 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> gantiNomorTelepon(String nomorTelepon) async {
+  Future<void> gantiNomorTelepon() async {
     try {
-      await db.auth.updateUser(UserAttributes(phone: nomorTelepon));
+      await db.auth.updateUser(UserAttributes(phone: sendNomorTelepon));
       print("[gantiNomorTelepon] : Kode OTP berhasil dikirim");
     } catch (e) {
       print("[gantiNomorTelepon] #Error : $e");
@@ -60,12 +66,14 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<bool> verifOTPTelepon(String nomorTelepon, String kodeOTP) async {
-    print("Mencoba verifikasi nomor: [$nomorTelepon] dengan OTP: [$kodeOTP]");
+  Future<bool> verifOTPTelepon(String kodeOTP) async {
+    print(
+      "Mencoba verifikasi nomor: [$sendNomorTelepon] dengan OTP: [$kodeOTP]",
+    );
     try {
       await db.auth.verifyOTP(
         type: OtpType.phoneChange,
-        phone: nomorTelepon,
+        phone: sendNomorTelepon,
         token: kodeOTP,
       );
       print("[verifOTPTelepon] : Kode OTP berhasil diverifikasi");

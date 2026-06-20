@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mykurir/controllers/auth_controller.dart';
+import 'package:mykurir/controllers/loading_controller.dart';
+import 'package:mykurir/models/akun.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
   Widget build(BuildContext context) {
+    LoadingController _loadingController = Get.find();
+    AuthController _authController = Get.find();
+
+    final args = Get.arguments;
+
     return Scaffold(
       backgroundColor: Color(0xFF9E1217),
       body: SafeArea(
@@ -50,7 +59,13 @@ class Body extends StatelessWidget {
                 ),
                 subtitle: 'Pesan barang dari rumah dengan mudah',
                 onTap: () {
-                  // TODO: navigate to login/register as pengguna
+                  _authController.sendRole = UserRole.pengguna;
+                  _loadingController.show();
+                  _authController.register(
+                    _authController.sendEmail,
+                    _authController.sendPassword,
+                  );
+                  Get.toNamed("/verif_otp", arguments: args);
                 },
               ),
               const SizedBox(height: 16),
@@ -66,7 +81,13 @@ class Body extends StatelessWidget {
                 subtitle:
                     'Join menjadi kurir mitra "MyKurir" untuk menghasilkan uang.',
                 onTap: () {
-                  // TODO: navigate to login/register as driver
+                  _authController.sendRole = UserRole.kurir;
+                  _loadingController.show();
+                  _authController.register(
+                    _authController.sendEmail,
+                    _authController.sendPassword,
+                  );
+                  Get.toNamed("/verif_otp", arguments: args);
                 },
               ),
               const SizedBox(height: 60),

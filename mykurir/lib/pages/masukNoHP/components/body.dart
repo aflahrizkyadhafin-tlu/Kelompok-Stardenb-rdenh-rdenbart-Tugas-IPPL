@@ -238,11 +238,9 @@ class Body extends StatelessWidget {
                                 loadingController.show();
                                 authController.sendNomorTelepon =
                                     nomorTeleponController.text.trim();
-                                await authController
-                                    .gantiNomorTelepon(
-                                      nomorTeleponController.text.trim(),
-                                    )
-                                    .then((e) => Get.toNamed("/verif_otp"));
+                                await authController.gantiNomorTelepon().then(
+                                  (e) => Get.toNamed("/verif_otp"),
+                                );
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Memproses OTP...'),

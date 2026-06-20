@@ -104,14 +104,8 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
           debugPrint("Memverifikasi OTP: $kodeOtp");
           loadingController.show();
           final bool verifOTP = args["type"] == "telepon"
-              ? await authController.verifOTPTelepon(
-                  authController.sendNomorTelepon,
-                  kodeOtp,
-                )
-              : await authController.verifOTPEmail(
-                  authController.sendEmail,
-                  kodeOtp,
-                );
+              ? await authController.verifOTPTelepon(kodeOtp)
+              : await authController.verifOTPEmail(kodeOtp);
           if (verifOTP) {
             authController.sendNomorTelepon = "";
             authController.sendEmail = "";
