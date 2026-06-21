@@ -126,7 +126,7 @@ class Body extends StatelessWidget {
                                     "Login berhasil",
                                     "Email : ${authController.detailUser.value!.email}",
                                   ),
-                                  Get.toNamed("/profil"),
+                                  Get.toNamed("/setting"),
                                 },
                             },
                           );

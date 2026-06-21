@@ -107,6 +107,11 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
               ? await authController.verifOTPTelepon(kodeOtp)
               : args["type"] == "recovery"
               ? await authController.verifChangePassword(kodeOtp, args["email"])
+              : args["type"] == "changeEmail"
+              ? await authController.verifyOTPChangeEmail(
+                  args["email"],
+                  kodeOtp,
+                )
               : await authController.verifOTPEmail(kodeOtp);
           if (verifOTP) {
             authController.registerData = RegisterPayload();

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mykurir/controllers/auth_controller.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final AuthController _authController = Get.put(AuthController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -96,12 +100,32 @@ class Body extends StatelessWidget {
     );
   }
 
+  String maskEmail(String email) {
+    List<String> parts = email.split('@');
+    if (parts.length != 2) return email; // Return as is if invalid format
+
+    String name = parts[0];
+    String domain = parts[1];
+
+    if (name.length <= 2) return email;
+
+    String firstTwo = name.substring(0, 2);
+    String lastTwo = name.substring(name.length - 2);
+    String masked = '*' * (name.length - 4);
+
+    return "$firstTwo$masked$lastTwo@$domain";
+  }
+
   Widget _buildMenuGantiEmail() {
+    final AuthController _authController = Get.find();
     return _buildListItemTemplate(
       icon: Icons.email_outlined,
       title: "Ganti Email",
-      subtitle: "Email saat ini : nad****@gmail.com",
-      onTap: () {},
+      subtitle:
+          "Email saat ini : ${maskEmail(_authController.detailUser.value!.email.toString())}",
+      onTap: () {
+        Get.toNamed("/ganti_email");
+      },
     );
   }
 

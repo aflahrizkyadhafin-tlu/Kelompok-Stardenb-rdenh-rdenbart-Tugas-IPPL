@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mykurir/controllers/akun_controller.dart';
+import 'package:mykurir/controllers/auth_controller.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _emailController = TextEditingController();
+    final AuthController _authController = Get.put(AuthController());
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
       child: Column(
@@ -57,11 +63,12 @@ class Body extends StatelessWidget {
               "Email baru",
               style: GoogleFonts.poppins(
                 fontSize: 15,
-                fontWeight: FontWeight.w200,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
           TextField(
+            controller: _emailController,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderSide: BorderSide(color: Color(0xff5A5A5A), width: 1),
@@ -77,7 +84,19 @@ class Body extends StatelessWidget {
           Padding(
             padding: EdgeInsetsGeometry.only(top: 46),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                _authController.isLoading.value = true;
+                _authController.requestChangeEmail(
+                  _emailController.text.trim(),
+                );
+                Get.toNamed(
+                  "/verif_otp",
+                  arguments: {
+                    "email": _emailController.text.trim(),
+                    "type": "changeEmail",
+                  },
+                );
+              },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadiusGeometry.all(Radius.circular(6)),
@@ -90,7 +109,7 @@ class Body extends StatelessWidget {
                 "Selesai",
                 style: GoogleFonts.poppins(
                   color: Color(0xffFEFEFE),
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
               ),

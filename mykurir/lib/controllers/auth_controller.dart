@@ -62,12 +62,42 @@ class AuthController extends GetxController {
       );
       akunController.createProfile(sendData);
 
+      login(registerData.email, registerData.password);
       return true;
     } catch (e) {
       print("[verifOTP] #Error : $e");
       return false;
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> requestChangeEmail(String email) async {
+    try {
+      await db.auth.updateUser(UserAttributes(email: email));
+      print("[requestChangeEmail] : Kode OTP dikirim ke $email");
+      Get.snackbar(
+        "Sukses",
+        "Silakan cek email baru Anda untuk mendapatkan kode OTP.",
+      );
+    } catch (e) {
+      print("[requestChangeEmail] #Error : $e");
+    }
+  }
+
+  Future<bool> verifyOTPChangeEmail(String email, String kodeOTP) async {
+    try {
+      final response = await db.auth.verifyOTP(
+        type: OtpType.emailChange,
+        email: email,
+        token: kodeOTP,
+      );
+
+      print("[verifyOTPChangeEmail] : $response");
+      return true;
+    } catch (e) {
+      print("[verifyOTPChangeEmail] #Error : $e");
+      return false;
     }
   }
 
