@@ -168,12 +168,12 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     try {
       await db.auth.signOut();
+      clearData();
       print("[logout] : User telah logout");
-      loadingController.hide();
     } catch (e) {
       print("[logout] #Error : $e");
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
   }
 
@@ -230,5 +230,22 @@ class AuthController extends GetxController {
     } catch (e) {
       print("[changePassword] #Error : $e");
     }
+  }
+
+  Future<void> hapusAkun() async {
+    try {
+      await db.rpc('delete_user_account');
+      await db.auth.signOut();
+      clearData();
+      print("[hapusAkun] : Akun berhasil dihapus");
+      Get.snackbar("Hapus Akun", "Akun telah dihapus");
+    } catch (e) {
+      print("[hapusAkun] #Error : $e");
+    }
+  }
+
+  void clearData() {
+    detailUser.value = null;
+    akunController.profileAkun.value = null;
   }
 }

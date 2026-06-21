@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mykurir/controllers/auth_controller.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AuthController _authController = Get.put(AuthController());
+
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 20,
-        left: 20,  
-        right: 20, 
-      ),
+      padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,7 +25,7 @@ class Body extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                     icon: const Icon(
-                      Icons.arrow_back_ios, 
+                      Icons.arrow_back_ios,
                       color: Color(0xFF2E2E2E),
                       size: 21,
                     ),
@@ -37,17 +37,17 @@ class Body extends StatelessWidget {
                 Transform.translate(
                   offset: const Offset(-18, 0),
                   child: Text(
-                    "Hapus Akun", 
+                    "Hapus Akun",
                     style: GoogleFonts.inter(
-                      fontSize: 19, 
-                      fontWeight: FontWeight.bold, 
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
                       color: Color(0xFFA01515),
                     ),
                   ),
                 ),
               ],
             ),
-            
+
             const SizedBox(height: 5),
 
             Transform.translate(
@@ -92,12 +92,13 @@ class Body extends StatelessWidget {
                   color: Color(0xFF232323),
                   size: 28.0,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/verifikasi_hapus_akun");
+                },
               ),
             ),
 
             const SizedBox(height: 10), // ✏️ tambah jarak antar menu
-
             // --- MENU 2: KELUAR AKUN ---
             Transform.translate(
               offset: const Offset(0, -10),
@@ -128,7 +129,62 @@ class Body extends StatelessWidget {
                   color: Color(0xFF232323),
                   size: 28.0,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Get.dialog(
+                    Dialog(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: GestureDetector(
+                                onTap: () => Get.back(),
+                                child: Icon(
+                                  Icons.cancel_outlined,
+                                  size: 28,
+                                  color: Color(0xff9E1217),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "Keluar Akun",
+                              style: GoogleFonts.inter(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff2E2E2E),
+                              ),
+                            ),
+                            Text(
+                              "Keluar dari akun saat ini",
+                              style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xff2E2E2E),
+                              ),
+                            ),
+                            SizedBox(height: 50),
+                            GestureDetector(
+                              onTap: () => {
+                                _authController.logout(),
+                                Get.offAllNamed("/"),
+                              },
+                              child: Text(
+                                "Keluar",
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff2E2E2E),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],

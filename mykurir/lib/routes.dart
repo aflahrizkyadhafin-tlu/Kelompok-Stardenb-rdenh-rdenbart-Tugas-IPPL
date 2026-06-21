@@ -35,6 +35,7 @@ import 'package:mykurir/pages/report_driver/report_driver_screen.dart';
 import 'package:mykurir/pages/setting/setting_screen.dart';
 import 'package:mykurir/pages/verif_otp/verif_otp_screen.dart';
 import 'package:mykurir/pages/terima_kasih_penilaian/terima_kasih_penilaian_screen.dart';
+import 'package:mykurir/pages/verifikasi_hapus_akun/verifikasi_hapus_akun.dart';
 
 List<GetPage<dynamic>> routes = [
   // =========================================
@@ -77,6 +78,7 @@ List<GetPage<dynamic>> routes = [
 
   // Hapus Akun
   GetPage(name: "/opsi_hapus_akun", page: () => OpsiHapusAkunScreen()),
+  GetPage(name: "/verifikasi_hapus_akun", page: () => VerifikasiHapusAkun()),
   GetPage(
     name: "/hapus_akun_disetujui",
     page: () => HapusAkunDisetujuiScreen(),

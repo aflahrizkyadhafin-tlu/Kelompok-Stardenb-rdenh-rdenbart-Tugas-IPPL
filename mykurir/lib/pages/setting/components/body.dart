@@ -93,7 +93,7 @@ class Body extends StatelessWidget {
                             ),
                             child: Row(
                               children: [
-                                akunController.profileAkun.value!.fotoProfile !=
+                                akunController.profileAkun.value?.fotoProfile !=
                                         null
                                     ? Container(
                                         decoration: BoxDecoration(
@@ -143,16 +143,11 @@ class Body extends StatelessWidget {
                                   children: [
                                     Text(
                                       akunController
-                                                  .profileAkun
-                                                  .value!
-                                                  .namaLengkap !=
-                                              null
-                                          ? akunController
-                                                .profileAkun
-                                                .value!
-                                                .namaLengkap
-                                                .toString()
-                                          : "-",
+                                              .profileAkun
+                                              .value
+                                              ?.namaLengkap
+                                              ?.toString() ??
+                                          "-",
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
@@ -161,8 +156,9 @@ class Body extends StatelessWidget {
                                     ),
                                     SizedBox(height: 4),
                                     Text(
-                                      authController.detailUser.value!.email
-                                          .toString(),
+                                      authController.detailUser.value?.email
+                                              .toString() ??
+                                          "-",
                                       style: TextStyle(
                                         fontSize: 13,
                                         color: Colors.grey,
@@ -170,14 +166,9 @@ class Body extends StatelessWidget {
                                     ),
                                     SizedBox(height: 2),
                                     Text(
-                                      authController.detailUser.value!.phone !=
-                                              null
-                                          ? authController
-                                                .detailUser
-                                                .value!
-                                                .phone
-                                                .toString()
-                                          : "-",
+                                      authController.detailUser.value?.phone
+                                              .toString() ??
+                                          "-",
                                       style: TextStyle(
                                         fontSize: 13,
                                         color: Colors.grey,
