@@ -44,7 +44,6 @@ List<GetPage<dynamic>> routes = [
   // Login & Daftar
   GetPage(name: "/beranda_sementara", page: () => BerandaSementara()),
   GetPage(name: "/", page: () => LoginScreen()),
-  // GetPage(name: "/", page: () => EditprofilScreen()),
   GetPage(name: "/daftar", page: () => DaftarScreen()),
   GetPage(name: "/pilih_role", page: () => PilihroleScreen()),
 

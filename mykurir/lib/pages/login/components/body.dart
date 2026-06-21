@@ -39,26 +39,17 @@ class Body extends StatelessWidget {
                   style: TextStyle(fontSize: 16, color: Colors.black54),
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
                 //Logo
                 Center(
-                  child: Container(
-                    height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Logo',
-                        style: TextStyle(color: Colors.black45),
-                      ),
-                    ),
+                  child: Image.asset(
+                    "assets/icons/icon-app.png",
+                    fit: BoxFit.fill,
+                    width: 120,
                   ),
                 ),
 
-                const SizedBox(height: 50),
+                const SizedBox(height: 30),
 
                 _inputLabel(Icons.person_outline, 'Nama Pengguna / Email'),
                 const SizedBox(height: 8),
