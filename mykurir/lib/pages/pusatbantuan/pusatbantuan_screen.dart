@@ -8,7 +8,7 @@ class PusatBantuanScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: const Body(),
+      body: SafeArea(child: Body()),
       // --- Bottom Navigation Bar ---
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

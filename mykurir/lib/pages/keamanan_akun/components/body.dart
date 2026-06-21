@@ -130,12 +130,14 @@ class Body extends StatelessWidget {
   }
 
   Widget _buildMenuGantiPassword() {
+    final AuthController _authController = Get.find();
+
     return _buildListItemTemplate(
       icon: Icons.lock_outline,
       title: "Ganti Password",
       subtitle: "Ganti password saat ini",
       onTap: () {
-        // ISI MANUAL: Aksi saat klik ganti password
+        Get.toNamed("/ganti_password");
       },
     );
   }

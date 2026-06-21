@@ -24,8 +24,9 @@ class Body extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+
               children: [
-                const SizedBox(height: 60),
+                const SizedBox(height: 40),
                 const Text(
                   'Masuk',
                   style: TextStyle(

@@ -14,6 +14,7 @@ import 'package:mykurir/pages/edit_profil/edit_profil_screen.dart';
 import 'package:mykurir/pages/error_reconect/error_reconect_screen.dart';
 import 'package:mykurir/pages/error_wip/error_wip_screen.dart';
 import 'package:mykurir/pages/ganti_email/ganti_email_screen.dart';
+import 'package:mykurir/pages/ganti_password/ganti_password_screen.dart';
 import 'package:mykurir/pages/hapus_akun_disetujui/hapus_akun_disetujui_screen.dart';
 import 'package:mykurir/pages/keamanan_akun/keamanan_akun_screen.dart';
 import 'package:mykurir/pages/login/login_screen.dart';
@@ -71,6 +72,7 @@ List<GetPage<dynamic>> routes = [
   GetPage(name: "/profil", page: () => ProfilScreen()),
   GetPage(name: "/edit_profil", page: () => EditprofilScreen()),
   GetPage(name: "/ganti_email", page: () => GantiEmailScreen()),
+  GetPage(name: "/ganti_password", page: () => GantiPasswordScreen()),
   GetPage(name: "/keamanan_akun", page: () => KeamananAkunScreen()),
 
   // Setting Umum
