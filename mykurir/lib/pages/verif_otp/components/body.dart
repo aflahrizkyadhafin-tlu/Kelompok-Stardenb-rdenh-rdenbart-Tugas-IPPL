@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mykurir/components/loading/loading.dart';
+import 'package:mykurir/controllers/auth_controller.dart';
 import 'package:mykurir/controllers/loading_controller.dart';
 
 class Body extends StatelessWidget {
@@ -33,13 +35,13 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoadingController loadingController = Get.find();
+    final AuthController authController = Get.find();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F9FB),
       body: Obx(
-        () => loadingController.getLoadingStatus().value
-            ? Center(child: CircularProgressIndicator())
+        () => authController.isLoading.value
+            ? LoadingScreen()
             : SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

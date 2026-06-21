@@ -143,12 +143,13 @@ class Body extends StatelessWidget {
   }
 
   Widget _buildMenuGantiNomor() {
+    final AuthController _authController = Get.find();
     return _buildListItemTemplate(
       icon: Icons.phone_android_outlined,
       title: "Ganti Nomor Telepon",
       subtitle: "Ganti nomor telepon saat ini",
       onTap: () {
-        // ISI MANUAL: Aksi saat klik ganti nomor
+        Get.toNamed("/masukan_no_hp");
       },
     );
   }

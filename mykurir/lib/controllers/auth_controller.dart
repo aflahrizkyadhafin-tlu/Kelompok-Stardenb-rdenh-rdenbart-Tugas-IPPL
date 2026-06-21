@@ -62,7 +62,7 @@ class AuthController extends GetxController {
       );
       akunController.createProfile(sendData);
 
-      login(registerData.email, registerData.password);
+      refreshData();
       return true;
     } catch (e) {
       print("[verifOTP] #Error : $e");
@@ -107,11 +107,19 @@ class AuthController extends GetxController {
         UserAttributes(phone: registerData.nomorTelepon),
       );
       print("[gantiNomorTelepon] : Kode OTP berhasil dikirim");
+      Get.offNamed("/verif_otp", arguments: {"type": "telepon"});
     } catch (e) {
       print("[gantiNomorTelepon] #Error : $e");
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
+  }
+
+  Future<void> refreshData() async {
+    detailUser.value = db.auth.currentUser;
+    print("Detail user update");
+    akunController.getProfile();
+    print("akun profile update");
   }
 
   Future<bool> verifOTPTelepon(String kodeOTP) async {
@@ -125,6 +133,8 @@ class AuthController extends GetxController {
         token: kodeOTP,
       );
       print("[verifOTPTelepon] : Kode OTP berhasil diverifikasi");
+      refreshData();
+      Get.back();
       return true;
     } on AuthException catch (e) {
       if (e.message.contains("Invalid OTP") ||
@@ -153,8 +163,7 @@ class AuthController extends GetxController {
       if (response.user != null) {
         akunController.isLoading.value = true;
         print("[Login] : ${response.user}");
-        detailUser.value = response.user;
-        akunController.getProfile();
+        refreshData();
       } else {
         print("[Login] : Akun tidak ditemukan");
       }

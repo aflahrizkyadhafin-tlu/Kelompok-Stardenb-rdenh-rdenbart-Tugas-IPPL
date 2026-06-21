@@ -84,41 +84,46 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Body(
-        otpControllers: _otpControllers,
-        focusNodes: _focusNodes,
-        isButtonActive: _isButtonActive,
-        timerString: _timerString,
-        phoneNumber: authController
-            .registerData
-            .nomorTelepon, // Nantinya bisa di-passing dari halaman login
-        onOtpChanged: _handleOtpChange,
-        onResendPressed: () {
-          debugPrint("Kirim Ulang OTP");
-        },
-        onChangePhonePressed: () {
-          Navigator.pop(context);
-        },
-        onVerifyPressed: () async {
-          String kodeOtp = _otpControllers.map((e) => e.text).join();
-          debugPrint("Memverifikasi OTP: $kodeOtp");
-          loadingController.show();
-          final bool verifOTP = args["type"] == "telepon"
-              ? await authController.verifOTPTelepon(kodeOtp)
-              : args["type"] == "recovery"
-              ? await authController.verifChangePassword(kodeOtp, args["email"])
-              : args["type"] == "changeEmail"
-              ? await authController.verifyOTPChangeEmail(
-                  args["email"],
-                  kodeOtp,
-                )
-              : await authController.verifOTPEmail(kodeOtp);
-          if (verifOTP) {
-            authController.registerData = RegisterPayload();
-            Get.snackbar("Verifikasi OTP", "Verifikasi OTP berhasil");
-          }
-          // TODO: Navigasi jika berhasil
-        },
+      body: SafeArea(
+        child: Body(
+          otpControllers: _otpControllers,
+          focusNodes: _focusNodes,
+          isButtonActive: _isButtonActive,
+          timerString: _timerString,
+          phoneNumber: authController
+              .registerData
+              .nomorTelepon, // Nantinya bisa di-passing dari halaman login
+          onOtpChanged: _handleOtpChange,
+          onResendPressed: () {
+            debugPrint("Kirim Ulang OTP");
+          },
+          onChangePhonePressed: () {
+            Navigator.pop(context);
+          },
+          onVerifyPressed: () async {
+            String kodeOtp = _otpControllers.map((e) => e.text).join();
+            debugPrint("Memverifikasi OTP: $kodeOtp");
+            loadingController.show();
+            final bool verifOTP = args["type"] == "telepon"
+                ? await authController.verifOTPTelepon(kodeOtp)
+                : args["type"] == "recovery"
+                ? await authController.verifChangePassword(
+                    kodeOtp,
+                    args["email"],
+                  )
+                : args["type"] == "changeEmail"
+                ? await authController.verifyOTPChangeEmail(
+                    args["email"],
+                    kodeOtp,
+                  )
+                : await authController.verifOTPEmail(kodeOtp);
+            if (verifOTP) {
+              authController.registerData = RegisterPayload();
+              Get.snackbar("Verifikasi OTP", "Verifikasi OTP berhasil");
+            }
+            // TODO: Navigasi jika berhasil
+          },
+        ),
       ),
     );
   }

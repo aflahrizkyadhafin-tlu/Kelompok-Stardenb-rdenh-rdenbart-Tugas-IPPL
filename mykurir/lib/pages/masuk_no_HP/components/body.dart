@@ -69,7 +69,7 @@ class Body extends StatelessWidget {
                                         ),
                                         const SizedBox(width: 8),
                                         Text(
-                                          'Verifikasi Akun',
+                                          'Masukan Nomor Telepon',
                                           style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
@@ -233,14 +233,12 @@ class Body extends StatelessWidget {
                           width: double.infinity,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () async {
+                            onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 loadingController.show();
                                 authController.registerData.nomorTelepon =
                                     nomorTeleponController.text.trim();
-                                await authController.gantiNomorTelepon().then(
-                                  (e) => Get.toNamed("/verif_otp"),
-                                );
+                                authController.gantiNomorTelepon();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Memproses OTP...'),
