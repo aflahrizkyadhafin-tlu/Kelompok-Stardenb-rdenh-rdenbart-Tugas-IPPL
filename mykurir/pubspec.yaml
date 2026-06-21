@@ -16,6 +16,7 @@ dependencies:
   supabase_flutter: ^2.15.0
   path: any
   iconify_flutter: ^0.0.7
+  intl: ^0.20.2
 
 
 dev_dependencies:

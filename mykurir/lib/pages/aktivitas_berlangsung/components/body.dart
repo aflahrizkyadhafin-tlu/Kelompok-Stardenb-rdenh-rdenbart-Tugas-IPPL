@@ -147,13 +147,16 @@ class Body extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Center(
-                child: Text(
-                  "Riwayat",
-                  style: GoogleFonts.poppins(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+              child: GestureDetector(
+                onTap: () => Get.offAndToNamed("/aktivitas_riwayat"),
+                child: Center(
+                  child: Text(
+                    "Riwayat",
+                    style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
@@ -195,8 +198,6 @@ class Body extends StatelessWidget {
   }) {
     Color warnaStatus = isSukses ? const Color(0xFF1A7A4A) : Colors.red;
     Color bgStatus = isSukses ? const Color(0xFFE8F5EE) : Colors.red.shade50;
-
-    print(namaLengkap.value);
 
     return Container(
       padding: const EdgeInsets.all(16.0),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mykurir/controllers/pengiriman_controller.dart';
+import 'package:intl/intl.dart';
 // import 'package:icons_flutter/icons_flutter.dart';
 
 class Body extends StatelessWidget {
@@ -7,6 +10,10 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PengirimanController _pengirimanController = Get.put(
+      PengirimanController(),
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
 
@@ -79,45 +86,38 @@ class Body extends StatelessWidget {
             const SizedBox(height: 16),
 
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: 8.0,
+              child: Obx(
+                () => ListView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 8.0,
+                  ),
+                  children: [
+                    // KARTU 1 (Data Dimas)
+                    for (var data in _pengirimanController.pengirimanSebelumnya)
+                      Column(
+                        children: [
+                          _buildKartuOrder(
+                            isSukses: data["status_pengiriman"] != "cancelled",
+                            tanggal: DateFormat('dd/MM/yyyy')
+                                .format(
+                                  DateTime.parse(data["created_at"].toString()),
+                                )
+                                .toString(),
+                            namaPelanggan: data["akun"]["nama_lengkap"] ?? "-",
+                            lokasiAwal: data["alamat_pengirim"],
+                            lokasiTujuan: data["alamat_penerima"],
+                            harga: NumberFormat.currency(
+                              locale: 'id_ID',
+                              symbol: 'Rp ',
+                              decimalDigits: 0,
+                            ).format(data["biaya"]).toString(),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                      ),
+                  ],
                 ),
-                children: [
-                  // KARTU 1 (Data Dimas)
-                  _buildKartuOrder(
-                    isSukses: true,
-                    tanggal: "22 April, 18:15",
-                    namaPelanggan: "Dimas Saputra",
-                    lokasiAwal: "Teluk",
-                    lokasiTujuan: "Perumahan Arca",
-                    harga: "Rp 12.000",
-                  ),
-                  const SizedBox(height: 16),
-
-                  // KARTU 2 (Data Renisa) - Berbeda!
-                  _buildKartuOrder(
-                    isSukses: true,
-                    tanggal: "18 April, 11:15",
-                    namaPelanggan: "Budi Santoso",
-                    lokasiAwal: "Teluk",
-                    lokasiTujuan: "Telkom University Purwokerto",
-                    harga: "Rp 9.000",
-                  ),
-                  const SizedBox(height: 16),
-
-                  // KARTU 3 (Data Rizqi - Batal) - Berbeda lagi!
-                  _buildKartuOrder(
-                    isSukses: false,
-                    tanggal: "03 April, 09:30",
-                    namaPelanggan: "Agus Prayogo",
-                    lokasiAwal: "Karang Lwas",
-                    lokasiTujuan: "Teluk",
-                    harga: "Rp 22.000",
-                  ),
-                  const SizedBox(height: 32),
-                ],
               ),
             ),
           ],
@@ -183,13 +183,16 @@ class Body extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Center(
-                child: Text(
-                  "Berlangsung",
-                  style: GoogleFonts.poppins(
-                    color: Colors.black54,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+              child: GestureDetector(
+                onTap: () => Get.offAndToNamed("/aktivitas_berlangsung"),
+                child: Center(
+                  child: Text(
+                    "Berlangsung",
+                    style: GoogleFonts.poppins(
+                      color: Colors.black54,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
@@ -213,8 +216,12 @@ class Body extends StatelessWidget {
   }) {
     Color warnaStatus = isSukses ? Colors.green : Colors.red;
     String teksStatus = isSukses ? "Orderan Selesai" : "Orderan dibatalkan";
-    // IconData ikonStatus = isSukses ? Feather.check_circle : Feather.x_circle;
-    // IconData ikonUtama = isSukses ? FontAwesome.truck : Feather.x_circle;
+    IconData ikonStatus = isSukses
+        ? Icons.check_circle_outline_outlined
+        : Icons.cancel_outlined;
+    IconData ikonUtama = isSukses
+        ? Icons.fire_truck_outlined
+        : Icons.cancel_outlined;
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -237,17 +244,18 @@ class Body extends StatelessWidget {
                   color: Colors.grey.shade600,
                 ),
               ),
-              // Container(
-              //   padding: const EdgeInsets.all(6.0),
-              //   decoration: BoxDecoration(
-              //     color: const Color(0xFFFADBD8),
-              //     borderRadius: BorderRadius.circular(8.0)
-              //   ),
-              //   child: Icon(
-              //     ikonUtama,
-              //     color: const Color(0xFFB03A2E),
-              //     size: 16.0),
-              // ),
+              Container(
+                padding: const EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFADBD8),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Icon(
+                  ikonUtama,
+                  color: const Color(0xFFB03A2E),
+                  size: 16.0,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -297,14 +305,14 @@ class Body extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      // const Padding(
-                      //   padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      //   child: Icon(
-                      //     Feather.arrow_right,
-                      //     size: 16,
-                      //     color: Colors.grey,
-                      //   ),
-                      // ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Icon(
+                          Icons.arrow_right_alt,
+                          size: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
                       // Variabel lokasiTujuan dimasukkan ke sini
                       Expanded(
                         child: Text(

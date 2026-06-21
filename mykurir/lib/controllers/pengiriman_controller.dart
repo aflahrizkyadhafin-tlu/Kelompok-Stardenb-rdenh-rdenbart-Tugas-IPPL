@@ -67,16 +67,22 @@ class PengirimanController extends GetxController {
             akun!id_akun(nama_lengkap, foto_profile)''')
           .eq("id_akun", idAkun);
 
+      List<Map<String, dynamic>> berlangsung = [];
+      List<Map<String, dynamic>> riwayat = [];
+
       for (var e in response) {
         print("Response = $e");
         if (e["status_pengiriman"] == StatusPengiriman.on_delivery.name ||
             e["status_pengiriman"] == StatusPengiriman.pending.name ||
             e["status_pengiriman"] == StatusPengiriman.pickup.name) {
-          pengirimanBerlangsung.add(e);
+          berlangsung.add(e);
         } else {
-          pengirimanSebelumnya.add(e);
+          riwayat.add(e);
         }
       }
+
+      pengirimanBerlangsung.value = berlangsung;
+      pengirimanSebelumnya.value = riwayat;
       print("riwayatPengiriman : $response");
     } catch (e) {
       print("riwayatPengiriman #Error : $e");
