@@ -61,7 +61,9 @@ class Body extends StatelessWidget {
                                   color: Colors.white,
                                   size: 20,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.back();
+                                },
                               ),
                               const Padding(
                                 padding: EdgeInsets.only(top: 0.0),

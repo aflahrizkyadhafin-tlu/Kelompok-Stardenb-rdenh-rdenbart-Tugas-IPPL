@@ -4,7 +4,7 @@ import 'package:mykurir/db/connection.dart';
 import 'package:mykurir/models/kurir.dart';
 
 class KurirController extends GetxController {
-  RxList<Kurir> kurirTersedia = <Kurir>[].obs;
+  RxList<Map> kurirTersedia = <Map>[].obs;
   RxList<Map> riwayatKurir = <Map>[].obs;
   RxBool isLoading = false.obs;
 
@@ -14,18 +14,28 @@ class KurirController extends GetxController {
     try {
       final response = await db
           .from("kurir")
-          .select()
+          .select('''
+            id_kurir,
+            rating,
+            kendaraan,
+            plat_nomor,
+            status_kurir,
+            lokasi_long,
+            lokasi_lat,
+            created_at,
+            id_akun,
+            akun!id_akun(username, nama_lengkap, foto_profile)
+            ''')
           .eq("status_kurir", StatusKurir.available.name);
 
-      List<Kurir> jsonData = [];
-      for (var data in response) {
-        jsonData.add(Kurir.fromJson(data));
+      if (response.isNotEmpty) {
+        kurirTersedia.value = response;
       }
-
-      kurirTersedia.value = jsonData;
       print("[getKurirTersedia] : $response");
     } catch (e) {
       print("[getKurirTersedia] #Error : $e");
+    } finally {
+      isLoading.value = false;
     }
   }
 

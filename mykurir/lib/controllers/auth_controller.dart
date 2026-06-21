@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
-import 'package:mykurir/controllers/loading_controller.dart';
+import 'package:mykurir/controllers/kurir_controller.dart';
 import 'package:mykurir/db/connection.dart';
 import 'package:mykurir/models/akun.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -23,6 +23,7 @@ class RegisterPayload {
 
 class AuthController extends GetxController {
   AkunController akunController = Get.put(AkunController());
+  KurirController kurirController = Get.put(KurirController());
   RxBool isLoading = false.obs;
 
   Rxn<User> detailUser = Rxn<User>();
@@ -116,9 +117,8 @@ class AuthController extends GetxController {
 
   Future<void> refreshData() async {
     detailUser.value = db.auth.currentUser;
-    print("Detail user update");
     akunController.getProfile();
-    print("akun profile update");
+    kurirController.getKurirTersedia();
   }
 
   Future<bool> verifOTPTelepon(String kodeOTP) async {

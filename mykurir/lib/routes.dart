@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:mykurir/beranda_sementara.dart';
 import 'package:mykurir/pages/aktivitas_berlangsung/aktivitas_berlangsung_screen.dart';
 import 'package:mykurir/pages/aktivitas_riwayat/aktivitas_riwayat_screen.dart';
+import 'package:mykurir/pages/beranda/beranda_screen.dart';
 import 'package:mykurir/pages/daftar/daftar_screen.dart';
 import 'package:mykurir/pages/daftar_mitra_driver_1/mitra_driver_1_screen.dart';
 import 'package:mykurir/pages/daftar_mitra_driver_2/mitra_driver_2_screen.dart';
@@ -17,6 +18,7 @@ import 'package:mykurir/pages/ganti_email/ganti_email_screen.dart';
 import 'package:mykurir/pages/ganti_password/ganti_password_screen.dart';
 import 'package:mykurir/pages/hapus_akun_disetujui/hapus_akun_disetujui_screen.dart';
 import 'package:mykurir/pages/keamanan_akun/keamanan_akun_screen.dart';
+import 'package:mykurir/pages/listKurir/listKurir_screen.dart';
 import 'package:mykurir/pages/login/login_screen.dart';
 import 'package:mykurir/pages/lupa_password/lupa_password_screen.dart';
 import 'package:mykurir/pages/lupa_password_input_new_password/lupa_password_input_new_password_screen.dart';
@@ -54,6 +56,9 @@ List<GetPage<dynamic>> routes = [
   // Verifikasi OTP
   GetPage(name: "/masukan_no_hp", page: () => MasukNoHPScreen()),
   GetPage(name: "/verif_otp", page: () => VerifOtpScreen()),
+
+  // Beranda
+  GetPage(name: "/beranda", page: () => BerandaScreen()),
 
   // Lupa Password
   GetPage(name: "/lupa_password", page: () => LupaPasswordScreen()),
@@ -98,6 +103,9 @@ List<GetPage<dynamic>> routes = [
     page: () => AktivitasBerlangsungScreen(),
   ),
   GetPage(name: "/aktivitas_riwayat", page: () => AktivitasRiwayatScreen()),
+
+  // List Kurir
+  GetPage(name: "/list_kurir", page: () => ListkurirScreen()),
 
   // Pesanan
   GetPage(name: "/permintaan_pesanan", page: () => PermintaanPesananScreen()),
