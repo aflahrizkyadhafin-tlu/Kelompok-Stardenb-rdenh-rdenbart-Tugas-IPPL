@@ -94,11 +94,6 @@ class AkunController extends GetxController {
       imageQuality: 80,
     );
 
-    // final XFile? pickedFile = await picker.pickImage(
-    //   source: ImageSource.camera,
-    //   imageQuality: 80,
-    // );
-
     if (pickedFile != null) {
       selectedImage.value = File(pickedFile.path);
     }

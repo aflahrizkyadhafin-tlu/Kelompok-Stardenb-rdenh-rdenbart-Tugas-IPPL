@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mykurir/components/loading/loading.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
 
@@ -15,7 +16,7 @@ class Body extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Obx(
         () => akunController.isLoading.value || authController.isLoading.value
-            ? Center(child: CircularProgressIndicator())
+            ? LoadingScreen()
             : Stack(
                 children: [
                   // BG Merah
@@ -52,7 +53,9 @@ class Body extends StatelessWidget {
                                   ),
                                 ),
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Get.toNamed("/edit_profil");
+                                  },
                                   style: TextButton.styleFrom(
                                     padding: EdgeInsets.zero,
                                     minimumSize: const Size(50, 30),

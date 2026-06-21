@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mykurir/components/loading/loading.dart';
+import 'package:mykurir/controllers/akun_controller.dart';
+import 'package:mykurir/controllers/auth_controller.dart';
+import 'package:mykurir/models/akun.dart';
+import 'package:mykurir/pages/edit_profil/components/edit_profil_form.dart';
 // import 'package:icons_flutter/icons_flutter.dart';
 
 class Body extends StatelessWidget {
@@ -6,6 +12,9 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthController _authController = Get.put(AuthController());
+    AkunController _akunController = Get.put(AkunController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -29,182 +38,336 @@ class Body extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Column(
-                  children: [
-                    Container(
-                      width: 110,
-                      height: 110,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: const Color(0xFFCCCCCC),
-                        border: Border.all(color: Colors.white, width: 2),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.person,
-                          size: 75,
-                          color: Colors.white,
+        child: Obx(
+          () =>
+              _akunController.isLoading.value || _authController.isLoading.value
+              ? LoadingScreen()
+              : SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 20.0,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Column(
+                          children: [
+                            _akunController.selectedImage.value != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadiusGeometry.all(
+                                      Radius.circular(
+                                        MediaQuery.sizeOf(context).height,
+                                      ),
+                                    ),
+                                    child: Image.file(
+                                      _akunController.selectedImage.value!,
+                                      width: 110,
+                                      height: 110,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )
+                                : _akunController
+                                          .profileAkun
+                                          .value!
+                                          .fotoProfile !=
+                                      null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadiusGeometry.all(
+                                      Radius.circular(
+                                        MediaQuery.sizeOf(context).height,
+                                      ),
+                                    ),
+                                    child: Image.network(
+                                      _akunController
+                                          .profileAkun
+                                          .value!
+                                          .fotoProfile
+                                          .toString(),
+                                      width: 110,
+                                      height: 110,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )
+                                : Container(
+                                    width: 110,
+                                    height: 110,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: const Color(0xFFCCCCCC),
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 2,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.person,
+                                        size: 75,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                            const SizedBox(height: 8),
+
+                            // tombol Ubah Profil
+                            TextButton(
+                              onPressed: () {
+                                _akunController.pickImageFromGalery();
+                              },
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: const Text(
+                                'Ubah Profil',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
 
-                    // tombol Ubah Profil
-                    TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: const Text(
-                        'Ubah Profil',
+                      const SizedBox(height: 30),
+
+                      const Text(
+                        'Informasi Pribadi',
                         style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF9E1014),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                      const SizedBox(height: 12),
 
-              const SizedBox(height: 30),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey[300]!),
+                        ),
+                        child: Column(
+                          children: [
+                            _buildEditItem(
+                              icon: Icons.account_circle_outlined,
+                              label: 'Username',
+                              value:
+                                  _akunController.profileAkun.value!.username !=
+                                      null
+                                  ? _akunController.profileAkun.value!.username
+                                        .toString()
+                                  : "-",
+                              onTap: () {
+                                Get.to(
+                                  () => EditProfilForm(),
+                                  arguments: {
+                                    "type": "Username",
+                                    "value":
+                                        _akunController
+                                                .profileAkun
+                                                .value!
+                                                .username !=
+                                            null
+                                        ? _akunController
+                                              .profileAkun
+                                              .value!
+                                              .username
+                                              .toString()
+                                        : "-",
+                                  },
+                                );
+                              },
+                            ),
+                            Divider(height: 1, color: Colors.grey[300]),
+                            _buildEditItem(
+                              icon: Icons.person_outline,
+                              label: 'Nama Pengguna',
+                              value:
+                                  _akunController
+                                          .profileAkun
+                                          .value!
+                                          .namaLengkap !=
+                                      null
+                                  ? _akunController
+                                        .profileAkun
+                                        .value!
+                                        .namaLengkap
+                                        .toString()
+                                  : "-",
+                              onTap: () {
+                                Get.to(
+                                  () => EditProfilForm(),
+                                  arguments: {
+                                    "type": "Nama Pengguna",
+                                    "value":
+                                        _akunController
+                                                .profileAkun
+                                                .value!
+                                                .namaLengkap !=
+                                            null
+                                        ? _akunController
+                                              .profileAkun
+                                              .value!
+                                              .namaLengkap
+                                              .toString()
+                                        : "-",
+                                  },
+                                );
+                              },
+                            ),
+                            Divider(height: 1, color: Colors.grey[300]),
+                            _buildEditItem(
+                              icon: Icons.map,
+                              label: 'Alamat',
+                              value:
+                                  _akunController.profileAkun.value!.alamat !=
+                                      null
+                                  ? _akunController.profileAkun.value!.alamat
+                                        .toString()
+                                  : "-",
+                              onTap: () {
+                                Get.to(
+                                  () => EditProfilForm(),
+                                  arguments: {
+                                    "type": "Alamat",
+                                    "value":
+                                        _akunController
+                                                .profileAkun
+                                                .value!
+                                                .alamat !=
+                                            null
+                                        ? _akunController
+                                              .profileAkun
+                                              .value!
+                                              .alamat
+                                              .toString()
+                                        : "-",
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
 
-              const Text(
-                'Informasi Pribadi',
-                style: TextStyle(
-                  color: Color(0xFF9E1014),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 12),
+                      const SizedBox(height: 25),
 
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey[300]!),
-                ),
-                child: Column(
-                  children: [
-                    _buildEditItem(
-                      icon: Icons.account_circle_outlined,
-                      label: 'Username',
-                      value: '@raffymbg8',
-                      onTap: () {},
-                    ),
-                    Divider(height: 1, color: Colors.grey[300]),
-                    _buildEditItem(
-                      icon: Icons.person_outline,
-                      label: 'Nama Pengguna',
-                      value: 'Raffy Anggara',
-                      onTap: () {},
-                    ),
-                    Divider(height: 1, color: Colors.grey[300]),
-                    // _buildEditItem(
-                    //   icon: MaterialCommunityIcons.map_outline,
-                    //   label: 'Alamat',
-                    //   value:
-                    //       'Jl. Anggrek Nomor 20, Karang Pucung, Purwokerto Selatan, Banyumas',
-                    //   onTap: () {},
-                    // ),
-                  ],
-                ),
-              ),
+                      const Text(
+                        'Kontak',
+                        style: TextStyle(
+                          color: Color(0xFF9E1014),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
 
-              const SizedBox(height: 25),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey[300]!),
+                        ),
+                        child: _buildEditItem(
+                          icon: Icons.phone_outlined,
+                          label: 'No Telepon',
+                          value: _authController.detailUser.value!.phone != null
+                              ? _authController.detailUser.value!.phone
+                                    .toString()
+                              : "-",
+                          onTap: () {},
+                        ),
+                      ),
 
-              const Text(
-                'Kontak',
-                style: TextStyle(
-                  color: Color(0xFF9E1014),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 12),
+                      const SizedBox(height: 40),
 
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey[300]!),
-                ),
-                child: _buildEditItem(
-                  icon: Icons.phone_outlined,
-                  label: 'No Telepon',
-                  value: '+62 812345678900',
-                  onTap: () {},
-                ),
-              ),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _akunController.isLoading.value = true;
+                            if (_akunController.selectedImage.value != null) {
+                              _akunController.uploadFotoProfile();
+                            }
+                            Akun updateData = Akun(
+                              username:
+                                  _akunController.profileAkun.value!.username,
+                              namaLengkap: _akunController
+                                  .profileAkun
+                                  .value!
+                                  .namaLengkap,
+                              alamat: _akunController.profileAkun.value!.alamat,
+                            );
+                            _akunController.updateProfile(updateData);
 
-              const SizedBox(height: 40),
+                            Get.back();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFE31E24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 0,
+                          ),
+                          child: const Text(
+                            'Simpan Perubahan',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
 
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFE31E24),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 0,
+                      const SizedBox(height: 12),
+
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            _akunController.isLoading.value = true;
+                            _akunController.selectedImage.value = null;
+                            _akunController.getProfile();
+                            Get.back();
+                          },
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(
+                              color: Color(0xFFE31E24),
+                              width: 1,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: const Text(
+                            'Batalkan',
+                            style: TextStyle(
+                              color: Color(0xFFE31E24),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
                   ),
-                  child: const Text(
-                    'Simpan Perubahan',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                 ),
-              ),
-
-              const SizedBox(height: 12),
-
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFFE31E24), width: 1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: const Text(
-                    'Batalkan',
-                    style: TextStyle(
-                      color: Color(0xFFE31E24),
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
         ),
       ),
     );
@@ -257,16 +420,14 @@ class Body extends StatelessWidget {
 
           const SizedBox(width: 16),
 
-          // IconButton(
-          //   onPressed: onTap,
-          //   padding: EdgeInsets.zero,
-          //   constraints: const BoxConstraints(),
-          //   icon: const Icon(
-          //     MaterialCommunityIcons.square_edit_outline,
-          //     size: 20,
-          //     color: Colors.black54,
-          //   ),
-          // ),
+          IconButton(
+            onPressed: onTap,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: label != "No Telepon"
+                ? Icon(Icons.edit_square, size: 20, color: Colors.black54)
+                : Container(),
+          ),
         ],
       ),
     );

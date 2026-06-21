@@ -1,14 +1,14 @@
 enum UserRole { pengguna, kurir, admin }
 
 class Akun {
-  final String? idAkun;
-  final String? username;
-  final String? namaLengkap;
-  final String? alamat;
-  final UserRole? role;
-  final DateTime? createdAt;
-  final String? fotoProfile;
-  final String? idUser;
+  String? idAkun;
+  String? username;
+  String? namaLengkap;
+  String? alamat;
+  UserRole? role;
+  DateTime? createdAt;
+  String? fotoProfile;
+  String? idUser;
 
   Akun({
     this.idAkun,
