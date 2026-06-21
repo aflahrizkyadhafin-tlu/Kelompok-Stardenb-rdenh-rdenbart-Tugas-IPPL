@@ -27,12 +27,14 @@ import 'package:mykurir/pages/opsi_hapus_akun/opsi_hapus_akun_screen.dart';
 import 'package:mykurir/pages/permintaan_pesanan/permintaan_pesanan_screen.dart';
 import 'package:mykurir/pages/pilih_role/pilih_role_screen.dart';
 import 'package:mykurir/pages/profil/profil_screen.dart';
-import 'package:mykurir/pages/pusatbantuan/pusatbantuan_screen.dart';
+import 'package:mykurir/pages/pusat_bantuan/pusat_bantuan_screen.dart';
 import 'package:mykurir/pages/rating_aplikasi/rating_aplikasi_screen.dart';
 import 'package:mykurir/pages/rating_driver/rating_driver_screen.dart';
 import 'package:mykurir/pages/report_customer/report_customer_screen.dart';
 import 'package:mykurir/pages/report_customer_alasan/report_customer_alasan_screen.dart';
 import 'package:mykurir/pages/report_driver/report_driver_screen.dart';
+import 'package:mykurir/pages/report_driver_alasan/report_driver_alasan_screen.dart';
+import 'package:mykurir/pages/report_driver_success/report_driver_success_screen.dart';
 import 'package:mykurir/pages/setting/setting_screen.dart';
 import 'package:mykurir/pages/verif_otp/verif_otp_screen.dart';
 import 'package:mykurir/pages/terima_kasih_penilaian/terima_kasih_penilaian_screen.dart';
@@ -61,7 +63,7 @@ List<GetPage<dynamic>> routes = [
   ),
   GetPage(
     name: "/lupa_password_validasi",
-    page: () => LupapasswordValidasiScreen(),
+    page: () => LupaPasswordValidasiScreen(),
   ),
 
   // =========================================
@@ -137,7 +139,11 @@ List<GetPage<dynamic>> routes = [
   GetPage(name: "/report_driver", page: () => ReportDriverScreen()),
   GetPage(
     name: "/report_driver_alasan",
-    page: () => ReportCustomerAlasanScreen(),
+    page: () => ReportDriverAlasanScreen(),
+  ),
+  GetPage(
+    name: "/report_driver_success",
+    page: () => ReportDriverSuccessScreen(),
   ),
   GetPage(name: "/report_customer", page: () => ReportCustomerScreen()),
   GetPage(

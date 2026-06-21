@@ -9,13 +9,13 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PengirimanController _pengirimanController = Get.put(
+    PengirimanController pengirimanController = Get.put(
       PengirimanController(),
     );
 
     return SafeArea(
       child: Obx(
-        () => _pengirimanController.isLoading.value
+        () => pengirimanController.isLoading.value
             ? LoadingScreen()
             : SingleChildScrollView(
                 child: Padding(
@@ -96,7 +96,7 @@ class Body extends StatelessWidget {
                             _buildLabel('NAMA PENERIMA'),
                             const SizedBox(height: 4),
                             Text(
-                              _pengirimanController
+                              pengirimanController
                                       .dataPengiriman["nama_penerima"] ??
                                   "-",
                               style: GoogleFonts.poppins(
@@ -125,7 +125,7 @@ class Body extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
-                                    _pengirimanController
+                                    pengirimanController
                                             .dataPengiriman["alamat_penerima"] ??
                                         "-",
                                     style: GoogleFonts.poppins(
@@ -159,7 +159,7 @@ class Body extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                _pengirimanController
+                                pengirimanController
                                         .dataPengiriman["deskripsi_barang"] ??
                                     "-",
                                 style: GoogleFonts.poppins(
@@ -183,7 +183,7 @@ class Body extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        '${_pengirimanController.dataPengiriman["berat"] ?? "-"} kg',
+                                        '${pengirimanController.dataPengiriman["berat"] ?? "-"} kg',
                                         style: GoogleFonts.poppins(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w600,
@@ -204,7 +204,7 @@ class Body extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        _pengirimanController
+                                        pengirimanController
                                                 .dataPengiriman["ukuran"] ??
                                             "-",
                                         style: GoogleFonts.poppins(
@@ -301,7 +301,7 @@ class Body extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            _pengirimanController
+                                            pengirimanController
                                                     .dataPengiriman["kurir"]["akun"]["nama_lengkap"] ??
                                                 "-",
                                             style: GoogleFonts.poppins(
@@ -312,7 +312,7 @@ class Body extends StatelessWidget {
                                           ),
                                           const SizedBox(height: 6),
                                           Text(
-                                            '${_pengirimanController.dataPengiriman["kurir"]["kendaraan"] ?? "-"} • ${_pengirimanController.dataPengiriman["kurir"]["plat_nomor"]}',
+                                            '${pengirimanController.dataPengiriman["kurir"]["kendaraan"] ?? "-"} • ${pengirimanController.dataPengiriman["kurir"]["plat_nomor"]}',
                                             style: GoogleFonts.poppins(
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400,

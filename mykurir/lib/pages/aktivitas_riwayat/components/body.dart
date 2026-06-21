@@ -10,7 +10,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PengirimanController _pengirimanController = Get.put(
+    PengirimanController pengirimanController = Get.put(
       PengirimanController(),
     );
 
@@ -29,7 +29,7 @@ class Body extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, -2),
             ),
@@ -94,7 +94,7 @@ class Body extends StatelessWidget {
                   ),
                   children: [
                     // KARTU 1 (Data Dimas)
-                    for (var data in _pengirimanController.pengirimanSebelumnya)
+                    for (var data in pengirimanController.pengirimanSebelumnya)
                       Column(
                         children: [
                           _buildKartuOrder(

@@ -8,7 +8,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthController _authController = Get.put(AuthController());
+    AuthController authController = Get.put(AuthController());
 
     return Padding(
       padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
@@ -167,7 +167,7 @@ class Body extends StatelessWidget {
                             SizedBox(height: 50),
                             GestureDetector(
                               onTap: () => {
-                                _authController.logout(),
+                                authController.logout(),
                                 Get.offAllNamed("/"),
                               },
                               child: Text(

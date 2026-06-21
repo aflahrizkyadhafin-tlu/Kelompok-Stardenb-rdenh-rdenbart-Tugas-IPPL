@@ -1,9 +1,9 @@
 class Laporan {
-  final String? idLaporan;
-  final String? reporterId;
-  final String? reportedId;
-  final String? pesan;
-  final DateTime? createdAt;
+  String? idLaporan;
+  String? reporterId;
+  String? reportedId;
+  String? pesan;
+  DateTime? createdAt;
 
   Laporan({
     this.idLaporan,

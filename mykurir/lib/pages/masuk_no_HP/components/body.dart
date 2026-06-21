@@ -12,13 +12,12 @@ class Body extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
 
     TextEditingController nomorTeleponController = TextEditingController();
-    LoadingController loadingController = Get.find();
     AuthController authController = Get.find();
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(
-        () => loadingController.getLoadingStatus().value
+        () => authController.isLoading.value
             ? Center(child: CircularProgressIndicator())
             : SafeArea(
                 child: SingleChildScrollView(
@@ -235,7 +234,7 @@ class Body extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
-                                loadingController.show();
+                                authController.isLoading.value = true;
                                 authController.registerData.nomorTelepon =
                                     nomorTeleponController.text.trim();
                                 authController.gantiNomorTelepon();

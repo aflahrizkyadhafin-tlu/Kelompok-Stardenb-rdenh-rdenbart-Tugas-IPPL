@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
 
@@ -10,8 +8,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RxBool _isAgree = false.obs;
-    final AuthController _authController = Get.put(AuthController());
+    RxBool isAgree = false.obs;
+    final AuthController authController = Get.put(AuthController());
 
     return Padding(
       padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
@@ -83,9 +81,9 @@ class Body extends StatelessWidget {
                 children: [
                   Obx(
                     () => Checkbox(
-                      value: _isAgree.value,
+                      value: isAgree.value,
                       onChanged: (value) {
-                        _isAgree.value = !_isAgree.value;
+                        isAgree.value = !isAgree.value;
                       },
                       activeColor: const Color(0xFFB01212),
                     ),
@@ -111,23 +109,23 @@ class Body extends StatelessWidget {
               child: Obx(
                 () => ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _isAgree.value
+                    backgroundColor: isAgree.value
                         ? Color(0xFFB01212)
                         : Color(0xffD9D9D9),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: _isAgree.value
+                  onPressed: isAgree.value
                       ? () {
-                          _authController.hapusAkun();
+                          authController.hapusAkun();
                           Get.offAllNamed("/");
                         }
                       : null,
                   child: Text(
                     "Hapus Akun", // <- Tulis disini: teks tombol utama, contoh "Hapus Akun"
                     style: GoogleFonts.inter(
-                      color: _isAgree.value ? Colors.white : Color(0xff2E2E2E),
+                      color: isAgree.value ? Colors.white : Color(0xff2E2E2E),
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),

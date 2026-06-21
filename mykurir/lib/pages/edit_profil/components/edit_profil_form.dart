@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
-import 'package:mykurir/controllers/auth_controller.dart';
 
 class EditProfilForm extends StatelessWidget {
   const EditProfilForm({super.key});
@@ -11,10 +10,9 @@ class EditProfilForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final args = Get.arguments;
 
-    final AkunController _akunController = Get.put(AkunController());
-    final AuthController _authController = Get.put(AuthController());
+    final AkunController akunController = Get.put(AkunController());
 
-    TextEditingController _textController = TextEditingController(
+    TextEditingController textController = TextEditingController(
       text: args["value"],
     );
 
@@ -42,15 +40,15 @@ class EditProfilForm extends StatelessWidget {
                   GestureDetector(
                     onTap: () => {
                       if (args["type"] == "Username")
-                        _akunController.profileAkun.value!.username =
-                            _textController.text.trim(),
+                        akunController.profileAkun.value!.username =
+                            textController.text.trim(),
                       if (args["type"] == "Nama Pengguna")
-                        _akunController.profileAkun.value!.namaLengkap =
-                            _textController.text.trim(),
+                        akunController.profileAkun.value!.namaLengkap =
+                            textController.text.trim(),
                       if (args["type"] == "Alamat")
-                        _akunController.profileAkun.value!.alamat =
-                            _textController.text.trim(),
-                      _akunController.profileAkun.refresh(),
+                        akunController.profileAkun.value!.alamat =
+                            textController.text.trim(),
+                      akunController.profileAkun.refresh(),
                       Get.back(),
                     },
                     child: Text(
@@ -83,7 +81,7 @@ class EditProfilForm extends StatelessWidget {
               ),
               SizedBox(height: 25),
               TextField(
-                controller: _textController,
+                controller: textController,
                 style: GoogleFonts.poppins(
                   fontSize: 14,
                   color: Color(0xff000000),

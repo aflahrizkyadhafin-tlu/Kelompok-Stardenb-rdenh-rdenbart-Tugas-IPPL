@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
-import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:mykurir/controllers/rating_aplikasi_controller.dart';
 import 'package:mykurir/models/rating_aplikasi.dart';
 
@@ -20,7 +19,6 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoadingController loadingController = Get.put(LoadingController());
     final RatingAplikasiController ratingAplikasiController = Get.put(
       RatingAplikasiController(),
     );
@@ -191,7 +189,7 @@ class Body extends StatelessWidget {
                         height: 54,
                         child: ElevatedButton(
                           onPressed: () {
-                            loadingController.show();
+                            ratingAplikasiController.isLoading.value = true;
                             ratingAplikasiController
                                 .tambahRatingAplikasi(
                                   RatingAplikasi(

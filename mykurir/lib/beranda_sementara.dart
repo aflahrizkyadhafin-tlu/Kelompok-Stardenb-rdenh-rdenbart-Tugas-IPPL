@@ -12,7 +12,6 @@ class BerandaSementara extends StatelessWidget {
     List<Map> pages = [
       {"title": "Rating Driver", "path": "/rating_driver"},
     ];
-    LoadingController loadingController = Get.put(LoadingController());
     AuthController authController = Get.put(AuthController());
     AkunController akunController = Get.put(AkunController());
 
@@ -40,7 +39,7 @@ class BerandaSementara extends StatelessWidget {
                       const SizedBox(height: 8),
                       ElevatedButton(
                         onPressed: () => {
-                          loadingController.show(),
+                          authController.isLoading.value = true,
                           authController.login(email, password),
                         },
                         child: Text("Login"), // Nama tombol diperbaiki
@@ -55,7 +54,7 @@ class BerandaSementara extends StatelessWidget {
                       const SizedBox(height: 8),
                       ElevatedButton(
                         onPressed: () => {
-                          loadingController.show(),
+                          akunController.isLoading.value = true,
                           print(akunController.profileAkun.value!.idAkun),
                         },
                         child: Text("Cek User"), // Nama tombol diperbaiki
@@ -70,7 +69,7 @@ class BerandaSementara extends StatelessWidget {
                       const SizedBox(height: 8),
                       ElevatedButton(
                         onPressed: () => {
-                          loadingController.show(),
+                          akunController.isLoading.value = true,
                           // print(
                           // "Detail user = ${authController.detailUser.value!.idAkun}",
                           // ),
@@ -89,7 +88,7 @@ class BerandaSementara extends StatelessWidget {
                       const SizedBox(height: 8),
                       ElevatedButton(
                         onPressed: () => {
-                          loadingController.show(),
+                          authController.isLoading.value = true,
                           authController.logout(),
                         },
                         child: Text("Logout"), // Nama tombol diperbaiki

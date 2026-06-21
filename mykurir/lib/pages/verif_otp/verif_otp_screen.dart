@@ -23,7 +23,6 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
   Timer? _timer;
   int _startWaktu = 120;
   final AuthController authController = Get.put(AuthController());
-  final LoadingController loadingController = Get.put(LoadingController());
   final args = Get.arguments;
 
   @override
@@ -103,7 +102,7 @@ class _VerifOtpScreenState extends State<VerifOtpScreen> {
           onVerifyPressed: () async {
             String kodeOtp = _otpControllers.map((e) => e.text).join();
             debugPrint("Memverifikasi OTP: $kodeOtp");
-            loadingController.show();
+            authController.isLoading.value = true;
             final bool verifOTP = args["type"] == "telepon"
                 ? await authController.verifOTPTelepon(kodeOtp)
                 : args["type"] == "recovery"

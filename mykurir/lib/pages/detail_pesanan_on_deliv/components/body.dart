@@ -10,7 +10,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PengirimanController _pengirimanController = Get.put(
+    PengirimanController pengirimanController = Get.put(
       PengirimanController(),
     );
 
@@ -19,7 +19,7 @@ class Body extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
           child: Obx(
-            () => _pengirimanController.isLoading.value
+            () => pengirimanController.isLoading.value
                 ? LoadingScreen()
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,7 +92,7 @@ class Body extends StatelessWidget {
                             _buildLabel('NAMA PENERIMA'),
                             const SizedBox(height: 4),
                             Text(
-                              _pengirimanController
+                              pengirimanController
                                       .dataPengiriman["nama_penerima"] ??
                                   "-",
                               style: GoogleFonts.poppins(
@@ -121,7 +121,7 @@ class Body extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
-                                    _pengirimanController
+                                    pengirimanController
                                             .dataPengiriman["alamat_penerima"] ??
                                         "-",
                                     style: GoogleFonts.poppins(
@@ -153,7 +153,7 @@ class Body extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                _pengirimanController
+                                pengirimanController
                                         .dataPengiriman["deskripsi_barang"] ??
                                     "-",
                                 style: GoogleFonts.poppins(
@@ -177,7 +177,7 @@ class Body extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        '${_pengirimanController.dataPengiriman["berat"] ?? "-"} kg',
+                                        '${pengirimanController.dataPengiriman["berat"] ?? "-"} kg',
                                         style: GoogleFonts.poppins(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w600,
@@ -198,7 +198,7 @@ class Body extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        _pengirimanController
+                                        pengirimanController
                                                 .dataPengiriman["ukuran"] ??
                                             "-",
                                         style: GoogleFonts.poppins(
@@ -285,7 +285,7 @@ class Body extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            _pengirimanController
+                                            pengirimanController
                                                     .dataPengiriman["kurir"]["akun"]["nama_lengkap"] ??
                                                 "-",
                                             style: GoogleFonts.poppins(
@@ -304,7 +304,7 @@ class Body extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            '${_pengirimanController.dataPengiriman["kurir"]["kendaraan"] ?? "-"} • ${_pengirimanController.dataPengiriman["kurir"]["plat_nomor"] ?? "-"}',
+                                            '${pengirimanController.dataPengiriman["kurir"]["kendaraan"] ?? "-"} • ${pengirimanController.dataPengiriman["kurir"]["plat_nomor"] ?? "-"}',
                                             style: GoogleFonts.poppins(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
@@ -365,16 +365,16 @@ class Body extends StatelessWidget {
                               height: 54,
                               child: OutlinedButton(
                                 onPressed: () {
-                                  _pengirimanController.isLoading.value = true;
-                                  _pengirimanController.updateStatusPengiriman(
-                                    _pengirimanController
+                                  pengirimanController.isLoading.value = true;
+                                  pengirimanController.updateStatusPengiriman(
+                                    pengirimanController
                                         .dataPengiriman["id_pengiriman"],
-                                    _pengirimanController
+                                    pengirimanController
                                         .dataPengiriman["id_kurir"],
                                     StatusPengiriman.delivered,
                                   );
-                                  _pengirimanController.riwayatPengiriman(
-                                    _pengirimanController
+                                  pengirimanController.riwayatPengiriman(
+                                    pengirimanController
                                         .dataPengiriman["id_akun"],
                                   );
                                   Get.offNamed("/detail_pesanan_selesai");

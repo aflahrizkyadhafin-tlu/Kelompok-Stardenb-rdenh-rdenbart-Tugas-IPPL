@@ -6,7 +6,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mykurir/components/loading/loading.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
-import 'package:mykurir/controllers/loading_controller.dart';
 
 class Body extends StatelessWidget {
   // Semua state dan fungsi dilempar dari Parent

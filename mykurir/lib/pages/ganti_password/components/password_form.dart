@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PasswordForm extends StatelessWidget {
@@ -15,7 +13,7 @@ class PasswordForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RxBool _showPassword = false.obs;
+    RxBool showPassword = false.obs;
 
     return Column(
       children: [
@@ -37,11 +35,11 @@ class PasswordForm extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: Colors.black,
               ),
-              obscureText: !_showPassword.value,
+              obscureText: !showPassword.value,
               decoration: InputDecoration(
                 suffixIcon: GestureDetector(
-                  onTap: () => _showPassword.value = !_showPassword.value,
-                  child: !_showPassword.value
+                  onTap: () => showPassword.value = !showPassword.value,
+                  child: !showPassword.value
                       ? Icon(Icons.lock_outlined)
                       : Icon(Icons.lock_open_outlined),
                 ),

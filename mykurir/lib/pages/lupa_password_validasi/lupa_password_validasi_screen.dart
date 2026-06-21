@@ -2,16 +2,16 @@ import 'package:get/get.dart';
 import 'package:mykurir/pages/lupa_password_validasi/components/body.dart';
 import 'package:flutter/material.dart';
 
-class LupapasswordValidasiScreen extends StatefulWidget {
-  const LupapasswordValidasiScreen({super.key});
+class LupaPasswordValidasiScreen extends StatefulWidget {
+  const LupaPasswordValidasiScreen({super.key});
 
   @override
-  State<LupapasswordValidasiScreen> createState() =>
-      _LupapasswordValidasiScreenState();
+  State<LupaPasswordValidasiScreen> createState() =>
+      _LupaPasswordValidasiScreenState();
 }
 
-class _LupapasswordValidasiScreenState
-    extends State<LupapasswordValidasiScreen> {
+class _LupaPasswordValidasiScreenState
+    extends State<LupaPasswordValidasiScreen> {
   @override
   void initState() {
     super.initState();

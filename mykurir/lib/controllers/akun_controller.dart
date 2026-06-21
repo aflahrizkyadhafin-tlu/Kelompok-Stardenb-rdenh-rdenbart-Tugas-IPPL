@@ -5,12 +5,10 @@ import 'package:path/path.dart' as p;
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mykurir/db/connection.dart';
-import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:mykurir/models/akun.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AkunController extends GetxController {
-  LoadingController loadingController = Get.put(LoadingController());
   Rxn<Akun> profileAkun = Rxn<Akun>();
   RxBool isLoading = false.obs;
 

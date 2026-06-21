@@ -1,11 +1,8 @@
-import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:get/get.dart';
 
 final db = Supabase.instance.client;
 
 class Connection {
-  LoadingController loadingController = Get.put(LoadingController());
   Future<void> connectDB() async {
     try {
       await Supabase.initialize(
@@ -15,8 +12,6 @@ class Connection {
       print("Connection : Koneksi ke Supabase Berhasil");
     } catch (e) {
       print("Connection #Error : $e");
-    } finally {
-      loadingController.hide();
     }
   }
 }

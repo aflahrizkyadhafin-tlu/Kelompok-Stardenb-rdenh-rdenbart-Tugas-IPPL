@@ -8,8 +8,6 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthController _authController = Get.put(AuthController());
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -117,12 +115,12 @@ class Body extends StatelessWidget {
   }
 
   Widget _buildMenuGantiEmail() {
-    final AuthController _authController = Get.find();
+    final AuthController authController = Get.find();
     return _buildListItemTemplate(
       icon: Icons.email_outlined,
       title: "Ganti Email",
       subtitle:
-          "Email saat ini : ${maskEmail(_authController.detailUser.value!.email.toString())}",
+          "Email saat ini : ${maskEmail(authController.detailUser.value!.email.toString())}",
       onTap: () {
         Get.toNamed("/ganti_email");
       },
@@ -130,8 +128,6 @@ class Body extends StatelessWidget {
   }
 
   Widget _buildMenuGantiPassword() {
-    final AuthController _authController = Get.find();
-
     return _buildListItemTemplate(
       icon: Icons.lock_outline,
       title: "Ganti Password",
@@ -143,7 +139,6 @@ class Body extends StatelessWidget {
   }
 
   Widget _buildMenuGantiNomor() {
-    final AuthController _authController = Get.find();
     return _buildListItemTemplate(
       icon: Icons.phone_android_outlined,
       title: "Ganti Nomor Telepon",

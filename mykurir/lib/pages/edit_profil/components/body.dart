@@ -12,8 +12,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthController _authController = Get.put(AuthController());
-    AkunController _akunController = Get.put(AkunController());
+    AuthController authController = Get.put(AuthController());
+    AkunController akunController = Get.put(AkunController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -39,8 +39,7 @@ class Body extends StatelessWidget {
       ),
       body: SafeArea(
         child: Obx(
-          () =>
-              _akunController.isLoading.value || _authController.isLoading.value
+          () => akunController.isLoading.value || authController.isLoading.value
               ? LoadingScreen()
               : SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(
@@ -53,7 +52,7 @@ class Body extends StatelessWidget {
                       Center(
                         child: Column(
                           children: [
-                            _akunController.selectedImage.value != null
+                            akunController.selectedImage.value != null
                                 ? ClipRRect(
                                     borderRadius: BorderRadiusGeometry.all(
                                       Radius.circular(
@@ -61,13 +60,13 @@ class Body extends StatelessWidget {
                                       ),
                                     ),
                                     child: Image.file(
-                                      _akunController.selectedImage.value!,
+                                      akunController.selectedImage.value!,
                                       width: 110,
                                       height: 110,
                                       fit: BoxFit.fill,
                                     ),
                                   )
-                                : _akunController
+                                : akunController
                                           .profileAkun
                                           .value!
                                           .fotoProfile !=
@@ -79,7 +78,7 @@ class Body extends StatelessWidget {
                                       ),
                                     ),
                                     child: Image.network(
-                                      _akunController
+                                      akunController
                                           .profileAkun
                                           .value!
                                           .fotoProfile
@@ -101,7 +100,9 @@ class Body extends StatelessWidget {
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
+                                          color: Colors.black.withValues(
+                                            alpha: 0.1,
+                                          ),
                                           blurRadius: 8,
                                           offset: const Offset(0, 2),
                                         ),
@@ -120,7 +121,7 @@ class Body extends StatelessWidget {
                             // tombol Ubah Profil
                             TextButton(
                               onPressed: () {
-                                _akunController.pickImageFromGalery();
+                                akunController.pickImageFromGalery();
                               },
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
@@ -164,9 +165,9 @@ class Body extends StatelessWidget {
                               icon: Icons.account_circle_outlined,
                               label: 'Username',
                               value:
-                                  _akunController.profileAkun.value!.username !=
+                                  akunController.profileAkun.value!.username !=
                                       null
-                                  ? _akunController.profileAkun.value!.username
+                                  ? akunController.profileAkun.value!.username
                                         .toString()
                                   : "-",
                               onTap: () {
@@ -175,12 +176,12 @@ class Body extends StatelessWidget {
                                   arguments: {
                                     "type": "Username",
                                     "value":
-                                        _akunController
+                                        akunController
                                                 .profileAkun
                                                 .value!
                                                 .username !=
                                             null
-                                        ? _akunController
+                                        ? akunController
                                               .profileAkun
                                               .value!
                                               .username
@@ -195,12 +196,12 @@ class Body extends StatelessWidget {
                               icon: Icons.person_outline,
                               label: 'Nama Pengguna',
                               value:
-                                  _akunController
+                                  akunController
                                           .profileAkun
                                           .value!
                                           .namaLengkap !=
                                       null
-                                  ? _akunController
+                                  ? akunController
                                         .profileAkun
                                         .value!
                                         .namaLengkap
@@ -212,12 +213,12 @@ class Body extends StatelessWidget {
                                   arguments: {
                                     "type": "Nama Pengguna",
                                     "value":
-                                        _akunController
+                                        akunController
                                                 .profileAkun
                                                 .value!
                                                 .namaLengkap !=
                                             null
-                                        ? _akunController
+                                        ? akunController
                                               .profileAkun
                                               .value!
                                               .namaLengkap
@@ -232,9 +233,9 @@ class Body extends StatelessWidget {
                               icon: Icons.map,
                               label: 'Alamat',
                               value:
-                                  _akunController.profileAkun.value!.alamat !=
+                                  akunController.profileAkun.value!.alamat !=
                                       null
-                                  ? _akunController.profileAkun.value!.alamat
+                                  ? akunController.profileAkun.value!.alamat
                                         .toString()
                                   : "-",
                               onTap: () {
@@ -243,12 +244,12 @@ class Body extends StatelessWidget {
                                   arguments: {
                                     "type": "Alamat",
                                     "value":
-                                        _akunController
+                                        akunController
                                                 .profileAkun
                                                 .value!
                                                 .alamat !=
                                             null
-                                        ? _akunController
+                                        ? akunController
                                               .profileAkun
                                               .value!
                                               .alamat
@@ -283,8 +284,8 @@ class Body extends StatelessWidget {
                         child: _buildEditItem(
                           icon: Icons.phone_outlined,
                           label: 'No Telepon',
-                          value: _authController.detailUser.value!.phone != null
-                              ? _authController.detailUser.value!.phone
+                          value: authController.detailUser.value!.phone != null
+                              ? authController.detailUser.value!.phone
                                     .toString()
                               : "-",
                           onTap: () {},
@@ -298,20 +299,19 @@ class Body extends StatelessWidget {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {
-                            _akunController.isLoading.value = true;
-                            if (_akunController.selectedImage.value != null) {
-                              _akunController.uploadFotoProfile();
+                            akunController.isLoading.value = true;
+                            if (akunController.selectedImage.value != null) {
+                              akunController.uploadFotoProfile();
                             }
                             Akun updateData = Akun(
                               username:
-                                  _akunController.profileAkun.value!.username,
-                              namaLengkap: _akunController
-                                  .profileAkun
-                                  .value!
-                                  .namaLengkap,
-                              alamat: _akunController.profileAkun.value!.alamat,
+                                  akunController.profileAkun.value!.username,
+                              namaLengkap:
+                                  akunController.profileAkun.value!.namaLengkap,
+                              alamat: akunController.profileAkun.value!.alamat,
                             );
-                            _akunController.updateProfile(updateData);
+                            akunController.updateProfile(updateData);
+                            authController.refreshData();
 
                             Get.back();
                           },
@@ -340,9 +340,9 @@ class Body extends StatelessWidget {
                         height: 50,
                         child: OutlinedButton(
                           onPressed: () {
-                            _akunController.isLoading.value = true;
-                            _akunController.selectedImage.value = null;
-                            _akunController.getProfile();
+                            akunController.isLoading.value = true;
+                            akunController.selectedImage.value = null;
+                            akunController.getProfile();
                             Get.back();
                           },
                           style: OutlinedButton.styleFrom(

@@ -10,10 +10,9 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
 
-    LoadingController _loadingController = Get.put(LoadingController());
-    AuthController _authController = Get.put(AuthController());
+    AuthController authController = Get.put(AuthController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -87,7 +86,7 @@ class Body extends StatelessWidget {
 
               // --- 4. KOTAK INPUT (TEXTFIELD) ---
               TextField(
-                controller: _emailController,
+                controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(
@@ -126,14 +125,14 @@ class Body extends StatelessWidget {
                     elevation: 0,
                   ),
                   onPressed: () {
-                    _loadingController.show();
-                    _authController.resetPasswordOTP(
-                      _emailController.text.trim(),
+                    authController.isLoading.value = true;
+                    authController.resetPasswordOTP(
+                      emailController.text.trim(),
                     );
                     Get.toNamed(
                       "/verif_otp",
                       arguments: {
-                        "email": _emailController.text.trim(),
+                        "email": emailController.text.trim(),
                         "type": "recovery",
                       },
                     );

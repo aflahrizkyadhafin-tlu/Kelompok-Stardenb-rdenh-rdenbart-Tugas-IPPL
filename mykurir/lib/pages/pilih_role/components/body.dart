@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
-import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:mykurir/models/akun.dart';
 
 class Body extends StatelessWidget {
@@ -11,7 +10,6 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoadingController loadingController = Get.find();
     AuthController authController = Get.find();
 
     final args = Get.arguments;
@@ -60,7 +58,7 @@ class Body extends StatelessWidget {
                 subtitle: 'Pesan barang dari rumah dengan mudah',
                 onTap: () {
                   authController.registerData.role = UserRole.pengguna;
-                  loadingController.show();
+                  authController.isLoading.value = true;
                   authController.register();
                   Get.toNamed("/verif_otp", arguments: args);
                 },
@@ -79,7 +77,7 @@ class Body extends StatelessWidget {
                     'Join menjadi kurir mitra "MyKurir" untuk menghasilkan uang.',
                 onTap: () {
                   authController.registerData.role = UserRole.kurir;
-                  loadingController.show();
+                  authController.isLoading.value = true;
                   authController.register();
                   Get.toNamed("/verif_otp", arguments: args);
                 },

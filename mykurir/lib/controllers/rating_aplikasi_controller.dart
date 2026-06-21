@@ -4,10 +4,10 @@ import 'package:mykurir/db/connection.dart';
 import 'package:mykurir/models/rating_aplikasi.dart';
 
 class RatingAplikasiController {
-  LoadingController loadingController = Get.put(LoadingController());
   RxList<RatingAplikasi> ratingSaya = <RatingAplikasi>[].obs;
   RxList<RatingAplikasi> allRating = <RatingAplikasi>[].obs;
   RxMap statistikAplikasi = {"average": 0.0}.obs;
+  RxBool isLoading = false.obs;
 
   Future<void> tambahRatingAplikasi(RatingAplikasi ratingAplikasi) async {
     try {
@@ -19,7 +19,7 @@ class RatingAplikasiController {
     } catch (e) {
       print("[tambahRatingAplikasi] #Error : $e");
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
   }
 
@@ -35,7 +35,7 @@ class RatingAplikasiController {
     } catch (e) {
       print("[getRatingSaya] #Error : $e");
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
   }
 
@@ -48,7 +48,7 @@ class RatingAplikasiController {
     } catch (e) {
       print("[getAllRating] #Error : $e");
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
   }
 
@@ -67,7 +67,7 @@ class RatingAplikasiController {
     } catch (e) {
       print("[getStatistikRating] #Error : $e");
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
   }
 

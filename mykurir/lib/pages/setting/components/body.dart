@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:mykurir/components/loading/loading.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
+import 'package:mykurir/controllers/kurir_controller.dart';
+import 'package:mykurir/controllers/laporan_controller.dart';
 import 'package:mykurir/controllers/pengiriman_controller.dart';
 import 'statususerpage.dart';
 
@@ -15,6 +17,7 @@ class Body extends StatelessWidget {
 
     AuthController authController = Get.put(AuthController());
     AkunController akunController = Get.put(AkunController());
+    KurirController kurirController = Get.put(KurirController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -263,9 +266,9 @@ class Body extends StatelessWidget {
                             Icons.assignment_outlined,
                             'Aktivitas Order',
                             onTap: () {
-                              PengirimanController _pengirimanController =
+                              PengirimanController pengirimanController =
                                   Get.put(PengirimanController());
-                              _pengirimanController.isLoading.value = true;
+                              pengirimanController.isLoading.value = true;
                               Get.toNamed("/aktivitas_berlangsung");
                             },
                           ),
@@ -280,6 +283,8 @@ class Body extends StatelessWidget {
                             Icons.outlined_flag,
                             'Report Driver',
                             onTap: () {
+                              kurirController.isLoading.value = true;
+                              kurirController.ambilKurirUser();
                               Get.toNamed("/report_driver");
                             },
                           ),

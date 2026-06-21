@@ -9,7 +9,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PengirimanController _pengirimanController = Get.find();
+    final PengirimanController pengirimanController = Get.find();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -23,7 +23,7 @@ class Body extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, -2),
             ),
@@ -84,7 +84,7 @@ class Body extends StatelessWidget {
                   ),
                   children: [
                     for (var data
-                        in _pengirimanController.pengirimanBerlangsung)
+                        in pengirimanController.pengirimanBerlangsung)
                       _buildKartuOrder(
                         isSukses: true,
                         idPengiriman: RxString(data["id_pengiriman"]),
@@ -200,7 +200,7 @@ class Body extends StatelessWidget {
   }) {
     Color warnaStatus = isSukses ? const Color(0xFF1A7A4A) : Colors.red;
     Color bgStatus = isSukses ? const Color(0xFFE8F5EE) : Colors.red.shade50;
-    final PengirimanController _pengirimanController = Get.find();
+    final PengirimanController pengirimanController = Get.find();
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -379,8 +379,8 @@ class Body extends StatelessWidget {
                 // Tombol Detail (outline merah)
                 child: OutlinedButton(
                   onPressed: () {
-                    _pengirimanController.isLoading.value = true;
-                    _pengirimanController.getDetailPengiriman(
+                    pengirimanController.isLoading.value = true;
+                    pengirimanController.getDetailPengiriman(
                       idPengiriman.value,
                     );
                     Get.toNamed("/detail_pesanan_on_deliv");

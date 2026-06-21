@@ -5,6 +5,7 @@ import 'package:mykurir/models/rating_kurir.dart';
 
 class RatingDriverController extends GetxController {
   final AkunController _akunController = Get.put(AkunController());
+  RxBool isLoading = false.obs;
 
   Future<void> beriRating(RatingKurir ratingKurir) async {
     ratingKurir.idAkun = _akunController.profileAkun.value?.idAkun;
@@ -20,6 +21,8 @@ class RatingDriverController extends GetxController {
       print("RatingController : Rating berhasil ditambahkan");
     } catch (e) {
       print("RatingController #Error : $e");
+    } finally {
+      isLoading.value = false;
     }
   }
 

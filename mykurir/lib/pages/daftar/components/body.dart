@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
-import 'package:get/state_manager.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
-import 'package:mykurir/controllers/loading_controller.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final LoadingController loadingController = Get.find();
     final AuthController authController = Get.find();
 
     TextEditingController usernameController = TextEditingController();
@@ -72,7 +69,7 @@ class Body extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    loadingController.show();
+                    authController.isLoading.value = true;
                     authController.registerData.email = emailController.text
                         .trim();
                     authController.registerData.password = passwordController

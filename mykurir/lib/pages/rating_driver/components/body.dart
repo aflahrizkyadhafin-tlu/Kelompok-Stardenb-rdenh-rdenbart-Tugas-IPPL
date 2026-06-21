@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mykurir/controllers/loading_controller.dart';
 import 'package:mykurir/controllers/rating_driver_controller.dart';
 import 'package:mykurir/models/rating_kurir.dart';
 
@@ -37,7 +36,6 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoadingController loadingController = Get.put(LoadingController());
     final RatingDriverController ratingDriverController = Get.put(
       RatingDriverController(),
     );
@@ -193,7 +191,7 @@ class Body extends StatelessWidget {
                 height: 54,
                 child: ElevatedButton(
                   onPressed: () {
-                    loadingController.show();
+                    ratingDriverController.isLoading.value = true;
                     ratingDriverController.beriRating(
                       RatingKurir(
                         pesan: pesanController.text.trim(),

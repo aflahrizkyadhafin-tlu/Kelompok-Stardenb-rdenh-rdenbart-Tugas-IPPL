@@ -1,11 +1,11 @@
 import 'package:mykurir/pages/report_driver_alasan/components/body.dart';
 import 'package:flutter/material.dart';
 
-class ReportDriverScreen extends StatelessWidget {
-  const ReportDriverScreen({super.key});
+class ReportDriverAlasanScreen extends StatelessWidget {
+  const ReportDriverAlasanScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Body());
+    return const Scaffold(body: SafeArea(child: Body()));
   }
 }

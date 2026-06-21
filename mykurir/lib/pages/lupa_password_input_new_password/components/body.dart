@@ -9,10 +9,10 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthController _authController = Get.put(AuthController());
+    AuthController authController = Get.put(AuthController());
 
-    TextEditingController _passwordController = TextEditingController();
-    TextEditingController _confirmPasswordController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    TextEditingController confirmPasswordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -69,14 +69,14 @@ class Body extends StatelessWidget {
 
                 // --- 3. AREA INPUT PASSWORD ---
                 _buildPasswordInput(
-                  controller: _passwordController,
+                  controller: passwordController,
                   label: "Password Baru",
                   icon: Icons.lock_outline,
                 ),
                 const SizedBox(height: 20),
 
                 _buildPasswordInput(
-                  controller: _confirmPasswordController,
+                  controller: confirmPasswordController,
                   label: "Konfirmasi Password Baru",
                   icon: Icons.lock_outline,
                 ),
@@ -95,9 +95,9 @@ class Body extends StatelessWidget {
                       elevation: 0,
                     ),
                     onPressed: () {
-                      _authController.isLoading.value = true;
-                      _authController.changePassword(
-                        _passwordController.text.trim(),
+                      authController.isLoading.value = true;
+                      authController.changePassword(
+                        passwordController.text.trim(),
                       );
                       Get.toNamed("/lupa_password_validasi");
                       // Aksi saat tombol ditekan

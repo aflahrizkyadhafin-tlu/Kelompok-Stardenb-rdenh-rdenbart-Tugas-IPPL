@@ -22,7 +22,6 @@ class RegisterPayload {
 }
 
 class AuthController extends GetxController {
-  LoadingController loadingController = Get.put(LoadingController());
   AkunController akunController = Get.put(AkunController());
   RxBool isLoading = false.obs;
 
@@ -40,7 +39,7 @@ class AuthController extends GetxController {
     } catch (e) {
       print("[Register] #Error: $e");
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
   }
 
@@ -149,7 +148,7 @@ class AuthController extends GetxController {
       print("[verifOTPTelepon] #Error : $e");
       return false;
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
   }
 
@@ -193,7 +192,7 @@ class AuthController extends GetxController {
     } catch (e) {
       print("[CekUser] #Error : $e");
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
   }
 
@@ -204,7 +203,7 @@ class AuthController extends GetxController {
     } catch (e) {
       print("[sendOTPPassword] #Error : $e");
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
   }
 
@@ -227,7 +226,7 @@ class AuthController extends GetxController {
       print("[changePassword] #Error : $e");
       return false;
     } finally {
-      loadingController.hide();
+      isLoading.value = false;
     }
   }
 
