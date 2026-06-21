@@ -7,6 +7,7 @@ class PengirimanController extends GetxController {
   RxList<Map> pengirimanBerlangsung = <Map>[].obs;
   RxList<Map> pengirimanSebelumnya = <Map>[].obs;
   RxBool isLoading = false.obs;
+  RxMap dataPengiriman = {}.obs;
 
   Future<void> buatDraftPengiriman(Pengiriman dataPengiriman) async {
     Map jsonData = dataPengiriman.toJson();
@@ -22,13 +23,14 @@ class PengirimanController extends GetxController {
     }
   }
 
-  static Future<void> konfirmasiPengiriman(
+  Future<void> updateStatusPengiriman(
     String idPengiriman,
     String idKurir,
+    StatusPengiriman status,
   ) async {
     Map<String, dynamic> jsonData = Pengiriman(
       idKurir: idKurir,
-      statusPengiriman: StatusPengiriman.pickup,
+      statusPengiriman: status,
     ).toJson();
 
     try {
@@ -36,9 +38,11 @@ class PengirimanController extends GetxController {
           .from("pengiriman")
           .update(jsonData)
           .eq("id_pengiriman", idPengiriman);
-      print("konfirmasiPengiriman : Barang akan segera di pickup");
+      print("konfirmasiPengiriman : Status barang di update");
     } catch (e) {
       print("konfirmasiPengiriman #Error : $e");
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -64,7 +68,11 @@ class PengirimanController extends GetxController {
             long_penerima,
             lat_penerima,
             ukuran,
-            akun!id_akun(nama_lengkap, foto_profile)''')
+            kurir!id_kurir(
+            kendaraan,
+            plat_nomor,
+            akun!id_akun(nama_lengkap, foto_profile)
+            ))''')
           .eq("id_akun", idAkun);
 
       List<Map<String, dynamic>> berlangsung = [];
@@ -89,15 +97,42 @@ class PengirimanController extends GetxController {
     }
   }
 
-  Future<void> detailPengiriman(String idPengiriman) async {
+  Future<void> getDetailPengiriman(String idPengiriman) async {
     try {
       final response = await db
-          .from("log_pengiriman")
-          .select()
-          .eq("id_pengiriman", idPengiriman);
+          .from("pengiriman")
+          .select('''id_pengiriman,
+            nomor_resi,
+            deskripsi_barang,
+            alamat_pengirim,
+            alamat_penerima,
+            nama_penerima,
+            nomor_telepon_penerima,
+            berat,
+            biaya,
+            status_pengiriman,
+            created_at,
+            id_akun,
+            id_kurir,
+            long_pengirim,
+            lat_pengirim,
+            long_penerima,
+            lat_penerima,
+            ukuran,
+            kurir!id_kurir(
+            kendaraan,
+            plat_nomor,
+            akun!id_akun(nama_lengkap, foto_profile)
+            ))''')
+          .eq("id_pengiriman", idPengiriman)
+          .maybeSingle();
+
+      dataPengiriman.value = response!;
       print("detailPengiriman : $response");
     } catch (e) {
       print("detailPengiriman #Error : $e");
+    } finally {
+      isLoading.value = false;
     }
   }
 }

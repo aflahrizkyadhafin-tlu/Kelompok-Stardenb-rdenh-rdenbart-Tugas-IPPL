@@ -104,7 +104,8 @@ class Body extends StatelessWidget {
                                   DateTime.parse(data["created_at"].toString()),
                                 )
                                 .toString(),
-                            namaPelanggan: data["akun"]["nama_lengkap"] ?? "-",
+                            namaPelanggan:
+                                data["kurir"]["akun"]["nama_lengkap"] ?? "-",
                             lokasiAwal: data["alamat_pengirim"],
                             lokasiTujuan: data["alamat_penerima"],
                             harga: NumberFormat.currency(

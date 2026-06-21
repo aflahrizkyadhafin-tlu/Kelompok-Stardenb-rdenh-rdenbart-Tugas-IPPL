@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mykurir/components/loading/loading.dart';
 import 'package:mykurir/controllers/akun_controller.dart';
 import 'package:mykurir/controllers/auth_controller.dart';
+import 'package:mykurir/controllers/pengiriman_controller.dart';
 import 'statususerpage.dart';
 
 class Body extends StatelessWidget {
@@ -262,6 +263,9 @@ class Body extends StatelessWidget {
                             Icons.assignment_outlined,
                             'Aktivitas Order',
                             onTap: () {
+                              PengirimanController _pengirimanController =
+                                  Get.put(PengirimanController());
+                              _pengirimanController.isLoading.value = true;
                               Get.toNamed("/aktivitas_berlangsung");
                             },
                           ),

@@ -87,12 +87,13 @@ class Body extends StatelessWidget {
                         in _pengirimanController.pengirimanBerlangsung)
                       _buildKartuOrder(
                         isSukses: true,
+                        idPengiriman: RxString(data["id_pengiriman"]),
                         namaLengkap: RxString(
-                          data["akun"]["nama_lengkap"] ?? "No Name",
+                          data["kurir"]["akun"]["nama_lengkap"] ?? "No Name",
                         ),
                         statusPengiriman: RxString(data["status_pengiriman"]),
                         fotoProfile: RxString(
-                          data["akun"]["foto_profile"] ?? "no image",
+                          data["kurir"]["foto_profile"] ?? "no image",
                         ),
                         alamatPengirim: RxString(data["alamat_pengirim"]),
                         alamatPenerima: RxString(data["alamat_penerima"]),
@@ -190,6 +191,7 @@ class Body extends StatelessWidget {
   // =========================================================
   Widget _buildKartuOrder({
     required bool isSukses,
+    required RxString idPengiriman,
     required RxString namaLengkap,
     required RxString fotoProfile,
     required RxString statusPengiriman,
@@ -198,6 +200,7 @@ class Body extends StatelessWidget {
   }) {
     Color warnaStatus = isSukses ? const Color(0xFF1A7A4A) : Colors.red;
     Color bgStatus = isSukses ? const Color(0xFFE8F5EE) : Colors.red.shade50;
+    final PengirimanController _pengirimanController = Get.find();
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -375,7 +378,13 @@ class Body extends StatelessWidget {
                 height: 50,
                 // Tombol Detail (outline merah)
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _pengirimanController.isLoading.value = true;
+                    _pengirimanController.getDetailPengiriman(
+                      idPengiriman.value,
+                    );
+                    Get.toNamed("/detail_pesanan_on_deliv");
+                  },
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Color(0xFF9E1014)),
                     shape: RoundedRectangleBorder(
